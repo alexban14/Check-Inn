@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col col-lg-12">
+        <h2>Accomodation Types</h2>
+        <hr />
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col col-lg-12">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search" />
+          <button class="btn btn-outline-primary" type="button">Search</button>
+          <button class="btn btn-outline-secondary" type="button">Reset</button>
+          <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Create</button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col col-lg-12">
+        @{ Html.RenderAction("Listing"); }
+    </div>
+</div>
+
+<div class="modal fade" id="actionModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+  </div>
+</div>

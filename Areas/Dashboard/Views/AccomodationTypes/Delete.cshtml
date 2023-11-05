@@ -5,7 +5,7 @@
     <div class="container">
         <div>
             <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Create Accomodation Type
+                Delete Accomodation Type
             </h1>
         </div>
 
@@ -14,17 +14,16 @@
         </div>
 
         <form id="actionForm">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="Name" id="name" placeholder="Enter Accomodation Type Name">
-                <label class="form-label">Name</label>
-            </div>
-            <div class="form-floating mb-3">
-                <textarea class="form-control" placeholder="Enter Accomodation Type Description" name="Description" id="description" style="height: 100px"></textarea>
-                <label for="description">Description</label>
-            </div>
-
+            <input type="hidden" name="ID" value="@Model.ID" />
         </form>
-        <button id="actionButton" class="btn btn-primary">Save changes</button>
+
+        <div class="alert alert-danger">
+            Are you sure you want to delete <b>@Model.Name</b> Accomodation Type?
+        </div>
+
+        <button id="actionButton" class="btn btn-danger"> 
+            <i class="fa-solid fa-trash me-1"></i>Delete
+        </button>
 
     </div>
 }
@@ -36,7 +35,7 @@
         var formData = new FormData(form);
 
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "@Url.Action("Action", "AccomodationTypes")", true);
+        xhr.open("POST", "@Url.Action("Delete", "AccomodationTypes")", true);
 
         // Set up an event handler to handle the response
         xhr.onreadystatechange = function () {

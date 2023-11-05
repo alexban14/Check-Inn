@@ -35,24 +35,47 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         }
 
         [HttpGet]
-        public ActionResult Action()
+        public ActionResult Action(int? ID)
         {
             AccomodationTypeActionModel model = new AccomodationTypeActionModel();
 
-            return View("Create", model);
+            if (ID.HasValue)
+            {
+                AccomodationType accomodationType = accomodationTypesService.GetAccomodationTypeByID(ID.Value);
+
+                model.ID = accomodationType.ID;
+                model.Name = accomodationType.Name;
+                model.Description = accomodationType.Description;
+            }
+
+            return View("Action", model);
         }
 
         [HttpPost]
         public JsonResult Action(AccomodationType model)
         {
             JsonResult json = new JsonResult();
+            bool result = false;
 
-            AccomodationType accomodationType = new AccomodationType();
+            if(model.ID > 0)
+            {
+                AccomodationType accomodationType = accomodationTypesService.GetAccomodationTypeByID(model.ID);
 
-            accomodationType.Name = model.Name;
-            accomodationType.Description = model.Description;
+                accomodationType.Name = model.Name;
+                accomodationType.Description = model.Description;
 
-            bool result = accomodationTypesService.SaveAccomodationType(accomodationType);
+                result = accomodationTypesService.UpdateAccomodationType(accomodationType);
+            }
+            else
+            {
+                AccomodationType accomodationType = new AccomodationType();
+
+                accomodationType.Name = model.Name;
+                accomodationType.Description = model.Description;
+
+                result = accomodationTypesService.SaveAccomodationType(accomodationType);
+            }
+
 
             if (result)
             {
@@ -61,7 +84,44 @@ namespace Check_Inn.Areas.Dashboard.Controllers
             }
             else
             {
-                json.Data = new { Success = false, Message = "Unable to add Accomodation Type" };
+                json.Data = new { Success = false, Message = "Unable to perform action on Accomodation Type" };
+            }
+
+            return json;
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int ID)
+        {
+            AccomodationTypeActionModel model = new AccomodationTypeActionModel();
+
+            AccomodationType accomodationType = accomodationTypesService.GetAccomodationTypeByID(ID);
+
+            model.ID = accomodationType.ID;
+            model.Name = accomodationType.Name;
+
+            return View("Delete", model);
+        }
+
+        [HttpPost]
+        public JsonResult Delete(AccomodationType model)
+        {
+            JsonResult json = new JsonResult();
+            bool result = false;
+
+            AccomodationType accomodationType = accomodationTypesService.GetAccomodationTypeByID(model.ID);
+
+            result = accomodationTypesService.DeleteAccomodationType(accomodationType);
+
+
+            if (result)
+            {
+                json.Data = new { Success = true };
+
+            }
+            else
+            {
+                json.Data = new { Success = false, Message = "Unable to perform action on Accomodation Type" };
             }
 
             return json;

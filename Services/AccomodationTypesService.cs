@@ -15,5 +15,14 @@ namespace Check_Inn.Services
 
             return context.AccomodationTypes.ToList();
         }
+
+        public bool SaveAccomodationType(AccomodationType accomodationType)
+        {
+            CheckInnContext context = new CheckInnContext();
+
+            context.AccomodationTypes.Add(accomodationType);
+
+            return context.SaveChanges() > 0;
+        }
     }
 }

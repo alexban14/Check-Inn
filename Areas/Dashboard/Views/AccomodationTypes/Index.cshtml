@@ -12,10 +12,10 @@
 <div class="row mb-3">
     <div class="col col-lg-12">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search" />
-          <button class="btn btn-outline-primary" type="button">Search</button>
-          <button class="btn btn-outline-secondary" type="button">Reset</button>
-          <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Create</button>
+            <input type="text" class="form-control" placeholder="Search" />
+            <button class="btn btn-outline-primary" type="button">Search</button>
+            <button class="btn btn-outline-secondary" type="button">Reset</button>
+            <a href="@Url.Action("Action", "AccomodationTypes")" id="createButton" class="btn btn-outline-success" type="button">Create</a>
         </div>
     </div>
 </div>
@@ -24,9 +24,4 @@
     <div class="col col-lg-12">
         @{ Html.RenderAction("Listing"); }
     </div>
-</div>
-
-<div class="modal fade" id="actionModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-  </div>
 </div>

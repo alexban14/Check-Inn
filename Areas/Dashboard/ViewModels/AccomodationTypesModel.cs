@@ -9,6 +9,7 @@ namespace Check_Inn.Areas.Dashboard.ViewModels
     public class AccomodationTypesListingModel
     {
         public IEnumerable<AccomodationType> AccomodationTypes { get; set; }
+        public string SearchTerm { get; set; }
     }
 
     public class AccomodationTypeActionModel

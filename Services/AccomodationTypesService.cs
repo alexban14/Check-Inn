@@ -16,6 +16,20 @@ namespace Check_Inn.Services
             return context.AccomodationTypes.ToList();
         }
 
+        public IEnumerable<AccomodationType> SearchAccomodationType(string searchTerm)
+        {
+            CheckInnContext context = new CheckInnContext();
+
+            IEnumerable<AccomodationType> accomodationTypes = context.AccomodationTypes.AsQueryable();
+            
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                accomodationTypes = accomodationTypes.Where( a => a.Name.ToLower().Contains(searchTerm.ToLower()) );
+            }
+
+            return accomodationTypes.ToList();
+        }
+
         public AccomodationType GetAccomodationTypeByID(int ID)
         {
             CheckInnContext context = new CheckInnContext();

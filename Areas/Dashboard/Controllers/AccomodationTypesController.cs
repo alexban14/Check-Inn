@@ -20,20 +20,17 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/AccomodationTypes
-        public ActionResult Index()
-        {
-            return View();
-        }
-        
-        public ActionResult Listing()
+        public ActionResult Index(string searchTerm)
         {
             AccomodationTypesListingModel model = new AccomodationTypesListingModel();
 
-            model.AccomodationTypes = accomodationTypesService.GetAllAccomodationTypes();
+            model.SearchTerm = searchTerm;
 
-            return PartialView("_Listing", model);
+            model.AccomodationTypes = accomodationTypesService.SearchAccomodationType(searchTerm);
+
+            return View(model);
         }
-
+        
         [HttpGet]
         public ActionResult Action(int? ID)
         {

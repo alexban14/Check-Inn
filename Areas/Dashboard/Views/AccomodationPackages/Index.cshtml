@@ -1,4 +1,4 @@
-﻿@model Check_Inn.Areas.Dashboard.ViewModels.AccomodationTypesListingModel
+﻿@model Check_Inn.Areas.Dashboard.ViewModels.AccomodationPackagesListingModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col col-lg-12">
-        <h2>Accomodation Types</h2>
+        <h2>Accomodation Packages</h2>
         <hr />
     </div>
 </div>
@@ -19,10 +19,10 @@
                 <button class="btn btn-outline-primary" type="submit">
                     <i class="fa-solid fa-magnifying-glass me-1"></i> Search
                 </button>
-                <a href="@Url.Action("Index", "AccomodationTypes")" class="btn btn-outline-secondary">
+                <a href="@Url.Action("Index", "AccomodationPackages")" class="btn btn-outline-secondary">
                     <i class="fa-solid fa-rotate-right me-1"></i> Reset
                 </a>
-                <a href="@Url.Action("Action", "AccomodationTypes")" id="createButton" class="btn btn-outline-success" type="button">
+                <a href="@Url.Action("Action", "AccomodationPackages")" id="createButton" class="btn btn-outline-success" type="button">
                     <i class="fa-solid fa-plus me-1"></i> Create
                 </a>
             </div>
@@ -35,3 +35,4 @@
         @{ Html.RenderPartial("_Listing", Model); }
     </div>
 </div>
+

@@ -3,9 +3,9 @@
 @if (Model != null)
 {
     <div class="container">
-        <div>
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-                @if(Model.ID > 0)
+        <div class="row justify-content-center">
+            <h1 class="text-md my-3" id="exampleModalLabel">
+                @if (Model.ID > 0)
                 {
                     <span>Edit Accomodation Type</span>
                 }
@@ -30,11 +30,10 @@
                 <textarea class="form-control" placeholder="Enter Accomodation Type Description" name="Description" id="description" style="height: 100px">@Model.Description</textarea>
                 <label for="description">Description</label>
             </div>
-
+            <button id="actionButton" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk me-1"></i> Save changes
+            </button>
         </form>
-        <button id="actionButton" class="btn btn-primary">
-            <i class="fa-solid fa-floppy-disk me-1"></i> Save changes
-        </button>
 
     </div>
 }

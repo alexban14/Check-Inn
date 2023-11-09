@@ -7,8 +7,7 @@
             <tr>
                 <th scope="col">Accomodation Type</th>
                 <th scope="col">Name</th>
-                <th scope="col">No. of Rooms</th>
-                <th scope="col">Fee per night</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -17,16 +16,13 @@
             {
                 <tr>
                     <td>
-                        @accomodationPackage.AccomodationType
-                    </td>
-                    <td>
                         @accomodationPackage.Name
                     </td>
                     <td>
-                        @accomodationPackage.NoOfRoom
-                    </td>
-                    <td>
-                        @accomodationPackage.FeePerNight
+                        @if (accomodationPackage.AccomodationType != null)
+                        {
+                            @accomodationPackage.AccomodationType.Name
+                        }
                     </td>
                     <td>
                         <a href="@Url.Action("Action", "AccomodationTypes", new { ID = accomodationPackage.ID })" id="editButton" type="button" class="btn btn-success"> 

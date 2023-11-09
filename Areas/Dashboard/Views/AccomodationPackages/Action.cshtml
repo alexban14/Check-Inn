@@ -28,7 +28,22 @@
             <input type="hidden" name="ID" value="@Model.ID" />
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="Name" id="name" placeholder="Enter Accomodation Type Name" value="@Model.Name">
-                <label class="form-label">Name</label>
+                <label class="form-label" for="name">Name</label>
+            </div>
+            <div class="mb-3">
+                <!--<lable class="form-label" for="AccomodationTypeID">Select Accomodation Type</lable>-->
+                <select class="form-select" name="AccomodationTypeID" id="AccomodationTypeID">
+                    <option>Select an Accomodation Type</option>
+                    @if (Model.AccomodationTypes != null)
+                    {
+                        foreach (var accomodationType in Model.AccomodationTypes)
+                        {
+                            <option value="@accomodationType.ID">
+                                @accomodationType.Name
+                            </option>
+                        }
+                    }
+                </select>
             </div>
             <div class="form-floating mb-3">
                 <input type="number" class="form-control" name="NoOfRoom" id="NoOfRoom" placeholder="Enter Accomodation Type Name" value="@Model.NoOfRoom">

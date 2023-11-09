@@ -12,9 +12,11 @@ namespace Check_Inn.Areas.Dashboard.Controllers
     public class AccomodationPackagesController : Controller
     {
         AccomodationPackagesService accomodationPackagesService;
+        AccomodationTypesService accomodationTypesService;
         public AccomodationPackagesController()
         {
             accomodationPackagesService = new AccomodationPackagesService();
+            accomodationTypesService = new AccomodationTypesService();
         }
 
         // GET: Dashboard/AccomodationPackages
@@ -40,11 +42,12 @@ namespace Check_Inn.Areas.Dashboard.Controllers
                 AccomodationPackage accomodationPackage = accomodationPackagesService.GetAccomodationPackageByID(ID.Value);
 
                 model.ID = accomodationPackage.ID;
-                model.AccomodationTypeID = accomodationPackage.AccomodationTypeID;
-                model.AccomodationType = accomodationPackage.AccomodationType;
+                model.Name = accomodationPackage.Name;
                 model.NoOfRoom = accomodationPackage.NoOfRoom;
                 model.FeePerNight = accomodationPackage.FeePerNight;
             }
+
+            model.AccomodationTypes = accomodationTypesService.GetAllAccomodationTypes();
 
             return View("Action", model);
         }
@@ -60,9 +63,8 @@ namespace Check_Inn.Areas.Dashboard.Controllers
             {
                 AccomodationPackage accomodationPackage = accomodationPackagesService.GetAccomodationPackageByID(model.ID);
 
-                accomodationPackage.Name = model.Name;
                 accomodationPackage.AccomodationTypeID = model.AccomodationTypeID;
-                accomodationPackage.AccomodationType = model.AccomodationType;
+                accomodationPackage.Name = model.Name;
                 accomodationPackage.NoOfRoom = model.NoOfRoom;
                 accomodationPackage.FeePerNight = model.FeePerNight;
 
@@ -72,9 +74,8 @@ namespace Check_Inn.Areas.Dashboard.Controllers
             {
                 AccomodationPackage accomodationPackage = new AccomodationPackage();
 
-                accomodationPackage.Name = model.Name;
                 accomodationPackage.AccomodationTypeID = model.AccomodationTypeID;
-                accomodationPackage.AccomodationType = model.AccomodationType;
+                accomodationPackage.Name = model.Name;
                 accomodationPackage.NoOfRoom = model.NoOfRoom;
                 accomodationPackage.FeePerNight = model.FeePerNight;
 

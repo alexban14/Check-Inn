@@ -15,10 +15,15 @@ namespace Check_Inn.Areas.Dashboard.ViewModels
     public class AccomodationPackageActionModel
     {
         public int ID { get; set; }
+
         public int AccomodationTypeID { get; set; }
-        public AccomodationType AccomodationType { get; set;}
+        public AccomodationType AccomodationType { get; set; }
+
+
         public string Name { get; set; }
         public int NoOfRoom { get; set; }
         public decimal FeePerNight { get; set; }
+
+        public IEnumerable<AccomodationType> AccomodationTypes { get; set; }
     }
 }

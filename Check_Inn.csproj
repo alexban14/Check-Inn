@@ -234,7 +234,6 @@
     <Content Include="Areas\Dashboard\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Dashboard\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Dashboard\Views\Dashboard\Index.cshtml" />
-    <Content Include="Areas\Dashboard\Views\Shared\Old_layout.cshtml" />
     <Content Include="Areas\Dashboard\Views\AccomodationTypes\Index.cshtml" />
     <Content Include="Areas\Dashboard\Views\AccomodationTypes\_Listing.cshtml" />
     <Content Include="Areas\Dashboard\Views\AccomodationTypes\Action.cshtml" />

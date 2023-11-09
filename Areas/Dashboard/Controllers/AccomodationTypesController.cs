@@ -36,7 +36,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         {
             AccomodationTypeActionModel model = new AccomodationTypeActionModel();
 
-            if (ID.HasValue)
+            if (ID > 0)
             {
                 AccomodationType accomodationType = accomodationTypesService.GetAccomodationTypeByID(ID.Value);
 
@@ -52,7 +52,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         public JsonResult Action(AccomodationType model)
         {
             JsonResult json = new JsonResult();
-            bool result = false;
+            bool result;
 
             if(model.ID > 0)
             {

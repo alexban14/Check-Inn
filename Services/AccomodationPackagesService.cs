@@ -36,5 +36,32 @@ namespace Check_Inn.Services
 
             return context.AccomodationPackages.Find(ID);
         }
+
+        public bool SaveAccomodationPackage(AccomodationPackage accomodationPackage)
+        {
+            CheckInnContext context = new CheckInnContext();
+
+            context.AccomodationPackages.Add(accomodationPackage);
+
+            return context.SaveChanges() > 0;
+        }
+
+        public bool UpdateAccomodationPackage(AccomodationPackage accomodationPackage)
+        {
+            CheckInnContext context = new CheckInnContext();
+
+            context.Entry(accomodationPackage).State = System.Data.Entity.EntityState.Modified;
+
+            return context.SaveChanges() > 0;
+        }
+
+        public bool Delete(AccomodationPackage accomodationPackage)
+        {
+            CheckInnContext context = new CheckInnContext();
+
+            context.Entry(accomodationPackage).State = System.Data.Entity.EntityState.Deleted;
+
+            return context.SaveChanges() > 0;
+        }
     }
 }

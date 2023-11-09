@@ -1,5 +1,8 @@
 ﻿@model Check_Inn.Areas.Dashboard.ViewModels.AccomodationTypeActionModel
-
+@{
+    ViewBag.Title = "Action";
+    Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
+}
 @if (Model != null)
 {
     <div class="container">
@@ -55,6 +58,7 @@
                 {
                     // Response received successfully
                     var response = JSON.parse(xhr.responseText);
+                    console.log(response);
                     if (response.Success)
                     {
                         location.href = "@Url.Action("Index", "AccomodationTypes")";

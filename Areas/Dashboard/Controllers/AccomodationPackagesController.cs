@@ -35,7 +35,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         {
             AccomodationPackageActionModel model = new AccomodationPackageActionModel();
 
-            if(ID.HasValue)
+            if(ID > 0)
             {
                 AccomodationPackage accomodationPackage = accomodationPackagesService.GetAccomodationPackageByID(ID.Value);
 
@@ -51,18 +51,46 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
         // POST: Dashboard/AccomodationPackages/Create
         [HttpPost]
-        public ActionResult Action(AccomodationPackage accomodationPackage)
+        public ActionResult Action(AccomodationPackage model)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            JsonResult json = new JsonResult();
+            bool result;
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (model.ID > 0)
             {
-                return View();
+                AccomodationPackage accomodationPackage = accomodationPackagesService.GetAccomodationPackageByID(model.ID);
+
+                accomodationPackage.Name = model.Name;
+                accomodationPackage.AccomodationTypeID = model.AccomodationTypeID;
+                accomodationPackage.AccomodationType = model.AccomodationType;
+                accomodationPackage.NoOfRoom = model.NoOfRoom;
+                accomodationPackage.FeePerNight = model.FeePerNight;
+
+                result = accomodationPackagesService.UpdateAccomodationPackage(accomodationPackage);
             }
+            else
+            {
+                AccomodationPackage accomodationPackage = new AccomodationPackage();
+
+                accomodationPackage.Name = model.Name;
+                accomodationPackage.AccomodationTypeID = model.AccomodationTypeID;
+                accomodationPackage.AccomodationType = model.AccomodationType;
+                accomodationPackage.NoOfRoom = model.NoOfRoom;
+                accomodationPackage.FeePerNight = model.FeePerNight;
+
+                result = accomodationPackagesService.SaveAccomodationPackage(accomodationPackage);
+            }
+
+            if (result)
+            {
+                json.Data = new { Success = true };
+            }
+            else
+            {
+                json.Data = new { Success = false, Message = "Unable to perform action on Accomodation Package" };
+            }
+
+            return json;
         }
 
         // GET: Dashboard/AccomodationPackages/Delete/5

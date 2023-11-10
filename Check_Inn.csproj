@@ -174,7 +174,6 @@
     <Compile Include="Areas\Dashboard\DashboardAreaRegistration.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\AccomodationPackagesModel.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\AccomodationTypesModel.cs" />
-    <Compile Include="Areas\Dashboard\ViewModels\IEnumeable.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -242,6 +241,7 @@
     <Content Include="Areas\Dashboard\Views\AccomodationPackages\Index.cshtml" />
     <Content Include="Areas\Dashboard\Views\AccomodationPackages\_Listing.cshtml" />
     <Content Include="Areas\Dashboard\Views\AccomodationPackages\Action.cshtml" />
+    <Content Include="Areas\Dashboard\Views\AccomodationPackages\Delete.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

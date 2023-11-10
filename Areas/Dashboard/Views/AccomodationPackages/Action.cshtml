@@ -11,11 +11,11 @@
             <h1 class="text-md my-3" id="exampleModalLabel">
                 @if (Model.ID > 0)
                 {
-                    <span>Edit Accomodation Type</span>
+                    <span>Edit Accomodation Package</span>
                 }
                 else
                 {
-                    <span>Create Accomodation Type</span>
+                    <span>Create Accomodation Package</span>
                 }
             </h1>
         </div>
@@ -38,7 +38,7 @@
                     {
                         foreach (var accomodationType in Model.AccomodationTypes)
                         {
-                            <option value="@accomodationType.ID">
+                            <option value="@accomodationType.ID" @(accomodationType.ID == Model.AccomodationTypeID ? "selected" : string.Empty) >
                                 @accomodationType.Name
                             </option>
                         }
@@ -47,11 +47,11 @@
             </div>
             <div class="form-floating mb-3">
                 <input type="number" class="form-control" name="NoOfRoom" id="NoOfRoom" placeholder="Enter Accomodation Type Name" value="@Model.NoOfRoom">
-                <label class="form-label">Room Number</label>
+                <label class="form-label" for="NoOfRoom" >Room Number</label>
             </div>
             <div class="form-floating mb-3">
                 <input type="number" class="form-control" name="FeePerNight" id="FeePerNight" placeholder="Enter Accomodation Type Name" value="@Model.FeePerNight">
-                <label for="description">Fee per night</label>
+                <label class="form-label" for="FeePerNight">Fee per night</label>
             </div>
             <button id="actionButton" class="btn btn-primary">
                 <i class="fa-solid fa-floppy-disk me-1"></i> Save changes
@@ -74,19 +74,16 @@
         xhr.onreadystatechange = function () {
             console.log(xhr.status, xhr.readyState);
             if (xhr.readyState === 4) {
-                if (xhr.status === 200)
+                // Response received successfully
+                var response = JSON.parse(xhr.responseText);
+                if (response.Success)
                 {
-                    // Response received successfully
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.Success)
-                    {
-                        location.href = "@Url.Action("Index", "AccomodationPackages")";
-                    }
-                    else
-                    {
-                        var errorDiv = document.querySelector(".error-wrapper");
-                        errorDiv.innerHTML = response.Message;
-                    }
+                    location.href = "@Url.Action("Index", "AccomodationPackages")";
+                }
+                else
+                {
+                    var errorDiv = document.querySelector(".error-wrapper");
+                    errorDiv.innerHTML = response.Message;
                 }
             }
         };

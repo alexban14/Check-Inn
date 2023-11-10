@@ -32,9 +32,10 @@ namespace Check_Inn.Services
 
         public AccomodationPackage GetAccomodationPackageByID(int ID)
         {
-            CheckInnContext context = new CheckInnContext();
-
-            return context.AccomodationPackages.Find(ID);
+            using (CheckInnContext context = new CheckInnContext())
+            { 
+                return context.AccomodationPackages.Find(ID);
+            }
         }
 
         public bool SaveAccomodationPackage(AccomodationPackage accomodationPackage)
@@ -55,7 +56,7 @@ namespace Check_Inn.Services
             return context.SaveChanges() > 0;
         }
 
-        public bool Delete(AccomodationPackage accomodationPackage)
+        public bool DeleteAccomodationPackage(AccomodationPackage accomodationPackage)
         {
             CheckInnContext context = new CheckInnContext();
 

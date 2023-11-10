@@ -42,6 +42,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
                 AccomodationPackage accomodationPackage = accomodationPackagesService.GetAccomodationPackageByID(ID.Value);
 
                 model.ID = accomodationPackage.ID;
+                model.AccomodationTypeID = accomodationPackage.AccomodationTypeID;
                 model.Name = accomodationPackage.Name;
                 model.NoOfRoom = accomodationPackage.NoOfRoom;
                 model.FeePerNight = accomodationPackage.FeePerNight;
@@ -97,23 +98,37 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         // GET: Dashboard/AccomodationPackages/Delete/5
         public ActionResult Delete(int ID)
         {
-            return View();
+            AccomodationPackageActionModel model = new AccomodationPackageActionModel();
+
+            AccomodationPackage accomodationPackage = accomodationPackagesService.GetAccomodationPackageByID(ID);   
+
+            model.ID = accomodationPackage.ID;
+            model.Name = accomodationPackage.Name;
+
+            return View("Delete", model);
         }
 
         // POST: Dashboard/AccomodationPackages/Delete/5
         [HttpPost]
-        public ActionResult Delete(AccomodationPackage accomodationPackage)
+        public ActionResult Delete(AccomodationPackage model)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            JsonResult json = new JsonResult();
+            bool result;
 
-                return RedirectToAction("Index");
-            }
-            catch
+            AccomodationPackage accomodationPackage = accomodationPackagesService.GetAccomodationPackageByID(model.ID);
+
+            result = accomodationPackagesService.DeleteAccomodationPackage(accomodationPackage);
+
+            if (result)
             {
-                return View();
+                json.Data = new { Success = true };
             }
+            else
+            {
+                json.Data = new { Success = false, Message = "Unable to perform action on Accomodation Package" };
+            }
+
+            return json;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Check_Inn.Services
             return context.AccomodationPackages.ToList();
         }
 
-        public IEnumerable<AccomodationPackage> SearchAccomodationPackage(string searchTerm)
+        public IEnumerable<AccomodationPackage> SearchAccomodationPackage(string searchTerm, int? AccomodationTypeID, int? page, int? recordSize)
         {
             CheckInnContext context = new CheckInnContext();
 
@@ -27,7 +27,37 @@ namespace Check_Inn.Services
                 accomodationPackages = accomodationPackages.Where(a => a.Name.ToLower().Contains(searchTerm.ToLower()) );
             }
 
-            return accomodationPackages.ToList();
+            if (AccomodationTypeID.HasValue && AccomodationTypeID > 0)
+            {
+                accomodationPackages = accomodationPackages.Where(a => a.AccomodationTypeID == AccomodationTypeID.Value);
+            }
+
+            var skip = (page - 1) * recordSize;
+
+            return accomodationPackages
+                .OrderBy(x => x.AccomodationTypeID)
+                .Skip((int)skip)
+                .Take((int)recordSize)
+                .ToList();
+        }
+
+        public int SearchAccomodationPackageCount(string searchTerm, int? AccomodationTypeID)
+        {
+            CheckInnContext context = new CheckInnContext();
+
+            IEnumerable<AccomodationPackage> accomodationPackages = context.AccomodationPackages.AsQueryable();
+
+            if(!string.IsNullOrEmpty(searchTerm))
+            {
+                accomodationPackages = accomodationPackages.Where(a => a.Name.ToLower().Contains(searchTerm.ToLower()) );
+            }
+
+            if (AccomodationTypeID.HasValue && AccomodationTypeID > 0)
+            {
+                accomodationPackages = accomodationPackages.Where(a => a.AccomodationTypeID == AccomodationTypeID.Value);
+            }
+
+            return accomodationPackages.Count();
         }
 
         public AccomodationPackage GetAccomodationPackageByID(int ID)

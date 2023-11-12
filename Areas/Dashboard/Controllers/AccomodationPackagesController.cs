@@ -1,6 +1,7 @@
 ﻿using Check_Inn.Areas.Dashboard.ViewModels;
 using Check_Inn.Entities;
 using Check_Inn.Services;
+using Check_Inn.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,13 +21,22 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/AccomodationPackages
-        public ActionResult Index(string searchTerm)
+        public ActionResult Index(string searchTerm, int? AccomodationTypeID, int? page)
         {
+            int recordSize = 3;
+            page = page ?? 1;
+
             AccomodationPackagesListingModel model = new AccomodationPackagesListingModel();
 
             model.SearchTerm = searchTerm;
+            model.AccomodationTypeID = AccomodationTypeID;
 
-            model.AccomodationPackages = accomodationPackagesService.SearchAccomodationPackage(searchTerm);
+            model.AccomodationPackages = accomodationPackagesService.SearchAccomodationPackage(searchTerm, AccomodationTypeID, page, recordSize);
+            model.AccomodationTypes = accomodationTypesService.GetAllAccomodationTypes();
+
+            var totalRecords = accomodationPackagesService.SearchAccomodationPackageCount(searchTerm, AccomodationTypeID);
+
+            model.Pager = new Pager(totalRecords, page, recordSize);
 
             return View(model);
         }

@@ -60,7 +60,7 @@ namespace Check_Inn.Services
             return accomodations.Count();
         }
 
-        public Accomodation GetAccomodationPackageByID(int ID)
+        public Accomodation GetAccomodationByID(int ID)
         {
             using (CheckInnContext context = new CheckInnContext())
             { 

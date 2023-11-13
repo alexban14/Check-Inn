@@ -1,4 +1,5 @@
-﻿using Check_Inn.Entities;
+﻿using Check_Inn.Areas.Dashboard.ViewModels;
+using Check_Inn.Entities;
 using Check_Inn.Services;
 using System;
 using System.Collections.Generic;
@@ -22,73 +23,121 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         // GET: Dashboard/Accomodations
         public ActionResult Index(string searchTerm, int? AccomodationPackageID, int? page)
         {
-            return View();
+            int recordSize = 3;
+            page = page ?? 1;
+
+            AccomodationsListingModel model = new AccomodationsListingModel();
+
+            model.SearchTerm = searchTerm;
+            model.AccomodationPackageID = AccomodationPackageID;
+
+            model.Accomodations = accomodationsService.SearchAccomodation(searchTerm, AccomodationPackageID, page, recordSize);
+            model.AccomodationPackages = accomodationPackagesService.GetAllAcomodationPackages();
+
+            int totalRecords = accomodationsService.SearchAccomodationCount(searchTerm, AccomodationPackageID);
+
+            model.Pager = new Check_Inn.ViewModels.Pager(totalRecords, page, recordSize);
+
+            return View(model);
         }
 
         // GET: Dashboard/Accomodations/Create
-        public ActionResult Create()
+        public ActionResult Action(int? ID)
         {
-            return View();
+            AccomodationActionModel model = new AccomodationActionModel();
+
+            model.AccomodationPackages = accomodationPackagesService.GetAllAcomodationPackages();
+
+            if(ID > 0)
+            {
+                Accomodation accomodation = accomodationsService.GetAccomodationByID(ID.Value);
+
+                model.ID = accomodation.ID;
+                model.AccomodationPackageID = accomodation.AccomodationPackageID;
+                model.Name = accomodation.Name;
+                model.Description = accomodation.Description;
+            }
+
+            return View("Action", model);
         }
 
         // POST: Dashboard/Accomodations/Create
         [HttpPost]
-        public ActionResult Create(Accomodation model)
+        public JsonResult Action(Accomodation model)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            JsonResult json = new JsonResult();
+            bool result;
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            Console.WriteLine("AccomodationPackageID: {0}, AccomodationName: {1}", model.AccomodationPackageID, model.Name);
 
-        // GET: Dashboard/Accomodations/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Dashboard/Accomodations/Edit/5
-        [HttpPost]
-        public ActionResult Edit(Accomodation model)
-        {
-            try
+            if (model.ID > 0)
             {
-                // TODO: Add update logic here
+                Accomodation accomodation = accomodationsService.GetAccomodationByID(model.ID);
+                accomodation.AccomodationPackageID = model.AccomodationPackageID;
+                accomodation.Name = model.Name;
+                accomodation.Description = model.Description;
 
-                return RedirectToAction("Index");
+                result = accomodationsService.UpdateAccomodation(accomodation);
             }
-            catch
+            else
             {
-                return View();
+                Accomodation accomodation = new Accomodation();
+
+                accomodation.AccomodationPackageID = model.AccomodationPackageID;
+                accomodation.Name = model.Name;
+                accomodation.Description = model.Description;
+
+                result = accomodationsService.SaveAccomodation(accomodation);
+
             }
+
+
+            if (result)
+            {
+                json.Data = new { Success = true };
+            }
+            else
+            {
+                json.Data = new { Success = false, Message = "Unable to perform action on Accomodation" };
+            }
+
+            return json;
         }
 
         // GET: Dashboard/Accomodations/Delete/5
         public ActionResult Delete(int ID)
         {
-            return View();
+            AccomodationActionModel model = new AccomodationActionModel();
+
+            Accomodation accomodation = accomodationsService.GetAccomodationByID(ID);   
+
+            model.ID = accomodation.ID;
+            model.Name = accomodation.Name;
+
+            return View("Delete", model);
         }
 
         // POST: Dashboard/Accomodations/Delete/5
         [HttpPost]
         public ActionResult Delete(Accomodation model)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            JsonResult json = new JsonResult();
+            bool result;
 
-                return RedirectToAction("Index");
-            }
-            catch
+            Accomodation accomodation = accomodationsService.GetAccomodationByID(model.ID);
+
+            result = accomodationsService.DeleteAccomodation(accomodation);
+
+            if (result)
             {
-                return View();
+                json.Data = new { Success = true };
             }
+            else
+            {
+                json.Data = new { Success = false, Message = "Unable to perform action on Accomodation" };
+            }
+
+            return json;
         }
     }
 }

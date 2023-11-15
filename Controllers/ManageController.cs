@@ -7,30 +7,31 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Check_Inn.Models;
+using Check_Inn.Services;
 
 namespace Check_Inn.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private UserManager _userManager;
+        private CheckInnSignInManager _signInManager;
+        private CheckInnUserManager _userManager;
 
         public ManageController()
         {
         }
 
-        public ManageController(UserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(CheckInnUserManager userManager, CheckInnSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        public ApplicationSignInManager SignInManager
+        public CheckInnSignInManager SignInManager
         {
             get
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                return _signInManager ?? HttpContext.GetOwinContext().Get<CheckInnSignInManager>();
             }
             private set 
             { 
@@ -38,11 +39,11 @@ namespace Check_Inn.Controllers
             }
         }
 
-        public UserManager UserManager
+        public CheckInnUserManager UserManager
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<UserManager>();
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<CheckInnUserManager>();
             }
             private set
             {

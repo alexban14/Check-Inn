@@ -1,12 +1,16 @@
 ﻿using Check_Inn.Areas.Dashboard.ViewModels;
 using Check_Inn.Entities;
 using Check_Inn.Services;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace Check_Inn.Areas.Dashboard.Controllers
 {
@@ -39,6 +43,10 @@ namespace Check_Inn.Areas.Dashboard.Controllers
             }
         }
 
+        public UsersController()
+        {
+        }
+
         public UsersController(CheckInnUserManager userManager, CheckInnSignInManager signInManager)
         {
             _userManager = userManager;
@@ -56,31 +64,72 @@ namespace Check_Inn.Areas.Dashboard.Controllers
             model.SearchTerm = searchTerm;
             model.RoleID = roleID;
 
-            //model.Users = usersService.SearchUser(searchTerm, AccomodationPackageID, page, recordSize);
-            //model.Roles = accomodationPackagesService.GetAllAcomodationPackages();
+            model.Users = this.SearchUsers(searchTerm, roleID, page, recordSize);
 
-            int totalRecords = 0; //accomodationsService.SearchAccomodationCount(searchTerm, AccomodationPackageID);
+            int totalRecords = this.SearchUserCount(searchTerm, roleID);
 
             model.Pager = new Check_Inn.ViewModels.Pager(totalRecords, page, recordSize);
 
             return View(model);
         }
 
-        // GET: Dashboard/Accomodations/Create
-        public ActionResult Action(int? ID)
+        private IEnumerable<User> SearchUsers(string searchTerm, string roleID, int? page, int? recordSize)
         {
-            AccomodationActionModel model = new AccomodationActionModel();
+            var users = UserManager.Users.AsQueryable();
 
-            model.AccomodationPackages = accomodationPackagesService.GetAllAcomodationPackages();
-
-            if(ID > 0)
+            if(!string.IsNullOrEmpty(searchTerm))
             {
-                Accomodation accomodation = accomodationsService.GetAccomodationByID(ID.Value);
+                users = users.Where(a => a.Email.ToLower().Contains(searchTerm.ToLower()) );
+            }
 
-                model.ID = accomodation.ID;
-                model.AccomodationPackageID = accomodation.AccomodationPackageID;
-                model.Name = accomodation.Name;
-                model.Description = accomodation.Description;
+            if(!string.IsNullOrEmpty(roleID))
+            {
+                //users = users.Where(a => a.Email.ToLower().Contains(searchTerm.ToLower()) );
+            }
+
+            var skip = (page - 1) * recordSize;
+
+            return users
+                .OrderBy(x => x.Email)
+                .Skip((int)skip)
+                .Take((int)recordSize)
+                .ToList();
+        }
+
+        public int SearchUserCount(string searchTerm, string roleID)
+        {
+            var users = UserManager.Users.AsQueryable();
+
+            if(!string.IsNullOrEmpty(searchTerm))
+            {
+                users = users.Where(a => a.Email.ToLower().Contains(searchTerm.ToLower()) );
+            }
+
+            if(!string.IsNullOrEmpty(roleID))
+            {
+                //users = users.Where(a => a.Email.ToLower().Contains(searchTerm.ToLower()) );
+            }
+
+            return users.Count();
+        }
+
+        // GET: Dashboard/Accomodations/Create
+        public async Task<ActionResult> Action(string ID)
+        {
+            UserActionModel model = new UserActionModel();
+
+            if(!string.IsNullOrEmpty(ID))
+            {
+                var user = await UserManager.FindByIdAsync(ID);
+
+                model.ID = user.Id;
+                model.FullName = user.FullName;
+                model.Email = user.Email;
+                model.Username = user.UserName;
+                model.Country = user.Country;
+                model.City = user.City;
+                model.Address = user.Address;
+
             }
 
             return View("Action", model);
@@ -88,47 +137,44 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
         // POST: Dashboard/Accomodations/Create
         [HttpPost]
-        public JsonResult Action(Accomodation model)
+        public async Task<JsonResult> Action(User model)
         {
             JsonResult json = new JsonResult();
-            bool result;
+            IdentityResult result;
 
-            Console.WriteLine("AccomodationPackageID: {0}, AccomodationName: {1}", model.AccomodationPackageID, model.Name);
-
-            if (model.ID > 0)
+            if (!string.IsNullOrEmpty(model.Id))
             {
-                Accomodation accomodation = accomodationsService.GetAccomodationByID(model.ID);
-                accomodation.AccomodationPackageID = model.AccomodationPackageID;
-                accomodation.Name = model.Name;
-                accomodation.Description = model.Description;
+                var user = await UserManager.FindByIdAsync(model.Id);
 
-                result = accomodationsService.UpdateAccomodation(accomodation);
+                user.FullName = model.FullName;
+                user.Email = model.Email;
+                user.UserName = model.UserName;
+                user.Country = model.Country;
+                user.City = model.City;
+                user.Address = model.Address;
+
+                result = await UserManager.UpdateAsync(user);
             }
             else
             {
-                Accomodation accomodation = new Accomodation();
+                User user = new User();
 
-                accomodation.AccomodationPackageID = model.AccomodationPackageID;
-                accomodation.Name = model.Name;
-                accomodation.Description = model.Description;
+                user.FullName = model.FullName;
+                user.Email = model.Email;
+                user.UserName = model.UserName;
+                user.Country = model.Country;
+                user.City = model.City;
+                user.Address = model.Address;
 
-                result = accomodationsService.SaveAccomodation(accomodation);
-
+                result = await UserManager.CreateAsync(user);
             }
 
-
-            if (result)
-            {
-                json.Data = new { Success = true };
-            }
-            else
-            {
-                json.Data = new { Success = false, Message = "Unable to perform action on Accomodation" };
-            }
+            json.Data = new { Success = result.Succeeded, Message = result.Errors };
 
             return json;
         }
 
+        /*
         // GET: Dashboard/Accomodations/Delete/5
         public ActionResult Delete(int ID)
         {
@@ -141,6 +187,8 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
             return View("Delete", model);
         }
+
+        */
 
         // POST: Dashboard/Accomodations/Delete/5
         //[HttpPost]

@@ -19,11 +19,12 @@ namespace Check_Inn.Areas.Dashboard.ViewModels
 
     public class UserActionModel
     {
-        public int ID { get; set; } 
-        public IdentityRole Role { get; set; }
-        public int RoleID { get; set; }
-        public string Name { get; set; }
-        public IEnumerable<IdentityRole> Roles { get; set; }
-
+        public string ID { get; set; } 
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string Address { get; set; }
     }
 }

@@ -197,6 +197,10 @@
     <Compile Include="Migrations\202310301846147_identityframeworkreference.designer.cs">
       <DependentUpon>202310301846147_identityframeworkreference.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202311160518182_addedUserProperties.cs" />
+    <Compile Include="Migrations\202311160518182_addedUserProperties.designer.cs">
+      <DependentUpon>202311160518182_addedUserProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -255,6 +259,7 @@
     <Content Include="Areas\Dashboard\Views\Accomodations\Delete.cshtml" />
     <Content Include="Areas\Dashboard\Views\Users\Index.cshtml" />
     <Content Include="Areas\Dashboard\Views\Users\_Listing.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Users\Action.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -338,6 +343,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202310301846147_identityframeworkreference.resx">
       <DependentUpon>202310301846147_identityframeworkreference.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311160518182_addedUserProperties.resx">
+      <DependentUpon>202311160518182_addedUserProperties.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

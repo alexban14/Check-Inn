@@ -31,10 +31,10 @@
                         *@
                     </td>
                     <td>
-                        <a href="@Url.Action("Action", "Users", new { ID = accomodationPackage.ID })" id="editButton" type="button" class="btn btn-success">
+                        <a href="@Url.Action("Action", "Users", new { ID = user.Id })" id="editButton" type="button" class="btn btn-success">
                             <i class="fa-solid fa-pen me-1"></i> Edit
                         </a>
-                        <a href="@Url.Action("Delete", "Users", new { ID = accomodationPackage.ID })" type="button" class="btn btn-danger">
+                        <a href="@Url.Action("Delete", "Users", new { ID = user.Id })" type="button" class="btn btn-danger">
                             <i class="fa-solid fa-trash me-1"></i> Delete
                         </a>
                     </td>
@@ -67,10 +67,10 @@
                 @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                 {
                     <li class="page-item">
-                        <a class="page-link" href="@Url.Action("Index", "Users", new { page = Model.Pager.CurrentPage + 1 })">Next Page<i class="fa-solid fa-angle-right ms-2"></i></a>
+                        <a class="page-link" href="@Url.Action("Index", "Users", new { page = Model.Pager.CurrentPage + 1, searchTerm = Model.SearchTerm, RoleID = Model.RoleID })">Next Page<i class="fa-solid fa-angle-right ms-2"></i></a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="@Url.Action("Index", "Users", new { page = Model.Pager.TotalPages })">Last Page<i class="fa-solid fa-angles-right ms-2"></i></a>
+                        <a class="page-link" href="@Url.Action("Index", "Users", new { page = Model.Pager.TotalPages, searchTerm = Model.SearchTerm, RoleID = Model.RoleID })">Last Page<i class="fa-solid fa-angles-right ms-2"></i></a>
                     </li>
                 }
             </ul>

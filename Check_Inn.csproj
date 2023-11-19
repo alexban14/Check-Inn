@@ -171,11 +171,13 @@
     <Compile Include="Areas\Dashboard\Controllers\AccomodationsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\AccomodationTypesController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\RolesController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\UsersController.cs" />
     <Compile Include="Areas\Dashboard\DashboardAreaRegistration.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\AccomodationPackagesModel.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\AccomodationsModel.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\AccomodationTypesModel.cs" />
+    <Compile Include="Areas\Dashboard\ViewModels\RolesViewModels.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\UserViewModels.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -208,6 +210,7 @@
     <Compile Include="Services\AccomodationPackagesService.cs" />
     <Compile Include="Services\AccomodationsService.cs" />
     <Compile Include="Services\AccomodationTypesService.cs" />
+    <Compile Include="Services\CheckInnRolesManager.cs" />
     <Compile Include="Services\CheckInnSignInManager.cs" />
     <Compile Include="Services\CheckInnUserManager.cs" />
     <Compile Include="Startup.cs" />
@@ -260,6 +263,12 @@
     <Content Include="Areas\Dashboard\Views\Users\Index.cshtml" />
     <Content Include="Areas\Dashboard\Views\Users\_Listing.cshtml" />
     <Content Include="Areas\Dashboard\Views\Users\Action.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Users\Delete.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Roles\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Roles\_Listing.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Roles\Action.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Roles\Delete.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Users\UserRoles.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

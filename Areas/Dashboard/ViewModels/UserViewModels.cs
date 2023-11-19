@@ -3,6 +3,7 @@ using Check_Inn.ViewModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 
@@ -26,5 +27,11 @@ namespace Check_Inn.Areas.Dashboard.ViewModels
         public string Country { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
+    }
+    public class UserRolesModel
+    {
+        public string UserID { get; set; }
+        public IEnumerable<IdentityRole> UserRoles { get; set; }
+        public IEnumerable<IdentityRole> Roles { get; set; }
     }
 }

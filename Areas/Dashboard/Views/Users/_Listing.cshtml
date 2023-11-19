@@ -29,6 +29,7 @@
                             @user.Roles.
                         }
                         *@
+                        -
                     </td>
                     <td>
                         <a href="@Url.Action("Action", "Users", new { ID = user.Id })" id="editButton" type="button" class="btn btn-success">
@@ -36,6 +37,9 @@
                         </a>
                         <a href="@Url.Action("Delete", "Users", new { ID = user.Id })" type="button" class="btn btn-danger">
                             <i class="fa-solid fa-trash me-1"></i> Delete
+                        </a>
+                        <a href="@Url.Action("UserRoles", "Users", new { ID = user.Id })" type="button" class="btn btn-info">
+                            <i class="fa-solid fa-users-cog me-1"></i> Roles
                         </a>
                     </td>
                 </tr>

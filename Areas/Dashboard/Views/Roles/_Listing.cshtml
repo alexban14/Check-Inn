@@ -1,0 +1,81 @@
+﻿@model Check_Inn.Areas.Dashboard.ViewModels.RolesListingModel
+
+@if (Model != null && Model.Roles.Count() > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Users</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (Microsoft.AspNet.Identity.EntityFramework.IdentityRole role in Model.Roles)
+            {
+                <tr>
+                    <td>
+                        @role.Id
+                    </td>
+                    <td>
+                        @role.Name
+                    </td>
+                    <td>
+                        @role.Users.Count()
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Action", "Roles", new { ID = role.Id })" id="editButton" type="button" class="btn btn-success"> 
+                            <i class="fa-solid fa-pen me-1"></i> Edit
+                        </a>
+                        <a href="@Url.Action("Delete", "Roles", new { ID = role.Id })" type="button" class="btn btn-danger">
+                            <i class="fa-solid fa-trash me-1"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    if (Model.Pager.EndPage > 1)
+    {
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @if (Model.Pager.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Roles")"><i class="fa-solid fa-angles-left me-2"></i>First Page</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Roles", new { page = Model.Pager.CurrentPage - 1, searchTerm = Model.SearchTerm })"><i class="fa-solid fa-angle-left me-2"></i>Previous</a>
+                    </li>
+                }
+
+                @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                {
+                    <li class="page-item @(page == Model.Pager.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", "Roles", new { page = page, searchTerm = Model.SearchTerm })">@page</a>
+                    </li>
+                }
+
+                @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Roles", new { page = Model.Pager.CurrentPage + 1, searchTerm = Model.SearchTerm })">Next Page<i class="fa-solid fa-angle-right ms-2"></i></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Roles", new { page = Model.Pager.TotalPages, searchTerm = Model.SearchTerm })">Last Page<i class="fa-solid fa-angles-right ms-2"></i></a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        There are no records!
+    </div>
+}

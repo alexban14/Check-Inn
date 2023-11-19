@@ -2,6 +2,7 @@
 using Check_Inn.Entities;
 using Check_Inn.Services;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
     {
         private CheckInnUserManager _userManager;
         private CheckInnSignInManager _signInManager;
+        private CheckInnRoleManager _roleManager;
 
         public CheckInnSignInManager SignInManager
         {
@@ -42,15 +44,27 @@ namespace Check_Inn.Areas.Dashboard.Controllers
                 _userManager = value;
             }
         }
+        public CheckInnRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().GetUserManager<CheckInnRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
 
         public UsersController()
         {
         }
 
-        public UsersController(CheckInnUserManager userManager, CheckInnSignInManager signInManager)
+        public UsersController(CheckInnUserManager userManager, CheckInnSignInManager signInManager, CheckInnRoleManager roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         // GET: Dashboard/Users
@@ -63,6 +77,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
             model.SearchTerm = searchTerm;
             model.RoleID = roleID;
+            model.Roles = RoleManager.Roles.ToList();
 
             model.Users = this.SearchUsers(searchTerm, roleID, page, recordSize);
 
@@ -113,7 +128,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
             return users.Count();
         }
 
-        // GET: Dashboard/Accomodations/Create
+        // GET: Dashboard/Users/Create
         public async Task<ActionResult> Action(string ID)
         {
             UserActionModel model = new UserActionModel();
@@ -135,7 +150,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
             return View("Action", model);
         }
 
-        // POST: Dashboard/Accomodations/Create
+        // POST: Dashboard/Users/Create
         [HttpPost]
         public async Task<JsonResult> Action(User model)
         {
@@ -174,24 +189,102 @@ namespace Check_Inn.Areas.Dashboard.Controllers
             return json;
         }
 
-        /*
-        // GET: Dashboard/Accomodations/Delete/5
-        public ActionResult Delete(int ID)
+        // GET: Dashboard/Users/Delete/5
+        public async Task<ActionResult> Delete(string ID)
         {
-            AccomodationActionModel model = new AccomodationActionModel();
+            UserActionModel model = new UserActionModel();
 
-            Accomodation accomodation = accomodationsService.GetAccomodationByID(ID);   
+            User user = await UserManager.FindByIdAsync(ID);
 
-            model.ID = accomodation.ID;
-            model.Name = accomodation.Name;
+            model.ID = user.Id;
+            model.FullName = user.FullName;
 
             return View("Delete", model);
         }
 
-        */
 
-        // POST: Dashboard/Accomodations/Delete/5
-        //[HttpPost]
-        //public ActionResult Delete(Accomodation model)
+        //POST: Dashboard/Users/Delete/5
+        [HttpPost]
+        public async Task<JsonResult> Delete(User model)
+        {
+            JsonResult json = new JsonResult();
+            IdentityResult result;
+
+            if (!string.IsNullOrEmpty(model.Id))
+            {
+                var user = await UserManager.FindByIdAsync(model.Id);
+
+                result = await UserManager.DeleteAsync(user);
+
+                json.Data = new { Success = result.Succeeded, Message = string.Join(", ", result.Errors) };
+            }
+            else
+            {
+                json.Data = new { Success = false, Message = "Invalid user" };
+            }
+
+            return json;
+        }
+
+        //GET: Dashboard/Users/UserRoles
+        [HttpGet]
+        public async Task<ActionResult> UserRoles(string ID)
+        {
+            User user = await UserManager.FindByIdAsync(ID);
+            UserRolesModel model = new UserRolesModel();
+            IEnumerable<string> userRoleIDs = user.Roles.Select(x => x.RoleId).ToList();
+
+            model.UserID = user.Id;
+            model.UserRoles = RoleManager.Roles.Where(x => userRoleIDs.Contains(x.Id)).ToList();
+            model.Roles = RoleManager.Roles.Where(x => !userRoleIDs.Contains(x.Id)).ToList();
+
+            return View("UserRoles", model);
+        }
+
+        //POST: DashBoard/Users/AssingUserRole
+        [HttpPost]
+        public async Task<JsonResult> AssignUserRole(string userID, string roleID)
+        {
+            JsonResult json = new JsonResult();
+
+            User user = await UserManager.FindByIdAsync(userID);
+            IdentityRole role = await RoleManager.FindByIdAsync(roleID);
+
+            if (user != null && role != null)
+            {
+                IdentityResult result = await UserManager.AddToRolesAsync(userID, role.Name);
+
+                json.Data = new { Success = result.Succeeded, Message = string.Join(", ", result.Errors) };
+            }
+            else
+            {
+                json.Data = new { Success = false, Message = "Invalid operation" };
+            }
+
+            return json;
+        }
+
+        //POST: Dashboard/Users/DeleteUserRole
+        [HttpPost]
+        public async Task<JsonResult> DeleteUserRole(string userID, string roleID)
+        {
+            JsonResult json = new JsonResult();
+
+            User user = await UserManager.FindByIdAsync(userID);
+            IdentityRole role = await RoleManager.FindByIdAsync(roleID);
+
+            if (user != null && role != null)
+            {
+                IdentityResult result = await UserManager.RemoveFromRolesAsync(userID, role.Name);
+
+                json.Data = new { Success = result.Succeeded, Message = string.Join(", ", result.Errors) };
+            }
+            else
+            {
+                json.Data = new { Success = false, Message = "Invalid operation" };
+            }
+
+            return json;
+        }
     }
 }

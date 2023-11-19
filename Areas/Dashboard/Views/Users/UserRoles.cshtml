@@ -1,0 +1,130 @@
+﻿@model Check_Inn.Areas.Dashboard.ViewModels.UserRolesModel
+@{
+    ViewBag.Title = "Action";
+    Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
+}
+@if (Model != null)
+{
+    <div class="container">
+        <div class="row justify-content-center">
+            <h1 class="text-md my-3" id="exampleModalLabel">
+                <span>User Roles</span>
+            </h1>
+        </div>
+
+        <div class="error-wrapper">
+
+        </div>
+
+        @if (Model.UserRoles != null && Model.UserRoles.Count() > 0)
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            Current User Roles
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Microsoft.AspNet.Identity.EntityFramework.IdentityRole role in Model.UserRoles)
+                    {
+                        <tr>
+                            <td class="me-2">
+                                @role.Name
+                            </td>
+                            <td>
+                                <button data-href="@Url.Action("DeleteUserRole", "Users", new { userID = Model.UserID, ID = role.Id })" type="button" class="btn btn-danger btnDeleteRole">
+                                     <i class="fa-solid fa-trash me-1"></i>Delete Role
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning" role="alert">
+                This user has no roles.
+            </div>
+        }
+
+        @if (Model.Roles != null && Model.Roles.Count() > 0)
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            Assing New Roles
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Microsoft.AspNet.Identity.EntityFramework.IdentityRole role in Model.Roles)
+                    {
+                        <tr>
+                            <td class="me-3">
+                                @role.Name
+                            </td>
+                            <td>
+                                <button data-href="@Url.Action("AssignUserRole", "Users", new { userID = Model.UserID, roleID = role.Id })" type="button" class="btn btn-success btnAssignRole">
+                                     <i class="fa-solid fa-user-check me-1"></i>Assign Role
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-warning" role="alert">
+                There are no roles.
+            </div>
+        }
+
+        <form id="actionForm">
+        </form>
+
+    </div>
+}
+
+<script>
+    let btnAssingRoles = document.getElementsByClassName("btnAssignRole");
+    Array.from(btnAssingRoles).forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            let href = this.getAttribute("data-href");
+
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    location.reload();
+                }
+            };
+            xhr.open("POST", href, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send();
+        });
+    });
+
+
+    let btnDeleteRoles = document.getElementsByClassName("btnDeleteRole");
+    console.log(btnDeleteRoles);
+    Array.from(btnDeleteRoles).forEach(function (btn) {
+        btn.addEventListener("click", function () {
+            let href = this.getAttribute("data-href");
+
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    location.reload();
+                }
+            };
+            xhr.open("POST", href, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send();
+        });
+    });
+</script>
+

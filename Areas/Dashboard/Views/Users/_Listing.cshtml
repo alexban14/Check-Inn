@@ -7,7 +7,7 @@
             <tr>
                 <th scope="col">Email</th>
                     <th scope="col">Full name</th>
-                <th scope="col">Role</th>
+                <th scope="col">Roles</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -23,13 +23,7 @@
                         @user.UserName
                     </td>
                     <td>
-                        @*
-                       @if (user.Role != null)
-                        {
-                            @user.Roles.
-                        }
-                        *@
-                        -
+                        @user.Roles.Count()
                     </td>
                     <td>
                         <a href="@Url.Action("Action", "Users", new { ID = user.Id })" id="editButton" type="button" class="btn btn-success">

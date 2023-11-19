@@ -235,6 +235,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
             IEnumerable<string> userRoleIDs = user.Roles.Select(x => x.RoleId).ToList();
 
             model.UserID = user.Id;
+            model.UserName = user.UserName;
             model.UserRoles = RoleManager.Roles.Where(x => userRoleIDs.Contains(x.Id)).ToList();
             model.Roles = RoleManager.Roles.Where(x => !userRoleIDs.Contains(x.Id)).ToList();
 
@@ -243,7 +244,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
         //POST: DashBoard/Users/AssingUserRole
         [HttpPost]
-        public async Task<JsonResult> AssignUserRole(string userID, string roleID)
+        public async Task<JsonResult> UserRoleOperation(string userID, string roleID, bool toDelete = false)
         {
             JsonResult json = new JsonResult();
 
@@ -252,30 +253,15 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
             if (user != null && role != null)
             {
-                IdentityResult result = await UserManager.AddToRolesAsync(userID, role.Name);
-
-                json.Data = new { Success = result.Succeeded, Message = string.Join(", ", result.Errors) };
-            }
-            else
-            {
-                json.Data = new { Success = false, Message = "Invalid operation" };
-            }
-
-            return json;
-        }
-
-        //POST: Dashboard/Users/DeleteUserRole
-        [HttpPost]
-        public async Task<JsonResult> DeleteUserRole(string userID, string roleID)
-        {
-            JsonResult json = new JsonResult();
-
-            User user = await UserManager.FindByIdAsync(userID);
-            IdentityRole role = await RoleManager.FindByIdAsync(roleID);
-
-            if (user != null && role != null)
-            {
-                IdentityResult result = await UserManager.RemoveFromRolesAsync(userID, role.Name);
+                IdentityResult result;
+                if (!toDelete)
+                {
+                    result = await UserManager.AddToRoleAsync(userID, role.Name);
+                }
+                else
+                {
+                    result = await UserManager.RemoveFromRoleAsync(userID, role.Name);
+                }
 
                 json.Data = new { Success = result.Succeeded, Message = string.Join(", ", result.Errors) };
             }

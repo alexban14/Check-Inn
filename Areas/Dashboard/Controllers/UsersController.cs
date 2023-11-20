@@ -68,7 +68,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Users
-        public ActionResult Index(string searchTerm, string roleID, int? page)
+        public async Task<ActionResult> Index(string searchTerm, string roleID, int? page)
         {
             int recordSize = 3;
             page = page ?? 1;
@@ -79,16 +79,16 @@ namespace Check_Inn.Areas.Dashboard.Controllers
             model.RoleID = roleID;
             model.Roles = RoleManager.Roles.ToList();
 
-            model.Users = this.SearchUsers(searchTerm, roleID, page, recordSize);
+            model.Users = await SearchUsers(searchTerm, roleID, page, recordSize);
 
-            int totalRecords = this.SearchUserCount(searchTerm, roleID);
+            int totalRecords = await SearchUserCount(searchTerm, roleID);
 
             model.Pager = new Check_Inn.ViewModels.Pager(totalRecords, page, recordSize);
 
             return View(model);
         }
 
-        private IEnumerable<User> SearchUsers(string searchTerm, string roleID, int? page, int? recordSize)
+        private async Task<IEnumerable<User>> SearchUsers(string searchTerm, string roleID, int? page, int? recordSize)
         {
             var users = UserManager.Users.AsQueryable();
 
@@ -99,7 +99,12 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
             if(!string.IsNullOrEmpty(roleID))
             {
-                //users = users.Where(a => a.Email.ToLower().Contains(searchTerm.ToLower()) );
+                IdentityRole role = await RoleManager.FindByIdAsync(roleID);
+                IEnumerable<string> userIDs = role.Users.Select(x => x.UserId).ToList();
+
+                users = users.Where(x => userIDs.Contains(x.Id));
+
+                //users = users.Where(a => a.Roles.Select(y => y.RoleId).Contains(roleID));
             }
 
             var skip = (page - 1) * recordSize;
@@ -111,7 +116,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
                 .ToList();
         }
 
-        public int SearchUserCount(string searchTerm, string roleID)
+        public async Task<int> SearchUserCount(string searchTerm, string roleID)
         {
             var users = UserManager.Users.AsQueryable();
 
@@ -122,7 +127,12 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
             if(!string.IsNullOrEmpty(roleID))
             {
-                //users = users.Where(a => a.Email.ToLower().Contains(searchTerm.ToLower()) );
+                IdentityRole role = await RoleManager.FindByIdAsync(roleID);
+                IEnumerable<string> userIDs = role.Users.Select(x => x.UserId).ToList();
+
+                users = users.Where(x => userIDs.Contains(x.Id));
+
+                //users = users.Where(a => a.Roles.Select(y => y.RoleId).Contains(roleID));
             }
 
             return users.Count();

@@ -26,5 +26,12 @@ namespace Check_Inn.Controllers
 
             return View();
         }
+
+        public ActionResult Rooms()
+        {
+            ViewBag.Message = "All the rooms we host.";
+
+            return View();
+        }
     }
 }

@@ -1,13 +1,18 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Rooms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="site-hero overlay" style="background-image: url('@Url.Content("~/Content/Images/hero_4.jpg")');" data-stellar-background-ratio="0.5">
+<section class="site-hero inner-page overlay" style="background-image: url('@Url.Content("~/Content/Images/hero_4.jpg")')" data-stellar-background-ratio="0.5">
     <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
-            <div class="col-md-10 text-center" data-aos="fade-up">
-                <span class="custom-caption text-uppercase text-white d-block  mb-3">Welcome To 5 <span class="fa fa-star text-primary"></span>   Hotel</span>
-                <h1 class="heading">A Best Place To Stay</h1>
+            <div class="col-md-10 text-center" data-aos="fade">
+                <h1 class="heading mb-3">Rooms</h1>
+                <ul class="custom-breadcrumbs mb-4">
+                    <li><a href="index.html">Home</a></li>
+                    <li>&bullet;</li>
+                    <li>Rooms</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -20,7 +25,7 @@
 </section>
 <!-- END section -->
 
-<section class="section bg-light pb-0">
+<section class="section pb-4">
     <div class="container">
 
         <div class="row check-availabilty" id="next">
@@ -82,35 +87,12 @@
     </div>
 </section>
 
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-12 col-lg-7 ml-auto order-lg-2 position-relative mb-5" data-aos="fade-up">
-                <figure class="img-absolute">
-                    <img src="@Url.Content("~/Content/Images/food-1.jpg")" alt="Image" class="img-fluid">
-                </figure>
-                <img src="@Url.Content("~/Content/Images/img_1.jpg")" alt="Image" class="img-fluid rounded">
-            </div>
-            <div class="col-md-12 col-lg-4 order-lg-1" data-aos="fade-up">
-                <h2 class="heading">Welcome!</h2>
-                <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-                <p><a href="#" class="btn btn-primary text-white py-2 mr-3">Learn More</a> <span class="mr-3 font-family-serif"><em>or</em></span> <a href="https://vimeo.com/channels/staffpicks/93951774" data-fancybox class="text-uppercase letter-spacing-1">See video</a></p>
-            </div>
-
-        </div>
-    </div>
-</section>
 
 <section class="section">
     <div class="container">
-        <div class="row justify-content-center text-center mb-5">
-            <div class="col-md-7">
-                <h2 class="heading" data-aos="fade-up">Rooms &amp; Suites</h2>
-                <p data-aos="fade-up" data-aos-delay="100">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-            </div>
-        </div>
+
         <div class="row">
-            <div class="col-md-6 col-lg-4" data-aos="fade-up">
+            <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
                 <a href="#" class="room">
                     <figure class="img-wrap">
                         <img src="@Url.Content("~/Content/Images/img_1.jpg")" alt="Free website template" class="img-fluid mb-3">
@@ -122,7 +104,7 @@
                 </a>
             </div>
 
-            <div class="col-md-6 col-lg-4" data-aos="fade-up">
+            <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
                 <a href="#" class="room">
                     <figure class="img-wrap">
                         <img src="@Url.Content("~/Content/Images/img_2.jpg")" alt="Free website template" class="img-fluid mb-3">
@@ -134,7 +116,7 @@
                 </a>
             </div>
 
-            <div class="col-md-6 col-lg-4" data-aos="fade-up">
+            <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
                 <a href="#" class="room">
                     <figure class="img-wrap">
                         <img src="@Url.Content("~/Content/Images/img_3.jpg")" alt="Free website template" class="img-fluid mb-3">
@@ -146,53 +128,79 @@
                 </a>
             </div>
 
+            <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">images
+                <a href="#" class="room">
+                    <figure class="img-wrap">
+                        <img src="@Url.Content("~/Content/Images/img_1.jpg")" alt="Free website template" class="img-fluid mb-3">
+                    </figure>
+                    <div class="p-3 text-center room-info">
+                        <h2>Single Room</h2>
+                        <span class="text-uppercase letter-spacing-1">90$ / per night</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
+                <a href="#" class="room">
+                    <figure class="img-wrap">
+                        <img src="@Url.Content("~/Content/Images/img_2.jpg")" alt="Free website template" class="img-fluid mb-3">
+                    </figure>
+                    <div class="p-3 text-center room-info">
+                        <h2>Family Room</h2>
+                        <span class="text-uppercase letter-spacing-1">120$ / per night</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
+                <a href="#" class="room">
+                    <figure class="img-wrap">
+                        <img src="@Url.Content("~/Content/Images/img_3.jpg")" alt="Free website template" class="img-fluid mb-3">
+                    </figure>
+                    <div class="p-3 text-center room-info">
+                        <h2>Presidential Room</h2>
+                        <span class="text-uppercase letter-spacing-1">250$ / per night</span>
+                    </div>
+                </a>
+            </div>
 
         </div>
     </div>
 </section>
 
+<section class="section bg-light">
 
-<section class="section slider-section bg-light">
     <div class="container">
         <div class="row justify-content-center text-center mb-5">
             <div class="col-md-7">
-                <h2 class="heading" data-aos="fade-up">Photos</h2>
-                <p data-aos="fade-up" data-aos-delay="100">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                <h2 class="heading" data-aos="fade">Great Offers</h2>
+                <p data-aos="fade">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="home-slider major-caousel owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-1.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-1.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-2.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-2.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-3.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-3.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-4.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-4.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-5.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-5.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-6.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-6.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-7.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-7.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                </div>
-                <!-- END slider -->
-            </div>
 
+        <div class="site-block-half d-block d-lg-flex bg-white" data-aos="fade" data-aos-delay="100">
+            <a href="#" class="image d-block bg-image-2" style="background-image: url('@Url.Content("~/Content/Images/img_1.jpg")');"></a>
+            <div class="text">
+                <span class="d-block mb-4"><span class="display-4 text-primary">$199</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
+                <h2 class="mb-4">Family Room</h2>
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                <p><a href="#" class="btn btn-primary text-white">Book Now</a></p>
+            </div>
         </div>
+        <div class="site-block-half d-block d-lg-flex bg-white" data-aos="fade" data-aos-delay="200">
+            <a href="#" class="image d-block bg-image-2 order-2" style="background-image: url('@Url.Content("~/Content/Images/img_2.jpg")');"></a>
+            <div class="text order-1">
+                <span class="d-block mb-4"><span class="display-4 text-primary">$299</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
+                <h2 class="mb-4">Presidential Room</h2>
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                <p><a href="#" class="btn btn-primary text-white">Book Now</a></p>
+            </div>
+        </div>
+
     </div>
 </section>
 
-<section class="section bg-image overlay" style="background-image: url('@Url.Content("images/hero_4.jpg")');">
+<section class="section bg-image overlay" style="background-image: url('@Url.Content("~/Content/Images/hero_4.jpg")');">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-12 col-md-6 text-center mb-4 mb-md-0 text-md-left" data-aos="fade-up">

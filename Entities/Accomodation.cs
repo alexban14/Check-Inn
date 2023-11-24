@@ -12,5 +12,6 @@ namespace Check_Inn.Entities
         public virtual AccomodationPackage AccomodationPackage { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public IEnumerable<AccomodationMedia> MediaContent { get; set; }
     }
 }

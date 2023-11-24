@@ -29,6 +29,7 @@ namespace Check_Inn.Areas.Dashboard.ViewModels
         public string Name { get; set; }
         public int NoOfRoom { get; set; }
         public decimal FeePerNight { get; set; }
+        public IEnumerable<AccomodationPackageMedia> MediaContent { get; set; }
 
         public IEnumerable<AccomodationType> AccomodationTypes { get; set; }
     }

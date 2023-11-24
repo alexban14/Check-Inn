@@ -56,7 +56,7 @@
                                     <div class="col-md-6">
                                         <ul class="list-unstyled menu">
 
-                                            @if (User.IsInRole("Administrator"))
+                                            @if (User.IsInRole("Admin"))
                                             {
                                                 <li>@Html.ActionLink("Dashboard", "Index", "Dashboard", new { area = "" }, new { @class = "nav-link" })</li>
                                             }

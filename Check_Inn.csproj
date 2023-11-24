@@ -185,9 +185,12 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DAL\CheckInnContext.cs" />
     <Compile Include="Entities\Accomodation.cs" />
+    <Compile Include="Entities\AccomodationMedia.cs" />
     <Compile Include="Entities\AccomodationPackage.cs" />
+    <Compile Include="Entities\AccomodationPackageMedia.cs" />
     <Compile Include="Entities\AccomodationType.cs" />
     <Compile Include="Entities\Booking.cs" />
+    <Compile Include="Entities\Media.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -203,6 +206,10 @@
     <Compile Include="Migrations\202311160518182_addedUserProperties.cs" />
     <Compile Include="Migrations\202311160518182_addedUserProperties.designer.cs">
       <DependentUpon>202311160518182_addedUserProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202311241407180_addedMediaEntity.cs" />
+    <Compile Include="Migrations\202311241407180_addedMediaEntity.designer.cs">
+      <DependentUpon>202311241407180_addedMediaEntity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -423,6 +430,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202311160518182_addedUserProperties.resx">
       <DependentUpon>202311160518182_addedUserProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311241407180_addedMediaEntity.resx">
+      <DependentUpon>202311241407180_addedMediaEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -95,14 +95,16 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
             if (result)
             {
-                json.Data = new { Success = true };
+                //json.Data = new { Success = true };
+                return RedirectToAction("Index", new { AccomodationTypeID = model.AccomodationTypeID });
             }
             else
             {
-                json.Data = new { Success = false, Message = "Unable to perform action on Accomodation Package" };
+                //json.Data = new { Success = false, Message = "Unable to perform action on Accomodation Package" };
+                ModelState.AddModelError("", "Unable to perform action on Accomodation Package");
+                return RedirectToAction("Action");
             }
 
-            return json;
         }
 
         // GET: Dashboard/AccomodationPackages/Delete/5

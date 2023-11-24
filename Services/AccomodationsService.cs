@@ -9,17 +9,25 @@ namespace Check_Inn.Services
 {
     public class AccomodationsService
     {
+        CheckInnContext context;
+
+        public AccomodationsService()
+        {
+            context = new CheckInnContext();
+        }
+
         public IEnumerable<Accomodation> GetAllAcomodation()
         {
-            CheckInnContext context = new CheckInnContext();
-
             return context.Accomodations.ToList();
+        }
+
+        public IEnumerable<Accomodation> GetAllAccomodationsByAccomodationType(int accomodationPackageId)
+        {
+            return context.Accomodations.Where(x => x.AccomodationPackageID == accomodationPackageId).ToList();
         }
 
         public IEnumerable<Accomodation> SearchAccomodation(string searchTerm, int? AccomodationPackageID, int? page, int? recordSize)
         {
-            CheckInnContext context = new CheckInnContext();
-
             IEnumerable<Accomodation> accomodations = context.Accomodations.AsQueryable();
 
             if(!string.IsNullOrEmpty(searchTerm))
@@ -43,8 +51,6 @@ namespace Check_Inn.Services
 
         public int SearchAccomodationCount(string searchTerm, int? AccomodationPackageID)
         {
-            CheckInnContext context = new CheckInnContext();
-
             IEnumerable<Accomodation> accomodations = context.Accomodations.AsQueryable();
 
             if(!string.IsNullOrEmpty(searchTerm))
@@ -62,16 +68,11 @@ namespace Check_Inn.Services
 
         public Accomodation GetAccomodationByID(int ID)
         {
-            using (CheckInnContext context = new CheckInnContext())
-            { 
-                return context.Accomodations.Find(ID);
-            }
+            return context.Accomodations.Find(ID);
         }
 
         public bool SaveAccomodation(Accomodation accomodation)
         {
-            CheckInnContext context = new CheckInnContext();
-
             context.Accomodations.Add(accomodation);
 
             return context.SaveChanges() > 0;
@@ -79,8 +80,6 @@ namespace Check_Inn.Services
 
         public bool UpdateAccomodation(Accomodation accomodation)
         {
-            CheckInnContext context = new CheckInnContext();
-
             context.Entry(accomodation).State = System.Data.Entity.EntityState.Modified;
 
             return context.SaveChanges() > 0;
@@ -88,8 +87,6 @@ namespace Check_Inn.Services
 
         public bool DeleteAccomodation(Accomodation accomodation)
         {
-            CheckInnContext context = new CheckInnContext();
-
             context.Entry(accomodation).State = System.Data.Entity.EntityState.Deleted;
 
             return context.SaveChanges() > 0;

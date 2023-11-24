@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col col-lg-12">
-        <h2>Accomodation Packages</h2>
+        <h2>Accommodation Packages</h2>
         <hr />
     </div>
 </div>
@@ -19,7 +19,7 @@
                 @if (Model.AccomodationTypes != null && Model.AccomodationTypes.Count() > 0)
                 {
                     <select class="form-select" name="AccomodationTypeID" id="AccomodationTypeID">
-                        <option>Filter by Accomodation Type</option>
+                        <option>Filter by Accommodation Type</option>
                         @foreach (var accomodationType in Model.AccomodationTypes)
                         {
                             <option value="@accomodationType.ID" @(accomodationType.ID == Model.AccomodationTypeID ? "selected" : string.Empty)>

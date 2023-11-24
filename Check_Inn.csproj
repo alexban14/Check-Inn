@@ -179,6 +179,7 @@
     <Compile Include="Areas\Dashboard\ViewModels\AccomodationTypesModel.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\RolesViewModels.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\UserViewModels.cs" />
+    <Compile Include="Controllers\AccomodationsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -214,6 +215,8 @@
     <Compile Include="Services\CheckInnSignInManager.cs" />
     <Compile Include="Services\CheckInnUserManager.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AccomodationViewModels.cs" />
+    <Compile Include="ViewModels\HomeViewModels.cs" />
     <Compile Include="ViewModels\PageViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -378,6 +381,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Rooms.cshtml" />
+    <Content Include="Views\Accomodations\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

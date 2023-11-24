@@ -9,17 +9,25 @@ namespace Check_Inn.Services
 {
     public class AccomodationPackagesService
     {
+        private CheckInnContext context;
+
+        public AccomodationPackagesService()
+        {
+            context = new CheckInnContext();
+        }
+        
         public IEnumerable<AccomodationPackage> GetAllAcomodationPackages()
         {
-            CheckInnContext context = new CheckInnContext();
-
             return context.AccomodationPackages.ToList();
+        }
+
+        public IEnumerable<AccomodationPackage> GetAllAccomodationPackagesByAccomodationType(int accomodationTypeID)
+        {
+            return context.AccomodationPackages.Where(x => x.AccomodationTypeID == accomodationTypeID).ToList();
         }
 
         public IEnumerable<AccomodationPackage> SearchAccomodationPackage(string searchTerm, int? AccomodationTypeID, int? page, int? recordSize)
         {
-            CheckInnContext context = new CheckInnContext();
-
             IEnumerable<AccomodationPackage> accomodationPackages = context.AccomodationPackages.AsQueryable();
 
             if(!string.IsNullOrEmpty(searchTerm))
@@ -43,8 +51,6 @@ namespace Check_Inn.Services
 
         public int SearchAccomodationPackageCount(string searchTerm, int? AccomodationTypeID)
         {
-            CheckInnContext context = new CheckInnContext();
-
             IEnumerable<AccomodationPackage> accomodationPackages = context.AccomodationPackages.AsQueryable();
 
             if(!string.IsNullOrEmpty(searchTerm))
@@ -70,8 +76,6 @@ namespace Check_Inn.Services
 
         public bool SaveAccomodationPackage(AccomodationPackage accomodationPackage)
         {
-            CheckInnContext context = new CheckInnContext();
-
             context.AccomodationPackages.Add(accomodationPackage);
 
             return context.SaveChanges() > 0;
@@ -79,8 +83,6 @@ namespace Check_Inn.Services
 
         public bool UpdateAccomodationPackage(AccomodationPackage accomodationPackage)
         {
-            CheckInnContext context = new CheckInnContext();
-
             context.Entry(accomodationPackage).State = System.Data.Entity.EntityState.Modified;
 
             return context.SaveChanges() > 0;
@@ -88,8 +90,6 @@ namespace Check_Inn.Services
 
         public bool DeleteAccomodationPackage(AccomodationPackage accomodationPackage)
         {
-            CheckInnContext context = new CheckInnContext();
-
             context.Entry(accomodationPackage).State = System.Data.Entity.EntityState.Deleted;
 
             return context.SaveChanges() > 0;

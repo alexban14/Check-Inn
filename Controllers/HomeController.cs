@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Check_Inn.Services;
+using Check_Inn.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +10,19 @@ namespace Check_Inn.Controllers
 {
     public class HomeController : Controller
     {
+        private AccomodationTypesService _accomodationTypesService;
+        public HomeController()
+        {
+            _accomodationTypesService = new AccomodationTypesService();
+        }
+
         public ActionResult Index()
         {
-            return View();
+            HomeViewModel model = new HomeViewModel();
+
+            model.AccomodationTypes = _accomodationTypesService.GetAllAccomodationTypes();
+
+            return View(model);
         }
 
         public ActionResult About()

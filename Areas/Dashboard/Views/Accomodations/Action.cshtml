@@ -11,12 +11,12 @@
             <h1 class="text-md my-3" id="exampleModalLabel">
                 @if(Model.ID > 0)
                 {
-                    <span>Edit Accomodation</span>
+                    <span>Edit Accommodation</span>
 
                 }
                 else
                 {
-                    <span>Create Accomodation</span>
+                    <span>Create Accommodation</span>
                 }
             </h1>
         </div>
@@ -76,7 +76,7 @@
                 var response = JSON.parse(xhr.responseText);
                 if (response.Success)
                 {
-                    location.href = "@Url.Action("Index", "AccomodationPackages")";
+                    location.href = "@Url.Action("Index", "Accomodations")";
                 }
                 else
                 {

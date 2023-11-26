@@ -43,48 +43,52 @@ namespace Check_Inn.Areas.Dashboard.Controllers
                 model.ID = accomodationType.ID;
                 model.Name = accomodationType.Name;
                 model.Description = accomodationType.Description;
+                model.Image = accomodationType.Image;
             }
 
             return View("Action", model);
         }
 
         [HttpPost]
-        public JsonResult Action(AccomodationType model)
+        public ActionResult Action(AccomodationType model)
         {
-            JsonResult json = new JsonResult();
             bool result;
 
-            if(model.ID > 0)
+            if (ModelState.IsValid)
             {
-                AccomodationType accomodationType = accomodationTypesService.GetAccomodationTypeByID(model.ID);
+                if (model.ID > 0)
+                {
+                    AccomodationType accomodationType = accomodationTypesService.GetAccomodationTypeByID(model.ID);
 
-                accomodationType.Name = model.Name;
-                accomodationType.Description = model.Description;
+                    accomodationType.Name = model.Name;
+                    accomodationType.Description = model.Description;
+                    accomodationType.Image = model.Image;
 
-                result = accomodationTypesService.UpdateAccomodationType(accomodationType);
+                    result = accomodationTypesService.UpdateAccomodationType(accomodationType);
+                }
+                else
+                {
+                    AccomodationType accomodationType = new AccomodationType();
+
+                    accomodationType.Name = model.Name;
+                    accomodationType.Description = model.Description;
+                    accomodationType.Image = model.Image;
+
+                    result = accomodationTypesService.SaveAccomodationType(accomodationType);
+                }
+
+
+                if (result)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to perform actino on Accomodation Type");
+                }
             }
-            else
-            {
-                AccomodationType accomodationType = new AccomodationType();
 
-                accomodationType.Name = model.Name;
-                accomodationType.Description = model.Description;
-
-                result = accomodationTypesService.SaveAccomodationType(accomodationType);
-            }
-
-
-            if (result)
-            {
-                json.Data = new { Success = true };
-
-            }
-            else
-            {
-                json.Data = new { Success = false, Message = "Unable to perform action on Accomodation Type" };
-            }
-
-            return json;
+            return View("Action", model);
         }
 
         [HttpGet]

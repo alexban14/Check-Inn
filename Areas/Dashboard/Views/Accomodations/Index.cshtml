@@ -18,7 +18,7 @@
                 <input type="text" name="searchterm" class="form-control" placeholder="Search" value="@Model.SearchTerm" />
                 @if (Model.AccomodationPackages != null && Model.AccomodationPackages.Count() > 0)
                 {
-                    <select class="form-select" name="AccomodationTypeID" id="AccomodationTypeID">
+                    <select class="form-select" name="AccomodationPackageID" id="AccomodationTypeID">
                         <option>Filter by Accommodation Package</option>
                         @foreach (var accomodationPackage in Model.AccomodationPackages)
                         {

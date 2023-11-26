@@ -23,6 +23,7 @@ namespace Check_Inn.Areas.Dashboard.ViewModels
         public AccomodationPackage AccomodationPackage { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Image {  get; set; }
         public IEnumerable<AccomodationPackage> AccomodationPackages { get; set; }
     }
 }

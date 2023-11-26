@@ -12,5 +12,10 @@ namespace Check_Inn.Entities
         public Accomodation Accomodation { get; set; }
         public DateTime FromDate { get; set; }
         public int Duration { get; set; }
+        public int NoOfAdults { get; set; }
+        public int NoOfChildren { get; set; }
+        public string GuestName { get; set; }
+        public string Email { get; set; }
+        public string AdditionalInfo { get; set; }
     }
 }

@@ -162,41 +162,51 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
         // POST: Dashboard/Users/Create
         [HttpPost]
-        public async Task<JsonResult> Action(User model)
+        public async Task<ActionResult> Action(User model)
         {
-            JsonResult json = new JsonResult();
             IdentityResult result;
 
-            if (!string.IsNullOrEmpty(model.Id))
+            if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByIdAsync(model.Id);
+                if (!string.IsNullOrEmpty(model.Id))
+                {
+                    var user = await UserManager.FindByIdAsync(model.Id);
 
-                user.FullName = model.FullName;
-                user.Email = model.Email;
-                user.UserName = model.UserName;
-                user.Country = model.Country;
-                user.City = model.City;
-                user.Address = model.Address;
+                    user.FullName = model.FullName;
+                    user.Email = model.Email;
+                    user.UserName = model.UserName;
+                    user.Country = model.Country;
+                    user.City = model.City;
+                    user.Address = model.Address;
 
-                result = await UserManager.UpdateAsync(user);
+                    result = await UserManager.UpdateAsync(user);
+                }
+                else
+                {
+                    User user = new User();
+
+                    user.FullName = model.FullName;
+                    user.Email = model.Email;
+                    user.UserName = model.UserName;
+                    user.Country = model.Country;
+                    user.City = model.City;
+                    user.Address = model.Address;
+
+                    result = await UserManager.CreateAsync(user);
+                }
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to perform action on User");
+                }
+
             }
-            else
-            {
-                User user = new User();
 
-                user.FullName = model.FullName;
-                user.Email = model.Email;
-                user.UserName = model.UserName;
-                user.Country = model.Country;
-                user.City = model.City;
-                user.Address = model.Address;
-
-                result = await UserManager.CreateAsync(user);
-            }
-
-            json.Data = new { Success = result.Succeeded, Message = result.Errors };
-
-            return json;
+            return View("Action", model);
         }
 
         // GET: Dashboard/Users/Delete/5

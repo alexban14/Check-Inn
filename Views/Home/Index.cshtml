@@ -95,7 +95,7 @@
             <div class="col-md-12 col-lg-4 order-lg-1" data-aos="fade-up">
                 <h2 class="heading">Welcome!</h2>
                 <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-                <p><a href="#" class="btn btn-primary text-white py-2 mr-3">Learn More</a> <span class="mr-3 font-family-serif"><em>or</em></span> <a href="https://vimeo.com/channels/staffpicks/93951774" data-fancybox class="text-uppercase letter-spacing-1">See video</a></p>
+                @*<p><a href="#" class="btn btn-primary text-white py-2 mr-3">Learn More</a> <span class="mr-3 font-family-serif"><em>or</em></span> <a href="https://vimeo.com/channels/staffpicks/93951774" data-fancybox class="text-uppercase letter-spacing-1">See video</a></p>*@
             </div>
 
         </div>
@@ -113,53 +113,20 @@
                 </div>
             </div>
             <div class="row">
-
                 @foreach (Check_Inn.Entities.AccomodationType accomodationType in Model.AccomodationTypes)
                 {
                     <div class="col-md-6 col-lg-4" data-aos="fade-up">
                         <a href="@Url.Action("Index", "Accomodations" , new { accomodationTypeID = accomodationType.ID })" class="room">
                             <figure class="img-wrap">
-                                <img src="@Url.Content("~/Content/Images/img_1.jpg")" alt="Free website template" class="img-fluid mb-3">
+                                <img src="@accomodationType.Image" alt="Free website template" class="img-fluid mb-3">
                             </figure>
                             <div class="p-3 text-center room-info">
                                 <h2>@accomodationType.Name</h2>
                                 <p data-aos="fade-up" data-aos-delay="100">@accomodationType.Description</p>
-                                @* 
-                                  <span class="text-uppercase letter-spacing-1">90$ / per night</span>  
-                                *@
                             </div>
                         </a>
                     </div>
-
                 }
-
-                @*
-        <div class="col-md-6 col-lg-4" data-aos="fade-up">
-            <a href="#" class="room">
-                <figure class="img-wrap">
-                    <img src="@Url.Content("~/Content/Images/img_2.jpg")" alt="Free website template" class="img-fluid mb-3">
-                </figure>
-                <div class="p-3 text-center room-info">
-                    <h2>Family Room</h2>
-                    <span class="text-uppercase letter-spacing-1">120$ / per night</span>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-md-6 col-lg-4" data-aos="fade-up">
-            <a href="#" class="room">
-                <figure class="img-wrap">
-                    <img src="@Url.Content("~/Content/Images/img_3.jpg")" alt="Free website template" class="img-fluid mb-3">
-                </figure>
-                <div class="p-3 text-center room-info">
-                    <h2>Presidential Room</h2>
-                    <span class="text-uppercase letter-spacing-1">250$ / per night</span>
-                </div>
-            </a>
-        </div>
-                *@
-
-
             </div>
         </div>
     </section>
@@ -177,29 +144,13 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="home-slider major-caousel owl-carousel mb-5" data-aos="fade-up" data-aos-delay="200">
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-1.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-1.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-2.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-2.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-3.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-3.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-4.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-4.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-5.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-5.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-6.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-6.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
-                    <div class="slider-item">
-                        <a href="@Url.Content("~/Content/Images/slider-7.jpg")" data-fancybox="images" data-caption="Caption for this image"><img src="@Url.Content("~/Content/Images/slider-7.jpg")" alt="Image placeholder" class="img-fluid"></a>
-                    </div>
+                    @foreach (Check_Inn.Entities.AccomodationType accomodationType in Model.AccomodationTypes)
+                    {
+                        <div class="slider-item">
+                            <a href="@accomodationType.Image" data-fancybox="images" data-caption="@accomodationType.Description"><img src="@accomodationType.Image" alt="Image placeholder" class="img-fluid"></a>
+                        </div>
+                    }
                 </div>
-                <!-- END slider -->
             </div>
 
         </div>

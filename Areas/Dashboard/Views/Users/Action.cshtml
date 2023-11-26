@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <h1 class="text-md my-3" id="exampleModalLabel">
-                @if(!string.IsNullOrEmpty(Model.ID))
+                @if (!string.IsNullOrEmpty(Model.ID))
                 {
                     <span>Edit User</span>
 
@@ -24,71 +24,43 @@
 
         </div>
 
-        <form id="actionForm">
-            <input type="hidden" name="ID" value="@Model.ID" />
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="FullName" id="FullName" placeholder="Enter Full Name" value="@Model.FullName" >
-                <label class="form-label" for="name">Full Name</label>
+        @using (Html.BeginForm("Action", "Users", FormMethod.Post, new { id = "actionForm" }))
+        {
+            @Html.HiddenFor(m => m.ID)
+            <div class="mb-3">
+                @Html.LabelFor(m => m.FullName, "Full Name", new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
             </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="Email" id="Email" placeholder="Enter Email" value="@Model.Email" >
-                <label class="form-label" for="name">Email</label>
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Email, "Email", new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="Username" id="Username" placeholder="Enter Username" value="@Model.Username" >
-                <label class="form-label" for="name">Username</label>
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Username, "Username", new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
             </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="Country" id="Country" placeholder="Enter Country" value="@Model.Country" >
-                <label class="form-label" for="name">Country</label>
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Country, "Country", new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
             </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="City" id="City" placeholder="Enter City" value="@Model.City">
-                <label class="form-label" for="Description">City</label>
+            <div class="mb-3">
+                @Html.LabelFor(m => m.City, "City", new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
             </div>
-            <div class="form-floating mb-3">
-                <textarea class="form-control" name="Address" id="Address" placeholder="Enter Address">@Model.Address</textarea>
-                <label class="form-label" for="Address">Address</label>
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Address, "Address", new { @class = "form-label" })
+                @Html.TextAreaFor(m => m.Address, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
             </div>
-            <button id="actionButton" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary">
                 <i class="fa-solid fa-floppy-disk me-1"></i> Save changes
             </button>
-        </form>
 
+        }
     </div>
 }
-
-<script>
-    document.getElementById("actionButton").addEventListener("click", function () {
-        console.log("create button clicked")
-        var form = document.getElementById("actionForm");
-        var formData = new FormData(form);
-        console.log(formData.entries)
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "@Url.Action("Action", "Users")", true);
-
-        // Set up an event handler to handle the response
-        xhr.onreadystatechange = function () {
-            console.log(xhr.status, xhr.readyState);
-            if (xhr.readyState === 4) {
-                // Response received successfully
-                var response = JSON.parse(xhr.responseText);
-                if (response.Success)
-                {
-                    location.href = "@Url.Action("Index", "Users")";
-                }
-                else
-                {
-                    var errorDiv = document.querySelector(".error-wrapper");
-                    errorDiv.innerHTML = response.Message;
-                }
-            }
-        };
-
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-
-        xhr.send(formData);
-    });
-</script>
-

@@ -23,6 +23,7 @@
         <div class="error-wrapper">
 
         </div>
+
         @using (Html.BeginForm("Action", "AccomodationPackages", FormMethod.Post, new { id = "actionForm" }))
         {
             @Html.HiddenFor(m => m.ID)
@@ -49,11 +50,6 @@
                 @Html.LabelFor(m => m.NoOfRoom, "Fee per Night")
                 @Html.TextBoxFor(m => m.FeePerNight, new { @class = "form-control", placeholder = "Enter Fee per night" })
                 @Html.ValidationMessageFor(m => m.FeePerNight, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="mb-3">
-                @Html.LabelFor(model => model.MediaContent, htmlAttributes: new { @class = "control-label col-md-2" })
-                <input class="form-control" type="file" id="MediaContent" multiple>
             </div>
 
             <button type="submit" class="btn btn-primary">

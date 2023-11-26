@@ -136,31 +136,40 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
         // POST: Dashboard/Accomodations/Create
         [HttpPost]
-        public async Task<JsonResult> Action(IdentityRole model)
+        public async Task<ActionResult> Action(IdentityRole model)
         {
-            JsonResult json = new JsonResult();
             IdentityResult result;
 
-            if (!string.IsNullOrEmpty(model.Id))
+            if (ModelState.IsValid)
             {
-                IdentityRole role = await RoleManager.FindByIdAsync(model.Id);
+                if (!string.IsNullOrEmpty(model.Id))
+                {
+                    IdentityRole role = await RoleManager.FindByIdAsync(model.Id);
 
-                role.Name = model.Name;
+                    role.Name = model.Name;
 
-                result = await RoleManager.UpdateAsync(role);
+                    result = await RoleManager.UpdateAsync(role);
+                }
+                else
+                {
+                    IdentityRole role = new IdentityRole();
+
+                    role.Name = model.Name;
+
+                    result = await RoleManager.CreateAsync(role);
+                }
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to perform action on Role");
+                }
             }
-            else
-            {
-                IdentityRole role = new IdentityRole();
 
-                role.Name = model.Name;
-
-                result = await RoleManager.CreateAsync(role);
-            }
-
-            json.Data = new { Success = result.Succeeded, Message = string.Join(", ", result.Errors) };
-
-            return json;
+            return View("Action", model);
         }
 
         // GET: Dashboard/Accomodations/Delete/5

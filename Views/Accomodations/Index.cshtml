@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="site-hero overlay" style="background-image: url('@Url.Content("~/Content/Images/hero_4.jpg")');" data-stellar-background-ratio="0.5">
+<section class="site-hero overlay" style="background-image: url(@Model.AccomodationType.Image);" data-stellar-background-ratio="0.5">
     <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
             <div class="col-md-10 text-center" data-aos="fade-up">
@@ -48,18 +48,18 @@
                     {
                         <div class="col-md-6 col-lg-4" data-aos="fade-up">
                             @*<a href="@Url.Action("Index", "Accomodations" , new { accomodationTypeID = accomodationType.ID })" class="room">*@
-                            <a href="#" class="room">
+                            <div class="room">
                                 <figure class="img-wrap">
-                                    <img src="@Url.Content("~/Content/Images/img_1.jpg")" alt="Free website template" class="img-fluid mb-3">
+                                    <img src="@accomodation.Image" alt="@accomodation.Description" class="img-fluid mb-3">
                                 </figure>
                                 <div class="p-3 text-center room-info">
                                     <h2>@accomodation.Name</h2>
                                     <p data-aos="fade-up" data-aos-delay="100">@accomodation.Description</p>
-                                    <p data-aos="fade-up" data-aos-delay="100">No. of Rooms @accomodation.AccomodationPackage.NoOfRoom</p>
                                     <hr />
                                     <h4 class="text-uppercase letter-spacing-1">@accomodation.AccomodationPackage.FeePerNight $ / night</h4>
+                                    <a href="@Url.Action("BookAccomodation", "Accomodations" , new { accomodationPackageID =  Model.SelectedAccomodationPackageID, accomodationID = accomodation.ID })" data-aos="fade-up" data-aos-delay="100" class="btn btn-primary">Book now!</a>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                     }
                 }

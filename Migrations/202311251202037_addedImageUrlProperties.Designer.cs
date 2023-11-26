@@ -7,13 +7,13 @@ namespace Check_Inn.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class addedMediaEntity : IMigrationMetadata
+    public sealed partial class addedImageUrlProperties : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addedMediaEntity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addedImageUrlProperties));
         
         string IMigrationMetadata.Id
         {
-            get { return "202311241407180_addedMediaEntity"; }
+            get { return "202311251202037_addedImageUrlProperties"; }
         }
         
         string IMigrationMetadata.Source

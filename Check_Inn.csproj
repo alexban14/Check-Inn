@@ -185,12 +185,9 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DAL\CheckInnContext.cs" />
     <Compile Include="Entities\Accomodation.cs" />
-    <Compile Include="Entities\AccomodationMedia.cs" />
     <Compile Include="Entities\AccomodationPackage.cs" />
-    <Compile Include="Entities\AccomodationPackageMedia.cs" />
     <Compile Include="Entities\AccomodationType.cs" />
     <Compile Include="Entities\Booking.cs" />
-    <Compile Include="Entities\Media.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -207,9 +204,13 @@
     <Compile Include="Migrations\202311160518182_addedUserProperties.designer.cs">
       <DependentUpon>202311160518182_addedUserProperties.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202311241407180_addedMediaEntity.cs" />
-    <Compile Include="Migrations\202311241407180_addedMediaEntity.designer.cs">
-      <DependentUpon>202311241407180_addedMediaEntity.cs</DependentUpon>
+    <Compile Include="Migrations\202311251202037_addedImageUrlProperties.cs" />
+    <Compile Include="Migrations\202311251202037_addedImageUrlProperties.designer.cs">
+      <DependentUpon>202311251202037_addedImageUrlProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202311261439299_aditionalBookingFields.cs" />
+    <Compile Include="Migrations\202311261439299_aditionalBookingFields.designer.cs">
+      <DependentUpon>202311261439299_aditionalBookingFields.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -218,11 +219,13 @@
     <Compile Include="Services\AccomodationPackagesService.cs" />
     <Compile Include="Services\AccomodationsService.cs" />
     <Compile Include="Services\AccomodationTypesService.cs" />
+    <Compile Include="Services\BookingsService.cs" />
     <Compile Include="Services\CheckInnRolesManager.cs" />
     <Compile Include="Services\CheckInnSignInManager.cs" />
     <Compile Include="Services\CheckInnUserManager.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AccomodationViewModels.cs" />
+    <Compile Include="ViewModels\BookingViewModels.cs" />
     <Compile Include="ViewModels\HomeViewModels.cs" />
     <Compile Include="ViewModels\PageViewModels.cs" />
   </ItemGroup>
@@ -389,6 +392,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Rooms.cshtml" />
     <Content Include="Views\Accomodations\Index.cshtml" />
+    <Content Include="Views\Accomodations\BookAccomodation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -431,8 +435,11 @@
     <EmbeddedResource Include="Migrations\202311160518182_addedUserProperties.resx">
       <DependentUpon>202311160518182_addedUserProperties.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202311241407180_addedMediaEntity.resx">
-      <DependentUpon>202311241407180_addedMediaEntity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202311251202037_addedImageUrlProperties.resx">
+      <DependentUpon>202311251202037_addedImageUrlProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311261439299_aditionalBookingFields.resx">
+      <DependentUpon>202311261439299_aditionalBookingFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

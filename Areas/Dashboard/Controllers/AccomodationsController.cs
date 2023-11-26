@@ -55,6 +55,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
                 model.ID = accomodation.ID;
                 model.AccomodationPackageID = accomodation.AccomodationPackageID;
                 model.Name = accomodation.Name;
+                model.Image = accomodation.Image;
                 model.Description = accomodation.Description;
             }
 
@@ -63,45 +64,47 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
         // POST: Dashboard/Accomodations/Create
         [HttpPost]
-        public JsonResult Action(Accomodation model)
+        public ActionResult Action(Accomodation model)
         {
-            JsonResult json = new JsonResult();
             bool result;
 
-            Console.WriteLine("AccomodationPackageID: {0}, AccomodationName: {1}", model.AccomodationPackageID, model.Name);
 
-            if (model.ID > 0)
+            if(ModelState.IsValid)
             {
-                Accomodation accomodation = accomodationsService.GetAccomodationByID(model.ID);
-                accomodation.AccomodationPackageID = model.AccomodationPackageID;
-                accomodation.Name = model.Name;
-                accomodation.Description = model.Description;
+                if (model.ID > 0)
+                {
+                    Accomodation accomodation = accomodationsService.GetAccomodationByID(model.ID);
+                    accomodation.AccomodationPackageID = model.AccomodationPackageID;
+                    accomodation.Name = model.Name;
+                    accomodation.Image = model.Image;
+                    accomodation.Description = model.Description;
 
-                result = accomodationsService.UpdateAccomodation(accomodation);
+                    result = accomodationsService.UpdateAccomodation(accomodation);
+                }
+                else
+                {
+                    Accomodation accomodation = new Accomodation();
+
+                    accomodation.AccomodationPackageID = model.AccomodationPackageID;
+                    accomodation.Name = model.Name;
+                    accomodation.Image = model.Image;
+                    accomodation.Description = model.Description;
+
+                    result = accomodationsService.SaveAccomodation(accomodation);
+                }
+
+                if (result)
+                {
+                    return RedirectToAction("Index", new { AccomodationPackageID = model.AccomodationPackageID });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to perform action on Accomodation");
+                }
+
             }
-            else
-            {
-                Accomodation accomodation = new Accomodation();
 
-                accomodation.AccomodationPackageID = model.AccomodationPackageID;
-                accomodation.Name = model.Name;
-                accomodation.Description = model.Description;
-
-                result = accomodationsService.SaveAccomodation(accomodation);
-
-            }
-
-
-            if (result)
-            {
-                json.Data = new { Success = true };
-            }
-            else
-            {
-                json.Data = new { Success = false, Message = "Unable to perform action on Accomodation" };
-            }
-
-            return json;
+            return View("Action", model);
         }
 
         // GET: Dashboard/Accomodations/Delete/5

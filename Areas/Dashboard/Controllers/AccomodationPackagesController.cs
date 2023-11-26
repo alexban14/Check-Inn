@@ -67,43 +67,45 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         [HttpPost]
         public ActionResult Action(AccomodationPackage model)
         {
-            JsonResult json = new JsonResult();
             bool result;
 
-            if (model.ID > 0)
+            if (ModelState.IsValid)
             {
-                AccomodationPackage accomodationPackage = accomodationPackagesService.GetAccomodationPackageByID(model.ID);
+                if (model.ID > 0)
+                {
+                    AccomodationPackage accomodationPackage = accomodationPackagesService.GetAccomodationPackageByID(model.ID);
 
-                accomodationPackage.AccomodationTypeID = model.AccomodationTypeID;
-                accomodationPackage.Name = model.Name;
-                accomodationPackage.NoOfRoom = model.NoOfRoom;
-                accomodationPackage.FeePerNight = model.FeePerNight;
+                    accomodationPackage.AccomodationTypeID = model.AccomodationTypeID;
+                    accomodationPackage.Name = model.Name;
+                    accomodationPackage.NoOfRoom = model.NoOfRoom;
+                    accomodationPackage.FeePerNight = model.FeePerNight;
 
-                result = accomodationPackagesService.UpdateAccomodationPackage(accomodationPackage);
+                    result = accomodationPackagesService.UpdateAccomodationPackage(accomodationPackage);
+                }
+                else
+                {
+                    AccomodationPackage accomodationPackage = new AccomodationPackage();
+
+                    accomodationPackage.AccomodationTypeID = model.AccomodationTypeID;
+                    accomodationPackage.Name = model.Name;
+                    accomodationPackage.NoOfRoom = model.NoOfRoom;
+                    accomodationPackage.FeePerNight = model.FeePerNight;
+
+                    result = accomodationPackagesService.SaveAccomodationPackage(accomodationPackage);
+                }
+
+                if (result)
+                {
+                    return RedirectToAction("Index", new { AccomodationTypeID = model.AccomodationTypeID });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to perform action on Accomodation Package");
+                }
+
             }
-            else
-            {
-                AccomodationPackage accomodationPackage = new AccomodationPackage();
 
-                accomodationPackage.AccomodationTypeID = model.AccomodationTypeID;
-                accomodationPackage.Name = model.Name;
-                accomodationPackage.NoOfRoom = model.NoOfRoom;
-                accomodationPackage.FeePerNight = model.FeePerNight;
-
-                result = accomodationPackagesService.SaveAccomodationPackage(accomodationPackage);
-            }
-
-            if (result)
-            {
-                //json.Data = new { Success = true };
-                return RedirectToAction("Index", new { AccomodationTypeID = model.AccomodationTypeID });
-            }
-            else
-            {
-                //json.Data = new { Success = false, Message = "Unable to perform action on Accomodation Package" };
-                ModelState.AddModelError("", "Unable to perform action on Accomodation Package");
-                return RedirectToAction("Action");
-            }
+            return View("Action", model);
 
         }
 

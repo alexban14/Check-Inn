@@ -7,88 +7,60 @@
 @if (Model != null)
 {
     <div class="container">
-        <div class="row justify-content-center">
-            <h1 class="text-md my-3" id="exampleModalLabel">
-                @if(Model.ID > 0)
-                {
-                    <span>Edit Accommodation</span>
-
-                }
-                else
-                {
-                    <span>Create Accommodation</span>
-                }
-            </h1>
-        </div>
-
-        <div class="error-wrapper">
-
-        </div>
-
-        <form id="actionForm">
-            <input type="hidden" name="ID" value="@Model.ID" />
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="Name" id="name" placeholder="Enter Accomodation Type Name" value="@Model.Name" >
-                <label class="form-label" for="name">Name</label>
-            </div>
-            <div class="mb-3">
-                <!--<lable class="form-label" for="AccomodationTypeID">Select Accomodation Type</lable>-->
-                <select class="form-select" name="AccomodationPackageID" id="AccomodationPackageID">
-                    <option>Select an Accomodation Package</option>
-                    @if (Model.AccomodationPackages != null)
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <h4 class="text-md text-center my-3" id="exampleModalLabel">
+                    @if (Model.ID > 0)
                     {
-                        foreach (var accomodationPackage in Model.AccomodationPackages)
-                        {
-                            <option value="@accomodationPackage.ID" @(accomodationPackage.ID == Model.AccomodationPackageID ? "selected" : string.Empty) >
-                                @accomodationPackage.Name
-                            </option>
-                        }
+                        <span>Edit Accommodation</span>
+
                     }
-                </select>
+                    else
+                    {
+                        <span>Create Accommodation</span>
+                    }
+                </h4>
+                <hr />
+
+                @using (Html.BeginForm("Action", "Accomodations", FormMethod.Post, new { id = "actionForm" }))
+                {
+                    @Html.HiddenFor(m => m.ID)
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.Name, "Name", new { @class = "form-lable" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Enter Accomodation Name" })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.AccomodationPackageID, "Accomodation Package", new { @class = "form-lable" })
+                        @Html.DropDownListFor(m => m.AccomodationPackageID, new SelectList(Model.AccomodationPackages, "ID", "Name"), "Select an Accomodation Package", new { @class = "form-select" })
+                        @Html.ValidationMessageFor(m => m.AccomodationPackageID, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.Image, new { @class = "form-lable" })
+                        @Html.TextBoxFor(m => m.Image, new { @class = "form-control", placeholder = "Copy the link to the image" })
+                        @Html.ValidationMessageFor(m => m.Image, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.Description, "Description", new { @class = "form-lable" })
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-1"></i>Save changes
+                    </button>
+                }
             </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="Description" id="Description" placeholder="Enter Accomodation Type Name" value="@Model.Description">
-                <label class="form-label" for="Description">Description</label>
-            </div>
-            <button id="actionButton" class="btn btn-primary">
-                <i class="fa-solid fa-floppy-disk me-1"></i> Save changes
-            </button>
-        </form>
+
+            @if (!string.IsNullOrEmpty(Model.Image))
+            {
+                <div class="col-12 col-md-8 text-center">
+                    <h4 class="text-md my-3">Image Viewfinder</h4>
+                    <hr />
+
+                    <img src="@Model.Image" class="img-fluid" alt="@Model.Description" />
+                </div>
+            }
+        </div>
 
     </div>
 }
-
-<script>
-    document.getElementById("actionButton").addEventListener("click", function () {
-        console.log("create button clicked")
-        var form = document.getElementById("actionForm");
-        var formData = new FormData(form);
-        console.log(formData.entries)
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "@Url.Action("Action", "Accomodations")", true);
-
-        // Set up an event handler to handle the response
-        xhr.onreadystatechange = function () {
-            console.log(xhr.status, xhr.readyState);
-            if (xhr.readyState === 4) {
-                // Response received successfully
-                var response = JSON.parse(xhr.responseText);
-                if (response.Success)
-                {
-                    location.href = "@Url.Action("Index", "Accomodations")";
-                }
-                else
-                {
-                    var errorDiv = document.querySelector(".error-wrapper");
-                    errorDiv.innerHTML = response.Message;
-                }
-            }
-        };
-
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-
-        xhr.send(formData);
-    });
-</script>
-

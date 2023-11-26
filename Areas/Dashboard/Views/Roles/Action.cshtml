@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <h1 class="text-md my-3" id="exampleModalLabel">
-                @if(!string.IsNullOrEmpty(Model.ID))
+                @if (!string.IsNullOrEmpty(Model.ID))
                 {
                     <span>Edit Role</span>
 
@@ -25,16 +25,19 @@
 
         </div>
 
-        <form id="actionForm">
-            <input type="hidden" name="ID" value="@Model.ID" />
+        @using (Html.BeginForm("Action", "Roles", FormMethod.Post, new { id = "actionForm" }))
+        {
+            @Html.HiddenFor(m => m.ID)
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="Name" id="name" placeholder="Enter Role Name" value="@Model.Name" >
-                <label class="form-label" for="name">Name</label>
+                @Html.LabelFor(m => m.Name, "Name", new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
             </div>
-            <button id="actionButton" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary">
                 <i class="fa-solid fa-floppy-disk me-1"></i> Save changes
             </button>
-        </form>
+
+        }
 
     </div>
 }

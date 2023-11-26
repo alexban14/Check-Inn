@@ -1,0 +1,106 @@
+﻿@model Check_Inn.ViewModels.BookingActionModel
+@{
+    ViewBag.Title = "BookAccomodation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="site-hero overlay" style="background-image: url(@Model.AccomodationImage);" data-stellar-background-ratio="0.5">
+    <div class="container">
+        <div class="row site-hero-inner justify-content-center align-items-center">
+            <div class="col-md-10 text-center" data-aos="fade-up">
+                <h1 class="heading">Book accommodation</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section contact-section mt-0" id="next">
+    <div class="container">
+        <div class="row">
+            @if (TempData["BookingSucceded"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    We congratulate you for your choice! Your accommodation has been booked successfuly!
+                </div>
+            }
+            else if (TempData["BookingFailed"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    We are sorry! This accommodation is booked for the selected period.
+                </div>
+
+            }
+            <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
+                <div class="bg-white p-md-5 p-4 mb-5 border">
+                    @using (Html.BeginForm("BookAccomodation", "Accomodations", FormMethod.Post, new { id = "actionForm" }))
+                    {
+                        @Html.HiddenFor(m => m.AccomodationID)
+                        @Html.HiddenFor(m => m.AccomodationPackageName)
+                        @Html.HiddenFor(m => m.AccomodationFeePerNight)
+                        @Html.HiddenFor(m => m.AccomodationImage)
+                        @Html.HiddenFor(m => m.AccomodationName)
+                        @Html.HiddenFor(m => m.AccomodationDescription)
+                        @Html.HiddenFor(m => m.AccomodationPackageID)
+                        <div class="row mb-3">
+                            <div class="col-md-6 form-group">
+                                @Html.LabelFor(m => m.FromDate, "Check in Date", new { @class = "form-label" })
+                                <input type="date" name="FromDate" id="FromDate" class="form-control">
+                                @Html.ValidationMessageFor(m => m.FromDate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 form-group">
+                                @Html.LabelFor(m => m.Duration, "Duration of nights ", new { @class = "form-label" })
+                                @Html.DropDownListFor(m => m.Duration, new SelectList(Model.DurationList), "Select duration of stay", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(m => m.Duration, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 form-group">
+                                @Html.LabelFor(m => m.NoOfAdults, "No of Adults", new { @class = "form-label" })
+                                <input type="number" name="NoOfAdults" id="NoOfAdults" class="form-control">
+                                @Html.ValidationMessageFor(m => m.NoOfAdults, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 form-group">
+                                @Html.LabelFor(m => m.NoOfChildren, "No of Children", new { @class = "form-label" })
+                                <input type="number" name="NoOfChildren" id="NoOfChildren" class="form-control">
+                                @Html.ValidationMessageFor(m => m.NoOfChildren, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 form-group">
+                                @Html.LabelFor(m => m.GuestName, "Guest Name", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.GuestName, new { @class = "form-control w-100" })
+                                @Html.ValidationMessageFor(m => m.GuestName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 form-group">
+                                @Html.LabelFor(m => m.Email, "Guest Email", new { @class = "form-label" })
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control w-100" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 form-group">
+                                @Html.LabelFor(m => m.AdditionalInfo, "Additional Info", new { @class = "form-label" })
+                                @Html.TextAreaFor(m => m.AdditionalInfo, new { @class = "form-control w-100", placeholder = "Additional information to be taken into account for your stay" })
+                                @Html.ValidationMessageFor(m => m.AdditionalInfo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button class="btn btn-primary text-white font-weight-bold">
+                                Book
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-5" data-aos="fade-up" data-aos-delay="200">
+                <h2>@Model.AccomodationName</h2>
+                <h4 data-aos="fade-up" data-aos-delay="200">Package: @Model.AccomodationPackageName</h4>
+                <h4 class="text-uppercase letter-spacing-1">@Model.AccomodationFeePerNight $ / night</h4>
+                <p data-aos="fade-up" data-aos-delay="200">Descirption: @Model.AccomodationDescription</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+

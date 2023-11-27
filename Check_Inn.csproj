@@ -170,6 +170,7 @@
     <Compile Include="Areas\Dashboard\Controllers\AccomodationPackagesController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\AccomodationsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\AccomodationTypesController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\BookingsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\RolesController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\UsersController.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Areas\Dashboard\ViewModels\AccomodationPackagesModel.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\AccomodationsModel.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\AccomodationTypesModel.cs" />
+    <Compile Include="Areas\Dashboard\ViewModels\BookingModels.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\RolesViewModels.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\UserViewModels.cs" />
     <Compile Include="Controllers\AccomodationsController.cs" />
@@ -331,6 +333,10 @@
     <Content Include="Content\fonts\ionicons\fonts\ionicons.eot" />
     <Content Include="Content\fonts\ionicons\fonts\ionicons.ttf" />
     <Content Include="Content\fonts\ionicons\fonts\ionicons.woff" />
+    <Content Include="Areas\Dashboard\Views\Bookings\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Bookings\_Listing.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Bookings\Action.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Bookings\Delete.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

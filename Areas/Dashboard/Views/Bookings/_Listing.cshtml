@@ -1,0 +1,92 @@
+﻿@model Check_Inn.Areas.Dashboard.ViewModels.BookingsListingModel
+
+@if (Model != null && Model.Bookings.Count() > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Accomodation</th>
+                <th scope="col">From Date</th>
+                <th scope="col">Duration of stay</th>
+                <th scope="col">Guest Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (Check_Inn.Entities.Booking booking in Model.Bookings)
+            {
+                <tr>
+                    <td>
+                        @if (booking.Accomodation != null)
+                        {
+                            @booking.Accomodation.Name
+                        }
+                    </td>
+                    <td>
+                        @booking.FromDate
+                    </td>
+                    <td>
+                        @booking.Duration
+                    </td>
+                    <td>
+                        @booking.GuestName
+                    </td>
+                    <td>
+                        @booking.Email
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Action", "Bookings", new { ID = booking.ID })" id="editButton" type="button" class="btn btn-success">
+                            <i class="fa-solid fa-pen me-1"></i> Edit
+                        </a>
+                        <a href="@Url.Action("Delete", "Bookings", new { ID = booking.ID })" type="button" class="btn btn-danger">
+                            <i class="fa-solid fa-trash me-1"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    if (Model.Pager.EndPage > 1)
+    {
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @if (Model.Pager.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Bookings")"><i class="fa-solid fa-angles-left me-2"></i>First Page</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Bookings", new { page = Model.Pager.CurrentPage - 1, searchTerm = Model.SearchTerm, AccomodationID = Model.AccomodationID })"><i class="fa-solid fa-angle-left me-2"></i>Previous</a>
+                    </li>
+                }
+
+                @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                {
+                    <li class="page-item @(page == Model.Pager.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", "Bookings", new { page = page, searchTerm = Model.SearchTerm, AccomodationID = Model.AccomodationID })">@page</a>
+                    </li>
+                }
+
+                @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Bookings", new { page = Model.Pager.CurrentPage + 1 })">Next Page<i class="fa-solid fa-angle-right ms-2"></i></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Bookings", new { page = Model.Pager.TotalPages })">Last Page<i class="fa-solid fa-angles-right ms-2"></i></a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        There are no records!
+    </div>
+}

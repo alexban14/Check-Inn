@@ -15,8 +15,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         {
             if (User.IsInRole("Admin"))
             {
-                return View();
-
+                return RedirectToAction("Index", "AccomodationTypes");
             }
             else
             {

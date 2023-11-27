@@ -29,22 +29,22 @@ namespace Check_Inn.Services
 
         public IEnumerable<Booking> SearchBooking(string searchTerm, int? AccomodationID, int? page, int? recordSize)
         {
-            IEnumerable<Booking> accomodationPackages = context.Bookings.AsQueryable();
+            IEnumerable<Booking> bookings = context.Bookings.AsQueryable();
 
             if(!string.IsNullOrEmpty(searchTerm))
             {
-                accomodationPackages = accomodationPackages.Where(a => a.GuestName.ToLower().Contains(searchTerm.ToLower()) );
+                bookings = bookings.Where(a => a.GuestName.ToLower().Contains(searchTerm.ToLower()) );
             }
 
             if (AccomodationID.HasValue && AccomodationID > 0)
             {
-                accomodationPackages = accomodationPackages.Where(a => a.AccomodationID == AccomodationID.Value);
+                bookings = bookings.Where(a => a.AccomodationID == AccomodationID.Value);
             }
 
             var skip = (page - 1) * recordSize;
 
-            return accomodationPackages
-                .OrderBy(x => x.AccomodationID)
+            return bookings
+                .OrderBy(x => x.FromDate)
                 .Skip((int)skip)
                 .Take((int)recordSize)
                 .ToList();
@@ -52,19 +52,19 @@ namespace Check_Inn.Services
 
         public int SearchBookingCount(string searchTerm, int? AccomodationID)
         {
-            IEnumerable<Booking> accomodationPackages = context.Bookings.AsQueryable();
+            IEnumerable<Booking> bookings = context.Bookings.AsQueryable();
 
             if(!string.IsNullOrEmpty(searchTerm))
             {
-                accomodationPackages = accomodationPackages.Where(a => a.GuestName.ToLower().Contains(searchTerm.ToLower()) );
+                bookings = bookings.Where(a => a.GuestName.ToLower().Contains(searchTerm.ToLower()) );
             }
 
             if (AccomodationID.HasValue && AccomodationID > 0)
             {
-                accomodationPackages = accomodationPackages.Where(a => a.AccomodationID == AccomodationID.Value);
+                bookings = bookings.Where(a => a.AccomodationID == AccomodationID.Value);
             }
 
-            return accomodationPackages.Count();
+            return bookings.Count();
         }
 
         public Booking GetBookingByID(int ID)

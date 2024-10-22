@@ -13,14 +13,7 @@ namespace Check_Inn.Areas.Dashboard.Controllers
         // GET: Dashboard/Dashboard
         public ActionResult Index()
         {
-            if (User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "AccomodationTypes");
-            }
-            else
-            {
-                return Redirect("/");
-            }
+            return RedirectToAction("Index", "AccomodationTypes");
         }
     }
 }

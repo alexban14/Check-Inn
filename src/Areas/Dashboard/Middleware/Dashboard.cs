@@ -9,7 +9,7 @@ namespace Check_Inn.Areas.Dashboard.Middleware
 {
     public class Dashboard
     {
-        public static void RegisterIndexMiddleware(IAppBuilder app)
+        public static void RegisterMiddleware(IAppBuilder app)
         {
             app.Use(async (context, next) =>
             {
@@ -29,21 +29,72 @@ namespace Check_Inn.Areas.Dashboard.Middleware
 
         private static bool IsUserAuthorized(IOwinContext context)
         {
-            var user = context.Authentication.User;
-
-            if (!user.Identity.IsAuthenticated)
+            if (!IsAuthenticated(context))
             {
-                context.Response.Redirect("/Account/Login");
+                RedirectToLogin(context);
                 return false;
             }
-            else if (!user.IsInRole("Admin"))
+
+            var requestPath = context.Request.Path.Value;
+
+            if (IsAdminOnlyRoute(requestPath) && !IsAdmin(context))
             {
-                // TODO: implement route & page not found
-                context.Response.Redirect("/Home/PageNotFound");
+                RedirectToPageNotFound(context);
+                return false;
+            }
+
+            if (IsManagerOrAdminRoute(requestPath) && !IsManagerOrAdmin(context))
+            {
+                RedirectToPageNotFound(context);
                 return false;
             }
 
             return true;
+        }
+
+        private static bool IsAuthenticated(IOwinContext context)
+        {
+            return context.Authentication.User.Identity.IsAuthenticated;
+        }
+
+        private static void RedirectToLogin(IOwinContext context)
+        {
+            context.Response.Redirect("/Account/Login");
+        }
+
+        private static bool IsAdminOnlyRoute(string requestPath)
+        {
+            return requestPath.StartsWith("/Dashboard/Roles") || requestPath.StartsWith("/Dashboard/Users");
+        }
+
+        private static bool IsAdmin(IOwinContext context)
+        {
+            return context.Authentication.User.IsInRole("Admin");
+        }
+
+        private static bool IsManagerOrAdminRoute(string requestPath)
+        {
+            return requestPath.StartsWith("/Dashboard/AccomodationTypes") ||
+                   requestPath.StartsWith("/Dashboard/AccomodationPackages") ||
+                   requestPath.StartsWith("/Dashboard/Accomodations") ||
+                   requestPath.StartsWith("/Dashboard/Bookings");
+        }
+
+        private static bool IsManagerOrAdmin(IOwinContext context)
+        {
+            var user = context.Authentication.User;
+            return user.IsInRole("Admin") || user.IsInRole("HotelManager") || user.IsInRole("AccomodationManager");
+        }
+
+        private static void RedirectToPageNotFound(IOwinContext context)
+        {
+            if (IsManagerOrAdmin(context))
+            {
+                context.Response.Redirect("/Dashboard/AdminPageNotFound");
+            } else
+            {
+                context.Response.Redirect("/PageNotFound");
+            }
         }
     }
 }

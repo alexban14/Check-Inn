@@ -14,7 +14,7 @@ namespace Check_Inn
         {
             ConfigureAuth(app);
 
-            Dashboard.RegisterIndexMiddleware(app);
+            Dashboard.RegisterMiddleware(app);
         }
     }
 }

@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>@ViewBag.Title - Check Inn</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/Content/fonts/fontawesome/css/font-awesome.min.css">
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    @Styles.Render("~/Content/css")
+
+    @Styles.Render("~/Areas/Dashboard/Content/css/styles.css")
+</head>
+    <body>
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+                <div class="sidebar-heading border-bottom bg-light">
+                    <a href="/"" class="list-group-item list-group-item-action list-group-item-light">
+                        <i class="fa-solid fa-hotel me-2"></i> Check Inn
+                    </a>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="@Url.Action("Index", "AccomodationTypes")" class="list-group-item list-group-item-action list-group-item-light p-3" >
+                       <i class="fa-solid fa-building me-2"></i> Accommodation Types
+                    </a>
+                    <a href="@Url.Action("Index", "AccomodationPackages")" class="list-group-item list-group-item-action list-group-item-light p-3" >
+                       <i class="fa-solid fa-cubes me-2"></i> Accommodation Packages
+                    </a>
+                    <a href="@Url.Action("Index", "Accomodations")" class="list-group-item list-group-item-action list-group-item-light p-3" >
+                       <i class="fa-solid fa-map-pin me-2"></i> Accommodations
+                    </a>
+                    <a href="@Url.Action("Index", "Bookings")" class="list-group-item list-group-item-action list-group-item-light p-3" >
+                       <i class="fa-solid fa-book-bookmark me-2"></i> Bookings
+                    </a>
+                    <a href="@Url.Action("Index", "Roles")" class="list-group-item list-group-item-action list-group-item-light p-3" >
+                       <i class="fa-solid fa-user-gear me-2"></i> Roles
+                    </a>
+                    <a href="@Url.Action("Index", "Users")" class="list-group-item list-group-item-action list-group-item-light p-3" >
+                       <i class="fa-solid fa-users me-2"></i> Users
+                    </a>
+                </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                    <div class="container-fluid">
+                        <button class="btn btn-primary" id="sidebarToggle">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">
+                                        <i class="fa-solid fa-right-from-bracket me-2"></i>Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- Page content-->
+                <div class="container-fluid">
+                    
+                    @RenderBody()
+
+                </div>
+            </div>
+        </div>
+
+
+        @using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+        }
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+
+        <!-- Core theme JS-->
+        <script type="text/javascript" src="~/Areas/Dashboard/Content/js/script.js"></script>
+
+        <script>
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+        </script>
+    </body>
+</html>

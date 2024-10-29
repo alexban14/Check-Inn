@@ -1,0 +1,85 @@
+﻿@model Check_Inn.Areas.Dashboard.ViewModels.BookingActionModel
+
+@{
+    ViewBag.Title = "Action";
+    Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
+}
+@if (Model != null)
+{
+    <div class="container">
+        <div class="row justify-content-center">
+            <h1 class="text-md my-3" id="exampleModalLabel">
+                @if (Model.ID > 0)
+                {
+                    <span>Edit Booking</span>
+                }
+                else
+                {
+                    <span>Create Booking</span>
+                }
+            </h1>
+        </div>
+
+        <div class="error-wrapper">
+
+        </div>
+
+        @using (Html.BeginForm("Action", "Bookings", FormMethod.Post, new { id = "actionForm" }))
+        {
+            @Html.HiddenFor(m => m.ID)
+            <div class="mb-3">
+                @Html.LabelFor(m => m.AccomodationID, "Duration of nights ", new { @class = "form-label" })
+                @Html.DropDownListFor(m => m.AccomodationID, new SelectList(Model.Accomodations, "ID", "Name"), "Select an Accomodation", new { @class = "form-select" })
+                @Html.ValidationMessageFor(m => m.AccomodationID, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.FromDate, "Check in Date", new { @class = "form-label" })
+                <p>@Model.FromDate</p>
+                <input value="@Model.FromDate" type="date" name="FromDate" id="FromDate" class="form-control">
+                @Html.ValidationMessageFor(m => m.FromDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Duration, "Duration of nights ", new { @class = "form-label" })
+                @Html.DropDownListFor(m => m.Duration, new SelectList(Model.DurationList), "Select duration of stay", new { @class = "form-select" })
+                @Html.ValidationMessageFor(m => m.Duration, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.NoOfAdults, "No of Adults", new { @class = "form-label" })
+                <input value="@Model.NoOfAdults" type="number" name="NoOfAdults" id="NoOfAdults" class="form-control">
+                @Html.ValidationMessageFor(m => m.NoOfAdults, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.NoOfChildren, "No of Children", new { @class = "form-label" })
+                <input value="@Model.NoOfChildren" type="number" name="NoOfChildren" id="NoOfChildren" class="form-control">
+                @Html.ValidationMessageFor(m => m.NoOfChildren, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.GuestName, "Guest Name", new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.GuestName, new { @class = "form-control w-100" })
+                @Html.ValidationMessageFor(m => m.GuestName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Email, "Guest Email", new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control w-100" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(m => m.AdditionalInfo, "Additional Info", new { @class = "form-label" })
+                @Html.TextAreaFor(m => m.AdditionalInfo, new { @class = "form-control w-100", placeholder = "Additional information to be taken into account for your stay" })
+                @Html.ValidationMessageFor(m => m.AdditionalInfo, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk me-1"></i> Save changes
+            </button>
+        }
+    </div>
+}
+

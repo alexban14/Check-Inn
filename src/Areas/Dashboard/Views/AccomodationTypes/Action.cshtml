@@ -1,0 +1,59 @@
+﻿@model Check_Inn.Areas.Dashboard.ViewModels.AccomodationTypeActionModel
+@{
+    ViewBag.Title = "Action";
+    Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
+}
+@if (Model != null)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <h4 class="text-md text-center my-3" id="exampleModalLabel">
+                    @if (Model.ID > 0)
+                    {
+                        <span>Edit Accommodation Type</span>
+                    }
+                    else
+                    {
+                        <span>Create Accommodation Type</span>
+                    }
+                </h4>
+                <hr />
+
+                @using (Html.BeginForm("Action", "AccomodationTypes", FormMethod.Post, new { id = "actionForm" }))
+                {
+                    @Html.HiddenFor(m => m.ID)
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.Name, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Enter Accomodation Type Name" })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.Image, new { @class = "form-lable" })
+                        @Html.TextBoxFor(m => m.Image, new { @class = "form-control", placeholder = "Copy the link to the image" })
+                        @Html.ValidationMessageFor(m => m.Image, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(m => m.Description, new { @class = "form-lable" })
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Save changes
+                    </button>
+                }
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Image))
+            {
+                <div class="col-12 col-md-8 text-center">
+                    <h4 class="text-md my-3">Image Viewfinder</h4>
+                    <hr />
+
+                    <img src="@Model.Image" class="img-fluid" alt="@Model.Description" />
+                </div>
+            }
+        </div>
+
+    </div>
+}

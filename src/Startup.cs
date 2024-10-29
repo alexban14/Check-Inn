@@ -1,5 +1,4 @@
-﻿using Check_Inn.Areas.Middleware;
-using Microsoft.AspNet.Identity;
+﻿using Check_Inn.Areas.Dashboard.Middleware;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;

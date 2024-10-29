@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Check_Inn.Areas.Middleware
+namespace Check_Inn.Areas.Dashboard.Middleware
 {
     public class Dashboard
     {

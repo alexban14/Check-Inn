@@ -48,6 +48,7 @@
                                     <div class="col-md-6">
                                         <ul class="list-unstyled menu">
                                             <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                                            <li>@Html.ActionLink("Rooms", "Rooms", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                                             <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                                             <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                                         </ul>
@@ -59,13 +60,6 @@
                                             {
                                                 <li>@Html.ActionLink("Dashboard", "Index", "Dashboard", new { area = "" }, new { @class = "nav-link" })</li>
                                             }
-                                            @*
-        else
-        {
-            <li>@Html.ActionLink("Dashboard", "Index", "Dashboard", new { area = "" }, new { @class = "nav-link" })</li>
-        }
-
-                                            *@
                                         </ul>
                                         @Html.Partial("_LoginPartial")
                                     </div>

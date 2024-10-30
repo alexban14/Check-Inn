@@ -80,7 +80,7 @@ namespace Check_Inn.Areas.Dashboard.Middleware
                    requestPath.StartsWith("/Dashboard/Bookings");
         }
 
-        private static bool IsManagerOrAdmin(IOwinContext context)
+        public static bool IsManagerOrAdmin(IOwinContext context)
         {
             var user = context.Authentication.User;
             return user.IsInRole("Admin") || user.IsInRole("HotelManager") || user.IsInRole("AccomodationManager");

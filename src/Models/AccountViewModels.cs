@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Dynamic;
 
 namespace Check_Inn.Models
 {
@@ -65,9 +66,39 @@ namespace Check_Inn.Models
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(40, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 5)]
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 5)]
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 5)]
+        [Display(Name = "Country")]
+        public string Country { get; set; }
+
+        [Required]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 5)]
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 5)]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

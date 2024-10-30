@@ -153,7 +153,16 @@ namespace Check_Inn.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.Email, Email = model.Email };
+                var user = new User 
+                { 
+                    FullName = model.FullName,
+                    Email = model.Email,
+                    UserName = model.UserName,
+                    PhoneNumber = model.PhoneNumber,
+                    Country = model.Country,
+                    City = model.City,
+                    Address = model.Address
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

@@ -33,5 +33,5 @@ jobs:
       run: nuget restore src/Check_Inn.sln
     
     - name: Build the Solution
-      run: msbuild src/Check_Inn.sln
+      run: msbuild src/Check_Inn.sln /p:Configuration=Release
     

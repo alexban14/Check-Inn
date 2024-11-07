@@ -339,7 +339,6 @@
     <Content Include="Content\fonts\fontawesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\fontawesome\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\fonts\ionicons\.DS_Store" />
     <Content Include="Content\fonts\ionicons\fonts\ionicons.eot" />
     <Content Include="Content\fonts\ionicons\fonts\ionicons.ttf" />
     <Content Include="Content\fonts\ionicons\fonts\ionicons.woff" />

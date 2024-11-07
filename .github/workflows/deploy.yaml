@@ -35,11 +35,11 @@ jobs:
       run: nuget restore src/Check_Inn.sln
     
     - name: Build the Solution
-      run: msbuild src/Check_Inn.sln /p:Configuration=Release
+      run: msbuild src/Check_Inn.sln /p:Configuration=Release /p:DeployOnBuild=true /p:OutputPath=src/Check_Inn/bin/Release/publish
       
     - name: 'Deploy to Azure Web App Service'
       uses: azure/webapps-deploy@v3
       with:
         app-name: check-inn
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: './Check_Inn/'
+        package: 'src/Check_Inn/bin/Release/publish'

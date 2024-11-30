@@ -20,7 +20,7 @@ namespace Check_Inn.Services
 
         public static CheckInnUserManager Create(IdentityFactoryOptions<CheckInnUserManager> options, IOwinContext context) 
         {
-            var manager = new CheckInnUserManager(new UserStore<User>(context.Get<CheckInnContext>()));
+            var manager = new CheckInnUserManager(new UserStore<User>(context.Get<CheckInnMySqlContext>()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<User>(manager)
             {

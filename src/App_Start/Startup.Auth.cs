@@ -19,7 +19,7 @@ namespace Check_Inn
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(CheckInnContext.Create);
+            app.CreatePerOwinContext(CheckInnMySqlContext.Create);
             app.CreatePerOwinContext<CheckInnUserManager>(CheckInnUserManager.Create);
             app.CreatePerOwinContext(() => CheckInnSignInManager.Create(new IdentityFactoryOptions<CheckInnUserManager>(), HttpContext.Current.GetOwinContext()));
             app.CreatePerOwinContext<CheckInnRoleManager>(CheckInnRoleManager.Create);

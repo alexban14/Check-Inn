@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,11 +13,11 @@ namespace Check_Inn.Entities
 {
     public class DatabaseSeeder
     {
-        private readonly CheckInnContext _context;
+        private readonly DbContext _context;
         private readonly CheckInnUserManager _userManager;
         private readonly CheckInnRoleManager _roleManager;
 
-        public DatabaseSeeder(CheckInnContext context, CheckInnUserManager userManager, CheckInnRoleManager roleManager)
+        public DatabaseSeeder(DbContext context, CheckInnUserManager userManager, CheckInnRoleManager roleManager)
         {
             _context = context;
             _userManager = userManager;

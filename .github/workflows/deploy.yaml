@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request 
@@ -10,22 +8,18 @@ on:
   pull_request:
     branches: [ master ]
   workflow_dispatch:
-    
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: [windows-2019]
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-      
+
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
-    
+
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1
       with:
@@ -35,16 +29,29 @@ jobs:
       run: |
         Get-ChildItem -Path . -Recurse -Include .DS_Store | Remove-Item -Force
       shell: pwsh
-    
+
     - name: Restore NuGet packages
       run: nuget restore src/Check_Inn.sln
-    
+
     - name: Build the Solution
       run: |
         msbuild src/Check_Inn.sln `
           /p:Configuration=Release `
           /p:DeployOnBuild=true `
           /p:PublishProfile=FolderProfile 
+
+    - name: Setup EF Tools
+      run: |
+        nuget install EntityFramework -Version 6.5.1 -OutputDirectory ./tools
+      shell: pwsh
+
+    - name: Run Migrations
+      run: |
+        $EfToolPath = "./tools/EntityFramework.6.5.1/tools/net40/any"
+        $DllPath = "./src/bin/check_inn.publish/CheckInn.dll"
+        & "$EfToolPath/ef6.exe" database update `
+        --assembly:$DllPath
+      shell: pwsh
 
     - name: 'Deploy to Azure Web App Service'
       uses: azure/webapps-deploy@v3

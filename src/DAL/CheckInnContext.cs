@@ -10,7 +10,7 @@ namespace Check_Inn.DAL
 {
     public class CheckInnSqlServerContext: IdentityDbContext<User>
     {
-        public CheckInnSqlServerContext() : base("DefaultConnection") 
+        public CheckInnSqlServerContext() : base("MySqlConnection") 
         {
         }
         public static CheckInnSqlServerContext Create()

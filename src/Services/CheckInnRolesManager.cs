@@ -16,7 +16,7 @@ namespace Check_Inn.Services
 
         public static CheckInnRoleManager Create(IdentityFactoryOptions<CheckInnRoleManager> options, IOwinContext context)
         {
-            return new CheckInnRoleManager(new RoleStore<IdentityRole>(context.Get<CheckInnContext>()));
+            return new CheckInnRoleManager(new RoleStore<IdentityRole>(context.Get<CheckInnMySqlContext>()));
         }
     }
 }

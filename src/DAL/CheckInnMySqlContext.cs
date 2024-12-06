@@ -1,5 +1,7 @@
 ﻿using Check_Inn.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
+using MySql.Data.EntityFramework;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,16 +10,17 @@ using System.Web;
 
 namespace Check_Inn.DAL
 {
-    public class CheckInnSqlServerContext: IdentityDbContext<User>
+    [DbConfigurationType(typeof(MySqlEFConfiguration))]
+    public class CheckInnMySqlContext: IdentityDbContext<User>
     {
-        public CheckInnSqlServerContext() : base("MySqlConnection") 
+        public CheckInnMySqlContext() : base ("MySqlConnection")
         {
-        }
-        public static CheckInnSqlServerContext Create()
-        {
-            return new CheckInnSqlServerContext();
         }
 
+        public static CheckInnMySqlContext Create()
+        {
+            return new CheckInnMySqlContext();
+        }
         public DbSet<AccomodationType> AccomodationTypes { get; set; }
         public DbSet<AccomodationPackage> AccomodationPackages { get; set; }
         public DbSet<Accomodation> Accomodations { get; set; }

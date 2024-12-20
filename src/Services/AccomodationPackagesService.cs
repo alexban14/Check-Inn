@@ -9,11 +9,11 @@ namespace Check_Inn.Services
 {
     public class AccomodationPackagesService
     {
-        private CheckInnContext context;
+        private CheckInnMySqlContext context;
 
         public AccomodationPackagesService()
         {
-            context = new CheckInnContext();
+            context = new CheckInnMySqlContext();
         }
         
         public IEnumerable<AccomodationPackage> GetAllAcomodationPackages()
@@ -68,7 +68,7 @@ namespace Check_Inn.Services
 
         public AccomodationPackage GetAccomodationPackageByID(int ID)
         {
-            using (CheckInnContext context = new CheckInnContext())
+            using (CheckInnMySqlContext context = new CheckInnMySqlContext())
             { 
                 return context.AccomodationPackages.Find(ID);
             }

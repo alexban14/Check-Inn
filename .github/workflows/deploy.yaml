@@ -8,7 +8,7 @@ on:
   pull_request:
     branches: [ master ]
   workflow_dispatch:
-    
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
@@ -16,10 +16,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      
+
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1
-    
+
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1
       with:
@@ -29,10 +29,10 @@ jobs:
       run: |
         Get-ChildItem -Path . -Recurse -Include .DS_Store | Remove-Item -Force
       shell: pwsh
-    
+
     - name: Restore NuGet packages
       run: nuget restore src/Check_Inn.sln
-    
+
     - name: Build the Solution
       run: |
         msbuild src/Check_Inn.sln `

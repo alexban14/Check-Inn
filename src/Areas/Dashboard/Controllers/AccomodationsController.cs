@@ -104,7 +104,17 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 
             }
 
-            return View("Action", model);
+            AccomodationActionModel actionModel = new AccomodationActionModel
+            {
+                ID = model.ID,
+                AccomodationPackageID = model.AccomodationPackageID,
+                Name = model.Name,
+                Image = model.Image,
+                Description = model.Description,
+                AccomodationPackages = accomodationPackagesService.GetAllAcomodationPackages()
+            };
+
+            return View("Action", actionModel);
         }
 
         // GET: Dashboard/Accomodations/Delete/5

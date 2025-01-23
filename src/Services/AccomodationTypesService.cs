@@ -9,11 +9,11 @@ namespace Check_Inn.Services
 {
     public class AccomodationTypesService
     {
-        CheckInnContext context;
+        private CheckInnMySqlContext context;
 
         public AccomodationTypesService()
         {
-            context = new CheckInnContext();
+            context = new CheckInnMySqlContext();
         }
         public IEnumerable<AccomodationType> GetAllAccomodationTypes()
         {

@@ -27,13 +27,31 @@ namespace Check_Inn.Services
             return context.Bookings.Where(x => x.AccomodationID == accomodationID).ToList();
         }
 
+        public IEnumerable<Booking> GetBookingsByUserEmail(string email, int? page = 1, int? recordSize = 10)
+        {
+            var bookings = context.Bookings.Where(b => b.Email == email);
+
+            int skip = (page.Value - 1) * recordSize.Value;
+            return bookings
+                .OrderByDescending(x => x.FromDate)
+                .Skip(skip)
+                .Take(recordSize.Value)
+                .Include(b => b.Accomodation)
+                .ToList();
+        }
+
+        public int GetBookingCountByUserEmail(string email)
+        {
+            return context.Bookings.Count(b => b.Email == email);
+        }
+
         public IEnumerable<Booking> SearchBooking(string searchTerm, int? AccomodationID, int? page, int? recordSize)
         {
             IEnumerable<Booking> bookings = context.Bookings.AsQueryable();
 
-            if(!string.IsNullOrEmpty(searchTerm))
+            if (!string.IsNullOrEmpty(searchTerm))
             {
-                bookings = bookings.Where(a => a.GuestName.ToLower().Contains(searchTerm.ToLower()) );
+                bookings = bookings.Where(a => a.GuestName.ToLower().Contains(searchTerm.ToLower()));
             }
 
             if (AccomodationID.HasValue && AccomodationID > 0)
@@ -101,9 +119,16 @@ namespace Check_Inn.Services
             DateTime toDate = fromDate.AddDays(duration - 1);
 
             var overlappingBookings = context.Bookings
+                .Where(b => b.AccomodationID == accomodationID)
+                .ToList() // Fetch all bookings for the given accommodation in memory
+                .Where(b => !(fromDate > b.FromDate.AddDays(b.Duration - 1) || toDate < b.FromDate))
+                .ToList();
+
+            /*
                 .Where(b => b.AccomodationID == accomodationID &&
                             !(fromDate > DbFunctions.AddDays(b.FromDate, b.Duration - 1) || toDate < b.FromDate))
                 .ToList();
+            */
 
             return overlappingBookings.Count == 0;
         }

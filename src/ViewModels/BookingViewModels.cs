@@ -6,6 +6,21 @@ using System.Web;
 
 namespace Check_Inn.ViewModels
 {
+    public class BookingsListViewModel
+    {
+        public IEnumerable<Booking> Bookings { get; set; }
+        public int TotalCount { get; set; }
+        public int CurrentPage { get; set; }
+        public int RecordSize { get; set; }
+        public int TotalPages
+        {
+            get
+            {
+                return (int)Math.Ceiling((double)TotalCount / RecordSize);
+            }
+        }
+    }
+
     public class BookingViewModel
     {
         public AccomodationPackage AccomodationPackage { get; set; }

@@ -1,6 +1,8 @@
 ﻿using Check_Inn.Services;
 using Check_Inn.ViewModels;
+using Check_Inn.Entities;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,24 +11,36 @@ using System.Web.Mvc;
 
 namespace Check_Inn.Controllers
 {
+    [Authorize]
     public class BookingController : Controller
     {
         private BookingsService _bookingService;
 
-        public BookingController(BookingsService bookingsService)
+        public BookingController()
         {
-            _bookingService = bookingsService;
+            _bookingService = new BookingsService();
         }
 
-        // GET: Book
+        private CheckInnUserManager _userManager;
+        public CheckInnUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<CheckInnUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
         public ActionResult Index(int? page = 1, int? recordSize = 10)
         {
-            // Get current user's email from Identity
-            string userEmail = User.Identity.GetUserName(); // In ASP.NET Identity, username is typically the email
+            string userId = User.Identity.GetUserId();
+            User user = UserManager.FindById(userId);
             
-            // Create a view model to hold the booking data
-            var bookings = _bookingService.GetBookingsByUserEmail(userEmail, page, recordSize);
-            var totalBookings = _bookingService.GetBookingCountByUserEmail(userEmail);
+            var bookings = _bookingService.GetBookingsByUserEmail(user.Email, page, recordSize);
+            var totalBookings = _bookingService.GetBookingCountByUserEmail(user.Email);
             
             var model = new BookingsListViewModel
             {
@@ -43,13 +57,64 @@ namespace Check_Inn.Controllers
         {
             var booking = _bookingService.GetBookingByID(id);
             
-            // Check if booking exists and belongs to current user
-            if (booking == null || booking.Email != User.Identity.GetUserName())
+            string userId = User.Identity.GetUserId();
+            User user = UserManager.FindById(userId);
+
+            if (booking == null || booking.Email != user.Email)
             {
                 return HttpNotFound();
             }
             
+            return View("Details", booking);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var booking = _bookingService.GetBookingByID(id);
+
+            string userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+            string userEmail = user.Email;
+
+            if (booking == null || booking.Email != userEmail)
+            {
+                return HttpNotFound();
+            }
+
+            if (booking.FromDate.Date < DateTime.Now.Date)
+            {
+                TempData["ErrorMessage"] = "Past bookings cannot be cancelled.";
+                return RedirectToAction("Details", new { id = id });
+            }
+
             return View(booking);
+        }
+
+        // POST: Book/Delete/5
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            var booking = _bookingService.GetBookingByID(id);
+
+            string userId = User.Identity.GetUserId();
+            var user = UserManager.FindById(userId);
+            string userEmail = user.Email;
+
+            if (booking == null || booking.Email != userEmail)
+            {
+                return HttpNotFound();
+            }
+
+            if (booking.FromDate.Date < DateTime.Now.Date)
+            {
+                TempData["ErrorMessage"] = "Past bookings cannot be cancelled.";
+                return RedirectToAction("Details", new { id = id });
+            }
+
+            _bookingService.DeleteBooking(booking);
+
+            TempData["SuccessMessage"] = "Your booking has been successfully cancelled.";
+            return RedirectToAction("Index");
         }
     }
 }

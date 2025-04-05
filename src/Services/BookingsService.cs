@@ -87,10 +87,7 @@ namespace Check_Inn.Services
 
         public Booking GetBookingByID(int ID)
         {
-            using (CheckInnMySqlContext context = new CheckInnMySqlContext())
-            { 
-                return context.Bookings.Find(ID);
-            }
+            return context.Bookings.Find(ID);
         }
 
         public bool SaveBooking(Booking booking)

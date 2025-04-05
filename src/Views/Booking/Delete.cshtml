@@ -1,0 +1,78 @@
+﻿@model Check_Inn.Entities.Booking
+
+@{
+    ViewBag.Title = "Cancel Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="site-hero inner-page overlay" style="background-image: url('@Url.Content("~/Content/Images/hero_4.jpg")')" data-stellar-background-ratio="0.5">
+    <div class="container">
+        <div class="row site-hero-inner justify-content-center align-items-center">
+            <div class="col-md-10 text-center" data-aos="fade">
+                <h1 class="heading mb-3">Cancel Booking</h1>
+                <ul class="custom-breadcrumbs mb-4">
+                    <li><a href="@Url.Action("Index", "Home")">Home</a></li>
+                    <li>&bullet;</li>
+                    <li><a href="@Url.Action("Index", "Booking")">My Bookings</a></li>
+                    <li>&bullet;</li>
+                    <li>Cancel Booking</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <a class="mouse smoothscroll" href="#next">
+        <div class="mouse-icon">
+            <span class="mouse-wheel"></span>
+        </div>
+    </a>
+</section>
+<!-- END section -->
+
+<section class="section" id="next">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="p-5 bg-light">
+                    <h3 class="mb-4 text-center">Are you sure you want to cancel this booking?</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <strong class="text-primary">Accommodation:</strong>
+                            <p>@Model.Accomodation.Name</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong class="text-primary">Check-in Date:</strong>
+                            <p>@Model.FromDate.ToLongDateString()</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <strong class="text-primary">Duration:</strong>
+                            <p>@Model.Duration night(s)</p>
+                        </div>
+                        <div class="col-md-6">
+                            <strong class="text-primary">Guests:</strong>
+                            <p>@Model.NoOfAdults adult(s), @Model.NoOfChildren children</p>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-warning mt-4">
+                        <p>Please note: Cancellation is final and cannot be undone.</p>
+                    </div>
+                    
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="form-actions mt-4 text-center">
+                            <a href="@Url.Action("Details", "Book", new { id = Model.ID })" class="btn btn-secondary mr-2">Go Back</a>
+                            <button type="submit" class="btn btn-danger">Confirm Cancellation</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

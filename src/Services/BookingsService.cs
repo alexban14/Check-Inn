@@ -127,7 +127,9 @@ namespace Check_Inn.Services
                 .ToList();
             */
 
-            return overlappingBookings.Count == 0;
+            bool bookingsOverlap = overlappingBookings.Count < 1;
+
+            return bookingsOverlap;
         }
     }
 }

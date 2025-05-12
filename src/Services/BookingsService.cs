@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Check_Inn.Services
@@ -11,10 +12,12 @@ namespace Check_Inn.Services
     public class BookingsService
     {
         private CheckInnMySqlContext context;
+        private EmailService _emailService;
 
         public BookingsService()
         {
             context = new CheckInnMySqlContext();
+            _emailService = new EmailService();
         }
         
         public IEnumerable<Booking> GetAllAcomodationPackages()
@@ -93,8 +96,14 @@ namespace Check_Inn.Services
         public bool SaveBooking(Booking booking)
         {
             context.Bookings.Add(booking);
+            bool saved = context.SaveChanges() > 0;
 
-            return context.SaveChanges() > 0;
+            if (saved)
+            {
+                SendBookingConfirmationEmail(booking);
+            }
+
+            return saved;
         }
 
         public bool UpdateBooking(Booking booking)
@@ -117,9 +126,25 @@ namespace Check_Inn.Services
 
             var overlappingBookings = context.Bookings
                 .Where(b => b.AccomodationID == accomodationID)
+                .ToList()
+                .Where(b =>
+                    fromDate <= b.FromDate.AddDays(b.Duration - 1) &&
+                    toDate >= b.FromDate
+                );
+
+            return !overlappingBookings.Any();
+
+            /*
+            var overlappingBookings = context.Bookings
+                .Where(b => b.AccomodationID == accomodationID)
                 .ToList() // Fetch all bookings for the given accommodation in memory
                 .Where(b => !(fromDate > b.FromDate.AddDays(b.Duration - 1) || toDate < b.FromDate))
                 .ToList();
+
+            bool bookingsOverlap = overlappingBookings.Count < 1;
+
+            return bookingsOverlap;
+            */
 
             /*
                 .Where(b => b.AccomodationID == accomodationID &&
@@ -127,9 +152,55 @@ namespace Check_Inn.Services
                 .ToList();
             */
 
-            bool bookingsOverlap = overlappingBookings.Count < 1;
+        }
+        private bool SendBookingConfirmationEmail(Booking booking)
+        {
+            try
+            {
+                var accomodation = context.Accomodations
+                    .Include(a => a.AccomodationPackage)
+                    .FirstOrDefault(a => a.ID == booking.AccomodationID);
 
-            return bookingsOverlap;
+                if (accomodation == null || accomodation.AccomodationPackage == null)
+                {
+                    return false;
+                }
+
+                return _emailService.SendBookingConfirmation(
+                    booking, 
+                    accomodation, 
+                    accomodation.AccomodationPackage);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to send booking confirmation: {ex.Message}");
+                return false;
+            }
+        }
+
+        private async Task<bool> SendBookingConfirmationEmailAsync(Booking booking)
+        {
+            try
+            {
+                var accomodation = await context.Accomodations
+                    .Include(a => a.AccomodationPackage)
+                    .FirstOrDefaultAsync(a => a.ID == booking.AccomodationID);
+
+                if (accomodation == null || accomodation.AccomodationPackage == null)
+                {
+                    return false;
+                }
+
+                return await _emailService.SendBookingConfirmationAsync(
+                    booking, 
+                    accomodation, 
+                    accomodation.AccomodationPackage);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                return false;
+            }
         }
     }
 }

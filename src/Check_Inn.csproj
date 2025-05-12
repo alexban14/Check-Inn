@@ -282,6 +282,7 @@
     <Compile Include="Services\CheckInnRolesManager.cs" />
     <Compile Include="Services\CheckInnSignInManager.cs" />
     <Compile Include="Services\CheckInnUserManager.cs" />
+    <Compile Include="Services\EmailService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AccomodationViewModels.cs" />
     <Compile Include="ViewModels\BookingViewModels.cs" />

@@ -1,0 +1,155 @@
+﻿@model Check_Inn.ViewModels.PaymentViewModel
+@{
+    ViewBag.Title = "Process Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="site-hero overlay" style="background-image: url(@Model.AccomodationImage);" data-stellar-background-ratio="0.5">
+    <div class="container">
+        <div class="row site-hero-inner justify-content-center align-items-center">
+            <div class="col-md-10 text-center" data-aos="fade-up">
+                <h1 class="heading">Complete Your Booking</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section contact-section mt-0" id="next">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
+                <div class="bg-white p-md-5 p-4 mb-5 border">
+                    <h3 class="mb-4">Payment Details</h3>
+                    
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                <strong>Booking Reference:</strong> @Model.BookingReference<br>
+                                <strong>Total Amount:</strong> $@Model.TotalAmount.ToString("F2")
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="payment-form">
+                        <div class="form-group mb-3">
+                            <label for="card-element" class="form-label">
+                                Credit or Debit Card
+                            </label>
+                            <div id="card-element" class="form-control">
+                                <!-- Stripe Elements will be inserted here -->
+                            </div>
+                            <div id="card-errors" role="alert" class="text-danger mt-2"></div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <button id="submit-payment" class="btn btn-primary w-100">
+                                Pay $@Model.TotalAmount.ToString("F2")
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-5" data-aos="fade-up" data-aos-delay="200">
+                <h2>@Model.AccomodationName</h2>
+                <h4>Package: @Model.AccomodationPackageName</h4>
+                
+                <div class="booking-summary mt-4">
+                    <h5 class="mb-3">Booking Summary</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Check-in:</span>
+                            <span>@Model.CheckInDate.ToString("dd MMM yyyy")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Check-out:</span>
+                            <span>@Model.CheckOutDate.ToString("dd MMM yyyy")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Duration:</span>
+                            <span>@Model.Duration night(s)</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Guests:</span>
+                            <span>@Model.NoOfAdults Adult(s), @Model.NoOfChildren Children</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between bg-light">
+                            <strong>Total:</strong>
+                            <strong>$@Model.TotalAmount.ToString("F2")</strong>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="mt-4">
+                    <h5>Guest Information</h5>
+                    <p>@Model.GuestName<br>@Model.Email</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Initialize Stripe with your publishable key
+        var stripe = Stripe('@Model.PublicKey');
+        var elements = stripe.elements();
+        
+        // Create an instance of the card Element
+        var card = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#32325d',
+                }
+            }
+        });
+        
+        // Add an instance of the card Element into the `card-element` div
+        card.mount('#card-element');
+        
+        // Handle real-time validation errors from the card Element
+        card.addEventListener('change', function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+        
+        // Handle form submission
+        var form = document.getElementById('payment-form');
+        console.log(form);
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var submitButton = document.getElementById('submit-payment');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...';
+            
+            stripe.confirmCardPayment('@Model.ClientSecret', {
+                payment_method: {
+                    card: card,
+                    billing_details: {
+                        name: '@Model.GuestName'
+                    }
+                }
+            }).then(function(result) {
+                if (result.error) {
+                    // Show error to your customer
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Pay $@Model.TotalAmount.ToString("F2")';
+                } else {
+                    // The payment has been processed!
+                    if (result.paymentIntent.status === 'succeeded') {
+                        // Redirect to success page
+                        window.location.href = '@Url.Action("PaymentSuccess", "Payment", new { bookingId = Model.BookingID })';
+                    }
+                }
+            });
+        });
+    </script>
+}

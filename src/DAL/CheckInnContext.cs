@@ -22,5 +22,6 @@ namespace Check_Inn.DAL
         public DbSet<AccomodationPackage> AccomodationPackages { get; set; }
         public DbSet<Accomodation> Accomodations { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Payment> Payments { get; set; }
     }
 }

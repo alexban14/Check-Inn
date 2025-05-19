@@ -26,6 +26,16 @@ namespace Check_Inn.Services
             return _context.Payments.Where(p => p.BookingID == bookingID).ToList();
         }
 
+        public Payment GetPaymentByStripePaymentIntentId(string stripePaymentIntentId)
+        {
+            return _context.Payments.Where(p => p.StripePaymentIntentId == stripePaymentIntentId).First();
+        }
+
+        public Payment GetPaymentByStripeChargeId(string chargeId)
+        {
+            return _context.Payments.Where(p => p.StripeChargeId == chargeId).First();
+        }
+
         public bool SavePayment(Payment payment)
         {
             try

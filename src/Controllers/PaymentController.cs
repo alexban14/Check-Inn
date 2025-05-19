@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Check_Inn.Entities;
 using Check_Inn.Services;
 using Check_Inn.ViewModels;
 using Stripe;
+using Stripe.Checkout;
 
 namespace Check_Inn.Controllers
 {
@@ -28,7 +30,7 @@ namespace Check_Inn.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> ProcessPayment(int bookingId)
+        public async Task<ActionResult> ProcessPaymentOwn(int bookingId)
         {
             var booking = _bookingsService.GetBookingByID(bookingId);
             if (booking == null)
@@ -58,7 +60,7 @@ namespace Check_Inn.Controllers
                 NoOfAdults = booking.NoOfAdults,
                 NoOfChildren = booking.NoOfChildren,
                 ClientSecret = paymentIntent.ClientSecret,
-                PublicKey = System.Configuration.ConfigurationManager.AppSettings["StripePublicKey"]
+                PublicKey = System.Configuration.ConfigurationManager.AppSettings["StripePublishableKey"]
             };
 
             // Create a pending payment record
@@ -74,6 +76,39 @@ namespace Check_Inn.Controllers
             _paymentService.SavePayment(payment);
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> ProcessPayment(int bookingId)
+        {
+            var booking = _bookingsService.GetBookingByID(bookingId);
+            var accomodation = _accomodationsService.GetAccomodationByID(booking.AccomodationID);
+            var package = _accomodationPackagesService.GetAccomodationPackageByID(accomodation.AccomodationPackageID);
+
+            Session session = await _stripeService.CreateCheckoutSessionAsync(booking, package);
+
+            var payments = _paymentService.GetPaymentsByBookingID(bookingId);
+
+            if (payments.Count > 0)
+            {
+                var payment = payments.First();
+
+            } else {
+                var payment = new Payment
+                {
+                    BookingID = booking.ID,
+                    Amount = package.FeePerNight * booking.Duration,
+                    PaymentStatus = "Pending",
+                    StripePaymentIntentId = session.PaymentIntentId,
+                    Notes = "Payment initiated"
+                };
+
+                _paymentService.SavePayment(payment);
+
+            }
+
+
+            return Redirect(session.Url);
         }
 
         [HttpPost]
@@ -163,58 +198,61 @@ namespace Check_Inn.Controllers
         [HttpPost]
         public async Task<ActionResult> WebhookHandler()
         {
+            Request.InputStream.Position = 0;
             var json = new System.IO.StreamReader(Request.InputStream).ReadToEnd();
-            
+            var stripeSignHeader = Request.Headers["Stripe-Signature"];
+
             try
             {
-                var stripeEvent = _stripeService.ConstructEvent(
-                    json,
-                    Request.Headers["Stripe-Signature"]
-                );
+                var stripeEvent = _stripeService.ConstructEvent(json, stripeSignHeader);
 
-                // Handle the event
-                if (stripeEvent.Type == Events.PaymentIntentSucceeded)
+
+                System.Diagnostics.Debug.WriteLine($"Handling event type: {stripeEvent.Type}");
+                switch (stripeEvent.Type)
                 {
-                    var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
-                    // Handle successful payment
-                    if (paymentIntent != null && paymentIntent.Metadata.TryGetValue("BookingId", out var bookingIdStr) && int.TryParse(bookingIdStr, out var bookingId))
-                    {
-                        var payment = _paymentService.GetPaymentsByBookingID(bookingId)
-                            .FirstOrDefault(p => p.StripePaymentIntentId == paymentIntent.Id);
-                        
-                        if (payment != null)
-                        {
-                            payment.PaymentStatus = "Completed";
-                            payment.StripeChargeId = paymentIntent.Id;
-                            payment.Notes = "Payment completed via webhook";
-                            _paymentService.UpdatePayment(payment);
-                        }
-                    }
-                }
-                else if (stripeEvent.Type == Events.PaymentIntentPaymentFailed)
-                {
-                    var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
-                    // Handle failed payment
-                    if (paymentIntent != null && paymentIntent.Metadata.TryGetValue("BookingId", out var bookingIdStr) && int.TryParse(bookingIdStr, out var bookingId))
-                    {
-                        var payment = _paymentService.GetPaymentsByBookingID(bookingId)
-                            .FirstOrDefault(p => p.StripePaymentIntentId == paymentIntent.Id);
-                        
-                        if (payment != null)
-                        {
-                            payment.PaymentStatus = "Failed";
-                            payment.Notes = "Payment failed via webhook";
-                            _paymentService.UpdatePayment(payment);
-                        }
-                    }
+                    case Events.PaymentIntentSucceeded:
+                        await _stripeService.HandlePaymentIntentSucceeded(stripeEvent);
+                        break;
+
+                    case Events.PaymentIntentPaymentFailed:
+                        await _stripeService.HandlePaymentIntentFailed(stripeEvent);
+                        break;
+
+                    case Events.CheckoutSessionCompleted:
+                        await _stripeService.HandleCheckoutSessionCompleted(stripeEvent);
+                        break;
+
+                    case Events.ChargeSucceeded:
+                        await _stripeService.HandleChargeSucceeded(stripeEvent);
+                        break;
+
+                    case Events.ChargeUpdated:
+                        await _stripeService.HandleChargeUpdated(stripeEvent);
+                        break;
+
+                    case Events.PaymentIntentCreated:
+                        System.Diagnostics.Debug.WriteLine($"PaymentIntent created: {stripeEvent.Id}");
+                        break;
+
+                    default:
+                        System.Diagnostics.Debug.WriteLine($"Unhandled event type: {stripeEvent.Type}");
+                        break;
                 }
 
                 return new HttpStatusCodeResult(200);
             }
-            catch (Exception e)
+            catch (StripeException e)
             {
+                System.Diagnostics.Debug.WriteLine($"Stripe error: {e.StripeError?.Message ?? e.Message}");
                 return new HttpStatusCodeResult(400);
             }
+            /*
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine($"Webhook error: {e.Message}");
+                return new HttpStatusCodeResult(500);
+            }
+            */
         }
     }
 }

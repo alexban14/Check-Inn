@@ -264,6 +264,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageNotFoundController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="DAL\CheckInnContext.cs" />
     <Compile Include="DAL\CheckInnMySqlContext.cs" />
     <Compile Include="Entities\Accomodation.cs" />
@@ -291,7 +292,7 @@
     <Compile Include="Services\CheckInnRolesManager.cs" />
     <Compile Include="Services\CheckInnSignInManager.cs" />
     <Compile Include="Services\CheckInnUserManager.cs" />
-    <Compile Include="Services\Class1.cs" />
+    <Compile Include="Services\StripeService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\PaymentService.cs" />
     <Compile Include="Startup.cs" />
@@ -299,6 +300,7 @@
     <Compile Include="ViewModels\BookingViewModels.cs" />
     <Compile Include="ViewModels\HomeViewModels.cs" />
     <Compile Include="ViewModels\PageViewModels.cs" />
+    <Compile Include="ViewModels\PaymentViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Dashboard\Content\css\styles.css" />
@@ -497,6 +499,8 @@
     <Content Include="Views\Booking\Index.cshtml" />
     <Content Include="Views\Booking\Details.cshtml" />
     <Content Include="Views\Booking\Delete.cshtml" />
+    <Content Include="Views\Payment\ProcessPayment.cshtml" />
+    <Content Include="Views\Payment\PaymentSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

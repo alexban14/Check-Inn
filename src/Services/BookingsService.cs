@@ -153,6 +153,19 @@ namespace Check_Inn.Services
             */
 
         }
+
+        public bool HasPendingPayment(int bookingId)
+        {
+            return context.Payments
+                .Any(p => p.BookingID == bookingId && p.PaymentStatus == "Pending");
+        }
+        
+        public bool HasCompletedPayment(int bookingId)
+        {
+            return context.Payments
+                .Any(p => p.BookingID == bookingId && p.PaymentStatus == "Completed");
+        }
+
         private bool SendBookingConfirmationEmail(Booking booking)
         {
             try

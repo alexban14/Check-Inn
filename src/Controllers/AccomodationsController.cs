@@ -81,9 +81,19 @@ namespace Check_Inn.Controllers
 
                 bool saved =  _bookingsService.SaveBooking(booking);
 
-                TempData["BookingSucceded"] = saved;
+                if (saved)
+                {
+                    // Redirect to payment processing
+                    return RedirectToAction("ProcessPayment", "Payment", new { bookingId = booking.ID });
+                }
+                else
+                {
+                    TempData["BookingFailed"] = true;
+                    return RedirectToAction("BookAccomodation", "Accomodations", new { accomodationPackageID = model.AccomodationPackageID, accomodationID = model.AccomodationID });
+                }
 
-                return RedirectToAction("BookAccomodation", "Accomodations", new { accomodationPackageID = model.AccomodationPackageID, accomodationID = model.AccomodationID });
+                //TempData["BookingSucceded"] = saved;
+                //return RedirectToAction("BookAccomodation", "Accomodations", new { accomodationPackageID = model.AccomodationPackageID, accomodationID = model.AccomodationID });
             }
             else
             {

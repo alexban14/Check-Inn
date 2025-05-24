@@ -11,9 +11,9 @@ namespace Check_Inn.Controllers
     public class HomeController : Controller
     {
         private AccomodationTypesService _accomodationTypesService;
-        public HomeController()
+        public HomeController(AccomodationTypesService accomodationTypesService)
         {
-            _accomodationTypesService = new AccomodationTypesService();
+            _accomodationTypesService = accomodationTypesService;
         }
 
         public ActionResult Index()

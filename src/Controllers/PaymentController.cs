@@ -19,14 +19,21 @@ namespace Check_Inn.Controllers
         private readonly StripeService _stripeService;
         private readonly EmailService _emailService;
 
-        public PaymentController()
+        public PaymentController(
+            BookingsService bookingsService,
+            AccomodationsService accomodationsService,
+            AccomodationPackagesService accomodationPackagesService,
+            PaymentService paymentService,
+            StripeService stripeService,
+            EmailService emailService
+        )
         {
-            _bookingsService = new BookingsService();
-            _accomodationsService = new AccomodationsService();
-            _accomodationPackagesService = new AccomodationPackagesService();
-            _paymentService = new PaymentService();
-            _stripeService = new StripeService();
-            _emailService = new EmailService();
+            _bookingsService = bookingsService;
+            _accomodationsService = accomodationsService;
+            _accomodationPackagesService = accomodationPackagesService;
+            _paymentService = paymentService;
+            _stripeService = stripeService;
+            _emailService = emailService;
         }
 
         [HttpGet]

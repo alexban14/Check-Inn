@@ -1,3 +1,4 @@
+using Check_Inn.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,15 @@ using System.Web.Routing;
 
 namespace Check_Inn
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
+            var container = ContainerConfig.RegisterDependencies();
+            DependencyResolver.SetResolver(
+                new Autofac.Integration.Mvc.AutofacDependencyResolver(container)
+            );
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

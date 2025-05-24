@@ -12,12 +12,16 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 {
     public class AccomodationPackagesController : Controller
     {
-        AccomodationPackagesService accomodationPackagesService;
-        AccomodationTypesService accomodationTypesService;
-        public AccomodationPackagesController()
+        private readonly AccomodationPackagesService accomodationPackagesService;
+        private readonly AccomodationTypesService accomodationTypesService;
+
+        public AccomodationPackagesController(
+            AccomodationPackagesService accomodationPackagesService,
+            AccomodationTypesService accomodationTypesService
+        )
         {
-            accomodationPackagesService = new AccomodationPackagesService();
-            accomodationTypesService = new AccomodationTypesService();
+            this.accomodationPackagesService = accomodationPackagesService;
+            this.accomodationTypesService = accomodationTypesService;
         }
 
         // GET: Dashboard/AccomodationPackages

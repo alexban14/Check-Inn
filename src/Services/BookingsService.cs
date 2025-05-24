@@ -14,10 +14,13 @@ namespace Check_Inn.Services
         private CheckInnMySqlContext context;
         private EmailService _emailService;
 
-        public BookingsService()
+        public BookingsService(
+            CheckInnMySqlContext context,
+            EmailService emailService
+        )
         {
-            context = new CheckInnMySqlContext();
-            _emailService = new EmailService();
+            this.context = context;
+            _emailService = emailService;
         }
         
         public IEnumerable<Booking> GetAllAcomodationPackages()

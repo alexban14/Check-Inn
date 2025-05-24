@@ -17,12 +17,17 @@ namespace Check_Inn.Controllers
         private AccomodationsService _accomodationsService;
         private BookingsService _bookingsService;
 
-        public AccomodationsController()
+        public AccomodationsController(
+            AccomodationTypesService accomodationTypesService,
+            AccomodationPackagesService accomodationPackagesService,
+            AccomodationsService accomodationsService,
+            BookingsService bookingsService
+        )
         {
-            _accomodationTypesService = new AccomodationTypesService();
-            _accomodationPackagesService = new AccomodationPackagesService();
-            _accomodationsService = new AccomodationsService();
-            _bookingsService = new BookingsService();
+            _accomodationTypesService = accomodationTypesService;
+            _accomodationPackagesService = accomodationPackagesService;
+            _accomodationsService = accomodationsService;
+            _bookingsService = bookingsService;
         }
 
         // GET: Accomodations

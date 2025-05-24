@@ -11,9 +11,9 @@ namespace Check_Inn.Services
     {
         private CheckInnMySqlContext _context;
 
-        public PaymentService()
+        public PaymentService(CheckInnMySqlContext dbContext)
         {
-            _context = new CheckInnMySqlContext();
+            _context = dbContext;
         }
 
         public Payment GetPaymentByID(int id)

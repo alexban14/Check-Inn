@@ -11,9 +11,9 @@ namespace Check_Inn.Services
     {
         private CheckInnMySqlContext context;
 
-        public AccomodationTypesService()
+        public AccomodationTypesService(CheckInnMySqlContext context)
         {
-            context = new CheckInnMySqlContext();
+            this.context = context;
         }
         public IEnumerable<AccomodationType> GetAllAccomodationTypes()
         {

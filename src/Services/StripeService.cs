@@ -15,9 +15,9 @@ namespace Check_Inn.Services
         private readonly string _apiKey;
         private readonly string _webhookSecret;
 
-        public StripeService()
+        public StripeService(PaymentService paymentService)
         {
-            _paymentService = new PaymentService();
+            _paymentService = paymentService;
 
             _callbackUrl = System.Configuration.ConfigurationManager.AppSettings["CallbackUrl"];
             _apiKey = System.Configuration.ConfigurationManager.AppSettings["StripeSecretKey"];

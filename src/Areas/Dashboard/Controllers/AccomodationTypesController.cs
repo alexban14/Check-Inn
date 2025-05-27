@@ -12,11 +12,11 @@ namespace Check_Inn.Areas.Dashboard.Controllers
 {
     public class AccomodationTypesController : Controller
     {
-        AccomodationTypesService accomodationTypesService;
+        private readonly AccomodationTypesService accomodationTypesService;
 
-        public AccomodationTypesController()
+        public AccomodationTypesController(AccomodationTypesService accomodationTypesService)
         {
-            accomodationTypesService = new AccomodationTypesService();
+            this.accomodationTypesService = accomodationTypesService;
         }
 
         // GET: Dashboard/AccomodationTypes

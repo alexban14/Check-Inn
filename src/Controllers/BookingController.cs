@@ -16,9 +16,9 @@ namespace Check_Inn.Controllers
     {
         private BookingsService _bookingService;
 
-        public BookingController()
+        public BookingController(BookingsService bookingsService)
         {
-            _bookingService = new BookingsService();
+            _bookingService = bookingsService;
         }
 
         private CheckInnUserManager _userManager;

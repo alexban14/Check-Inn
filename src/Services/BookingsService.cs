@@ -96,6 +96,15 @@ namespace Check_Inn.Services
             return context.Bookings.Find(ID);
         }
 
+        public Booking GetBookingWithPaymentsByID(int ID)
+        {
+            return context.Bookings
+                .Include(b => b.Accomodation)
+                .Include(b => b.Accomodation.AccomodationPackage)
+                .Include(b => b.Payments)
+                .FirstOrDefault(b => b.ID == ID);
+        }
+
         public bool SaveBooking(Booking booking)
         {
             context.Bookings.Add(booking);

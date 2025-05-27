@@ -15,10 +15,20 @@ namespace Check_Inn.Controllers
     public class BookingController : Controller
     {
         private BookingsService _bookingService;
+        private PaymentService _paymentService;
+        private AccomodationPackagesService _accomodationPackagesService;
+        private AccomodationsService _accomodationsService;
 
-        public BookingController(BookingsService bookingsService)
-        {
+        public BookingController(
+            BookingsService bookingsService, 
+            PaymentService paymentService,
+            AccomodationPackagesService accomodationPackagesService,
+            AccomodationsService accomodationsService
+        ) {
             _bookingService = bookingsService;
+            _paymentService = paymentService;
+            _accomodationPackagesService = accomodationPackagesService;
+            _accomodationsService = accomodationsService;
         }
 
         private CheckInnUserManager _userManager;
@@ -49,14 +59,14 @@ namespace Check_Inn.Controllers
                 CurrentPage = page.Value,
                 RecordSize = recordSize.Value
             };
-            
+
             return View(model);
         }
-        
+
         public ActionResult Details(int id)
         {
             var booking = _bookingService.GetBookingByID(id);
-            
+
             string userId = User.Identity.GetUserId();
             User user = UserManager.FindById(userId);
 
@@ -64,7 +74,18 @@ namespace Check_Inn.Controllers
             {
                 return HttpNotFound();
             }
-            
+
+            var payments = _paymentService.GetPaymentsByBookingID(id);
+            ViewBag.Payments = payments;
+
+            var pendingPayment = payments.FirstOrDefault(p => p.PaymentStatus == "Pending");
+            ViewBag.HasPendingPayment = pendingPayment != null;
+            ViewBag.PendingPayment = pendingPayment;
+
+            var accomodation = _accomodationsService.GetAccomodationByID(booking.AccomodationID);
+            var package = _accomodationPackagesService.GetAccomodationPackageByID(accomodation.AccomodationPackageID);
+            ViewBag.TotalAmount = package.FeePerNight * booking.Duration;
+
             return View("Details", booking);
         }
 

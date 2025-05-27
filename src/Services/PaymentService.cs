@@ -21,7 +21,7 @@ namespace Check_Inn.Services
             return _context.Payments.Find(id);
         }
 
-        public List<Payment> GetPaymentsByBookingID(int bookingID)
+        public IEnumerable<Payment> GetPaymentsByBookingID(int bookingID)
         {
             return _context.Payments.Where(p => p.BookingID == bookingID).ToList();
         }

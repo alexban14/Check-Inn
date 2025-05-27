@@ -21,5 +21,13 @@ namespace Check_Inn.Entities
         public string Email { get; set; }
         [Column(TypeName = "TEXT")]
         public string AdditionalInfo { get; set; }
+
+        public virtual ICollection<Payment> Payments { get; set; }
+
+        [NotMapped]
+        public Payment LatestPayment => Payments?.OrderByDescending(p => p.PaymentDate).FirstOrDefault();
+
+        [NotMapped]
+        public bool HasPendingPayment => Payments?.Any(p => p.PaymentStatus == "Pending") ?? false;
     }
 }

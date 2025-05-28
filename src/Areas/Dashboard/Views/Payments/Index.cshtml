@@ -1,0 +1,86 @@
+﻿@model Check_Inn.Areas.Dashboard.ViewModels.PaymentsListingModel
+@{
+    ViewBag.Title = "Payments";
+    Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col col-lg-12">
+        <h2>Payments</h2>
+        <hr />
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Total Revenue</h5>
+                <p class="card-text h4">$@Model.TotalRevenue.ToString("N2")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Today's Revenue</h5>
+                <p class="card-text h4">$@Model.TodayRevenue.ToString("N2")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Monthly Revenue</h5>
+                <p class="card-text h4">$@Model.MonthRevenue.ToString("N2")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Payment Status</h5>
+                <ul class="list-unstyled">
+                    @foreach (var stat in Model.PaymentStatusStats)
+                    {
+                        <li>
+                            @stat.Key: <span class="badge bg-secondary">@stat.Value</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search and Filter -->
+<div class="row mb-3">
+    <div class="col col-lg-12">
+        <form>
+            <div class="input-group">
+                <input type="text" name="searchTerm" class="form-control" placeholder="Search by guest name, email or payment ID" value="@Model.SearchTerm" />
+                <select class="form-select" name="paymentStatus">
+                    <option value="">All Statuses</option>
+                    <option value="Pending" @(Model.PaymentStatus == "Pending" ? "selected" : "")>Pending</option>
+                    <option value="Completed" @(Model.PaymentStatus == "Completed" ? "selected" : "")>Completed</option>
+                    <option value="Failed" @(Model.PaymentStatus == "Failed" ? "selected" : "")>Failed</option>
+                    <option value="Refunded" @(Model.PaymentStatus == "Refunded" ? "selected" : "")>Refunded</option>
+                </select>
+                <button class="btn btn-outline-primary" type="submit">
+                    <i class="fa-solid fa-magnifying-glass me-1"></i> Search
+                </button>
+                <a href="@Url.Action("Index", "Payments")" class="btn btn-outline-secondary">
+                    <i class="fa-solid fa-rotate-right me-1"></i> Reset
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Payments Listing -->
+<div class="row">
+    <div class="col col-lg-12">
+        @{ Html.RenderPartial("_Listing", Model); }
+    </div>
+</div>

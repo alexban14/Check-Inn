@@ -101,7 +101,6 @@ namespace Check_Inn.Services
             return context.Bookings
                 .Include(b => b.Accomodation)
                 .Include(b => b.Accomodation.AccomodationPackage)
-                .Include(b => b.Payments)
                 .FirstOrDefault(b => b.ID == ID);
         }
 

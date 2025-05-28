@@ -79,5 +79,86 @@ namespace Check_Inn.Services
                 return false;
             }
         }
+        public List<Payment> SearchPayments(string searchTerm, string paymentStatus, int? page, int? recordSize)
+        {
+            var payments = _context.Payments
+                .Include(p => p.Booking)
+                .Include(p => p.Booking.Accomodation)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                payments = payments.Where(p =>
+                    p.Booking.GuestName.Contains(searchTerm) ||
+                    p.Booking.Email.Contains(searchTerm) ||
+                    p.StripePaymentIntentId.Contains(searchTerm));
+            }
+
+            if (!string.IsNullOrEmpty(paymentStatus))
+            {
+                payments = payments.Where(p => p.PaymentStatus == paymentStatus);
+            }
+
+            var skip = (page - 1) * recordSize;
+            return payments
+                .OrderByDescending(p => p.PaymentDate)
+                .Skip((int)skip)
+                .Take((int)recordSize)
+                .ToList();
+        }
+
+        public int SearchPaymentsCount(string searchTerm, string paymentStatus)
+        {
+            var payments = _context.Payments.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                payments = payments.Where(p =>
+                    p.Booking.GuestName.Contains(searchTerm) ||
+                    p.Booking.Email.Contains(searchTerm) ||
+                    p.StripePaymentIntentId.Contains(searchTerm));
+            }
+
+            if (!string.IsNullOrEmpty(paymentStatus))
+            {
+                payments = payments.Where(p => p.PaymentStatus == paymentStatus);
+            }
+
+            return payments.Count();
+        }
+
+        public decimal GetTotalRevenue()
+        {
+            return _context.Payments
+                .Where(p => p.PaymentStatus == "Completed")
+                .Sum(p => p.Amount);
+        }
+
+        public decimal GetRevenueForDate(DateTime date)
+        {
+            return _context.Payments
+                .Where(p => p.PaymentStatus == "Completed" &&
+                           p.PaymentDate.Year == date.Year &&
+                           p.PaymentDate.Month == date.Month &&
+                           p.PaymentDate.Day == date.Day)
+                .Sum(p => p.Amount);
+        }
+
+        public decimal GetRevenueForMonth(int month, int year)
+        {
+            return _context.Payments
+                .Where(p => p.PaymentStatus == "Completed" &&
+                           p.PaymentDate.Month == month &&
+                           p.PaymentDate.Year == year)
+                .Sum(p => p.Amount);
+        }
+
+        public Dictionary<string, int> GetPaymentStatusStatistics()
+        {
+            return _context.Payments
+                .GroupBy(p => p.PaymentStatus)
+                .Select(g => new { Status = g.Key, Count = g.Count() })
+                .ToDictionary(x => x.Status, x => x.Count);
+        }
     }
 }

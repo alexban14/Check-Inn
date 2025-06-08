@@ -94,7 +94,7 @@ namespace Check_Inn.Controllers
 
             Session session = await _stripeService.CreateCheckoutSessionAsync(booking, package);
 
-            var payments = _paymentService.GetPaymentsByBookingID(bookingId);
+            var payments = _paymentService.GetPaymentsByBookingID(bookingId).ToList();
 
             if (payments.Count > 0)
             {

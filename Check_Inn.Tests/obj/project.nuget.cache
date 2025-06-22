@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "fTF8ThC4lcY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Ban Alexandru\\dissertation_project\\source_code\\Check-Inn\\Check_Inn.Tests\\Check_Inn.Tests.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ban Alexandru\\.nuget\\packages\\coverlet.collector\\3.2.0\\coverlet.collector.3.2.0.nupkg.sha512",
+    "C:\\Users\\Ban Alexandru\\.nuget\\packages\\microsoft.codecoverage\\17.7.1\\microsoft.codecoverage.17.7.1.nupkg.sha512",
+    "C:\\Users\\Ban Alexandru\\.nuget\\packages\\microsoft.net.test.sdk\\17.7.1\\microsoft.net.test.sdk.17.7.1.nupkg.sha512",
+    "C:\\Users\\Ban Alexandru\\.nuget\\packages\\nunit\\3.13.3\\nunit.3.13.3.nupkg.sha512",
+    "C:\\Users\\Ban Alexandru\\.nuget\\packages\\nunit.analyzers\\3.6.1\\nunit.analyzers.3.6.1.nupkg.sha512",
+    "C:\\Users\\Ban Alexandru\\.nuget\\packages\\nunit3testadapter\\4.4.2\\nunit3testadapter.4.4.2.nupkg.sha512"
+  ],
+  "logs": []
+}

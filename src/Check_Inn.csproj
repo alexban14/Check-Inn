@@ -293,6 +293,7 @@
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="DAL\CheckInnContext.cs" />
     <Compile Include="DAL\CheckInnMySqlContext.cs" />
+    <Compile Include="DAL\ICheckInnContext.cs" />
     <Compile Include="Entities\Accomodation.cs" />
     <Compile Include="Entities\AccomodationPackage.cs" />
     <Compile Include="Entities\AccomodationType.cs" />

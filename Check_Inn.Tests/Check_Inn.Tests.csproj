@@ -17,6 +17,23 @@
 		<PackageReference Include="NUnit" Version="3.13.3" />
 		<PackageReference Include="NUnit.Analyzers" Version="3.6.1" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
+		<PackageReference Include="Moq" Version="4.18.4" />
+		<PackageReference Include="FluentAssertions" Version="6.12.0" />
+		<PackageReference Include="EntityFramework" Version="6.4.4" />
+		<PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.4" />
+		<PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" />
+		<PackageReference Include="MySql.Data.EntityFramework" Version="8.0.33" />
+		<PackageReference Include="MySql.Data" Version="8.0.33" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Include="NUnit.Framework" />
+		<Using Include="Moq" />
+		<Using Include="FluentAssertions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\src\Check_Inn.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

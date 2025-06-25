@@ -5,13 +5,14 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 
 namespace Check_Inn.DAL
 {
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
-    public class CheckInnMySqlContext: IdentityDbContext<User>
+    public class CheckInnMySqlContext: IdentityDbContext<User>, ICheckInnContext
     {
         public CheckInnMySqlContext() : base ("MySqlConnection")
         {
@@ -26,5 +27,15 @@ namespace Check_Inn.DAL
         public DbSet<Accomodation> Accomodations { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Payment> Payments { get; set; }
+
+        public new int SaveChanges()
+        {
+            return base.SaveChanges();
+        }
+
+        public new DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class
+        {
+            return base.Entry(entity);
+        }
     }
 }

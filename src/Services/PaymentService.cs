@@ -9,9 +9,9 @@ namespace Check_Inn.Services
 {
     public class PaymentService
     {
-        private CheckInnMySqlContext _context;
+        private readonly ICheckInnContext _context;
 
-        public PaymentService(CheckInnMySqlContext dbContext)
+        public PaymentService(ICheckInnContext dbContext)
         {
             _context = dbContext;
         }

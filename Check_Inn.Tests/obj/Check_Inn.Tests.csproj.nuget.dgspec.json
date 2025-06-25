@@ -32,7 +32,11 @@
         "frameworks": {
           "net48": {
             "targetAlias": "net4.8",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Ban Alexandru\\dissertation_project\\source_code\\Check-Inn\\src\\Check_Inn.csproj": {
+                "projectPath": "C:\\Users\\Ban Alexandru\\dissertation_project\\source_code\\Check-Inn\\src\\Check_Inn.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -50,9 +54,37 @@
         "net48": {
           "targetAlias": "net4.8",
           "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.4, )"
+            },
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[6.12.0, )"
+            },
+            "Microsoft.AspNet.Identity.Core": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.AspNet.Identity.EntityFramework": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.7.1, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.18.4, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.33, )"
+            },
+            "MySql.Data.EntityFramework": {
+              "target": "Package",
+              "version": "[8.0.33, )"
             },
             "NUnit": {
               "target": "Package",
@@ -73,6 +105,21 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
         }
+      }
+    },
+    "C:\\Users\\Ban Alexandru\\dissertation_project\\source_code\\Check-Inn\\src\\Check_Inn.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Ban Alexandru\\dissertation_project\\source_code\\Check-Inn\\src\\Check_Inn.csproj",
+        "projectName": "Check_Inn",
+        "projectPath": "C:\\Users\\Ban Alexandru\\dissertation_project\\source_code\\Check-Inn\\src\\Check_Inn.csproj",
+        "frameworks": {
+          "net48": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net48": {}
       }
     }
   }

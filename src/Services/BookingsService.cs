@@ -11,31 +11,31 @@ namespace Check_Inn.Services
 {
     public class BookingsService
     {
-        private CheckInnMySqlContext context;
+        private readonly ICheckInnContext _context;
         private EmailService _emailService;
 
         public BookingsService(
-            CheckInnMySqlContext context,
+            ICheckInnContext context,
             EmailService emailService
         )
         {
-            this.context = context;
+            _context = context;
             _emailService = emailService;
         }
         
         public IEnumerable<Booking> GetAllAcomodationPackages()
         {
-            return context.Bookings.ToList();
+            return _context.Bookings.ToList();
         }
 
         public IEnumerable<Booking> GetAllBookingsByAccomodationPackage(int accomodationID)
         {
-            return context.Bookings.Where(x => x.AccomodationID == accomodationID).ToList();
+            return _context.Bookings.Where(x => x.AccomodationID == accomodationID).ToList();
         }
 
         public IEnumerable<Booking> GetBookingsByUserEmail(string email, int? page = 1, int? recordSize = 10)
         {
-            var bookings = context.Bookings.Where(b => b.Email == email);
+            var bookings = _context.Bookings.Where(b => b.Email == email);
 
             int skip = (page.Value - 1) * recordSize.Value;
             return bookings
@@ -48,12 +48,12 @@ namespace Check_Inn.Services
 
         public int GetBookingCountByUserEmail(string email)
         {
-            return context.Bookings.Count(b => b.Email == email);
+            return _context.Bookings.Count(b => b.Email == email);
         }
 
         public IEnumerable<Booking> SearchBooking(string searchTerm, int? AccomodationID, int? page, int? recordSize)
         {
-            IEnumerable<Booking> bookings = context.Bookings.AsQueryable();
+            IEnumerable<Booking> bookings = _context.Bookings.AsQueryable();
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
@@ -76,7 +76,7 @@ namespace Check_Inn.Services
 
         public int SearchBookingCount(string searchTerm, int? AccomodationID)
         {
-            IEnumerable<Booking> bookings = context.Bookings.AsQueryable();
+            IEnumerable<Booking> bookings = _context.Bookings.AsQueryable();
 
             if(!string.IsNullOrEmpty(searchTerm))
             {
@@ -93,7 +93,7 @@ namespace Check_Inn.Services
 
         public Booking GetBookingByID(int ID)
         {
-            return context.Bookings.Find(ID);
+            return _context.Bookings.Find(ID);
         }
 
         public Booking GetBookingWithPaymentsByID(int ID)
@@ -106,8 +106,8 @@ namespace Check_Inn.Services
 
         public bool SaveBooking(Booking booking)
         {
-            context.Bookings.Add(booking);
-            bool saved = context.SaveChanges() > 0;
+            _context.Bookings.Add(booking);
+            bool saved = _context.SaveChanges() > 0;
 
             if (saved)
             {
@@ -119,23 +119,23 @@ namespace Check_Inn.Services
 
         public bool UpdateBooking(Booking booking)
         {
-            context.Entry(booking).State = System.Data.Entity.EntityState.Modified;
+            _context.Entry(booking).State = System.Data.Entity.EntityState.Modified;
 
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
         public bool DeleteBooking(Booking booking)
         {
-            context.Entry(booking).State = System.Data.Entity.EntityState.Deleted;
+            _context.Entry(booking).State = System.Data.Entity.EntityState.Deleted;
 
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
         public bool IsAccomodationAvailable(int accomodationID, DateTime fromDate, int duration)
         {
             DateTime toDate = fromDate.AddDays(duration - 1);
 
-            var overlappingBookings = context.Bookings
+            var overlappingBookings = _context.Bookings
                 .Where(b => b.AccomodationID == accomodationID)
                 .ToList()
                 .Where(b =>
@@ -146,7 +146,7 @@ namespace Check_Inn.Services
             return !overlappingBookings.Any();
 
             /*
-            var overlappingBookings = context.Bookings
+            var overlappingBookings = _context.Bookings
                 .Where(b => b.AccomodationID == accomodationID)
                 .ToList() // Fetch all bookings for the given accommodation in memory
                 .Where(b => !(fromDate > b.FromDate.AddDays(b.Duration - 1) || toDate < b.FromDate))
@@ -167,13 +167,13 @@ namespace Check_Inn.Services
 
         public bool HasPendingPayment(int bookingId)
         {
-            return context.Payments
+            return _context.Payments
                 .Any(p => p.BookingID == bookingId && p.PaymentStatus == "Pending");
         }
         
         public bool HasCompletedPayment(int bookingId)
         {
-            return context.Payments
+            return _context.Payments
                 .Any(p => p.BookingID == bookingId && p.PaymentStatus == "Completed");
         }
 
@@ -181,7 +181,7 @@ namespace Check_Inn.Services
         {
             try
             {
-                var accomodation = context.Accomodations
+                var accomodation = _context.Accomodations
                     .Include(a => a.AccomodationPackage)
                     .FirstOrDefault(a => a.ID == booking.AccomodationID);
 
@@ -206,7 +206,7 @@ namespace Check_Inn.Services
         {
             try
             {
-                var accomodation = await context.Accomodations
+                var accomodation = await _context.Accomodations
                     .Include(a => a.AccomodationPackage)
                     .FirstOrDefaultAsync(a => a.ID == booking.AccomodationID);
 

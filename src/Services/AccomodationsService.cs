@@ -9,26 +9,26 @@ namespace Check_Inn.Services
 {
     public class AccomodationsService
     {
-        private CheckInnMySqlContext context;
+        private readonly ICheckInnContext _context;
 
-        public AccomodationsService(CheckInnMySqlContext context)
+        public AccomodationsService(ICheckInnContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         public IEnumerable<Accomodation> GetAllAcomodation()
         {
-            return context.Accomodations.ToList();
+            return _context.Accomodations.ToList();
         }
 
         public IEnumerable<Accomodation> GetAllAccomodationsByAccomodationType(int accomodationPackageId)
         {
-            return context.Accomodations.Where(x => x.AccomodationPackageID == accomodationPackageId).ToList();
+            return _context.Accomodations.Where(x => x.AccomodationPackageID == accomodationPackageId).ToList();
         }
 
         public IEnumerable<Accomodation> SearchAccomodation(string searchTerm, int? AccomodationPackageID, int? page, int? recordSize)
         {
-            IEnumerable<Accomodation> accomodations = context.Accomodations.AsQueryable();
+            IEnumerable<Accomodation> accomodations = _context.Accomodations.AsQueryable();
 
             if(!string.IsNullOrEmpty(searchTerm))
             {
@@ -51,7 +51,7 @@ namespace Check_Inn.Services
 
         public int SearchAccomodationCount(string searchTerm, int? AccomodationPackageID)
         {
-            IEnumerable<Accomodation> accomodations = context.Accomodations.AsQueryable();
+            IEnumerable<Accomodation> accomodations = _context.Accomodations.AsQueryable();
 
             if(!string.IsNullOrEmpty(searchTerm))
             {
@@ -68,28 +68,28 @@ namespace Check_Inn.Services
 
         public Accomodation GetAccomodationByID(int ID)
         {
-            return context.Accomodations.Find(ID);
+            return _context.Accomodations.Find(ID);
         }
 
         public bool SaveAccomodation(Accomodation accomodation)
         {
-            context.Accomodations.Add(accomodation);
+            _context.Accomodations.Add(accomodation);
 
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
         public bool UpdateAccomodation(Accomodation accomodation)
         {
-            context.Entry(accomodation).State = System.Data.Entity.EntityState.Modified;
+            _context.Entry(accomodation).State = System.Data.Entity.EntityState.Modified;
 
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
         public bool DeleteAccomodation(Accomodation accomodation)
         {
-            context.Entry(accomodation).State = System.Data.Entity.EntityState.Deleted;
+            _context.Entry(accomodation).State = System.Data.Entity.EntityState.Deleted;
 
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
     }

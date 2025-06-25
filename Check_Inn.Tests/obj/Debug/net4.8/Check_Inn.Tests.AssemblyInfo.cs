@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Check_Inn.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+efcdcc6f6b231b4fc7065f95cb482fb9efb95ab5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a0a220b1b91b036e18e802e8ebae55c7ceb569d2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Check_Inn.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Check_Inn.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

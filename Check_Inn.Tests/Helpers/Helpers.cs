@@ -52,7 +52,7 @@ namespace Check_Inn.Tests.Helpers
                 },
                 new AccomodationPackage 
                 { 
-                    ID = 2, 
+                    ID = 2,
                     Name = "Premium Package", 
                     AccomodationTypeID = 1, 
                     NoOfRoom = 2,

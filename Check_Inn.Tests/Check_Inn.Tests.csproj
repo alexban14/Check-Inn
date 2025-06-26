@@ -22,8 +22,8 @@
 		<PackageReference Include="EntityFramework" Version="6.4.4" />
 		<PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.4" />
 		<PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" />
-		<PackageReference Include="MySql.Data.EntityFramework" Version="8.0.33" />
-		<PackageReference Include="MySql.Data" Version="8.0.33" />
+		<PackageReference Include="MySql.Data.EntityFramework" Version="9.1.0" />
+		<PackageReference Include="MySql.Data" Version="9.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>

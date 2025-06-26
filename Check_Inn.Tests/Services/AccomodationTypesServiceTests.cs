@@ -3,6 +3,8 @@ using Check_Inn.Entities;
 using Check_Inn.Services;
 using Check_Inn.Tests.Helpers;
 using Moq;
+using NUnit.Framework;
+using FluentAssertions;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,7 +14,7 @@ namespace Check_Inn.Tests.Services
     [TestFixture]
     public class AccomodationTypesServiceTests
     {
-        private Mock<CheckInnMySqlContext> _mockContext;
+        private Mock<ICheckInnContext> _mockContext;
         private Mock<DbSet<AccomodationType>> _mockAccomodationTypesSet;
         private AccomodationTypesService _service;
         private List<AccomodationType> _testData;
@@ -22,7 +24,7 @@ namespace Check_Inn.Tests.Services
         {
             _testData = TestDataHelper.GetTestAccomodationTypes();
             _mockAccomodationTypesSet = MockDbSetHelper.CreateMockDbSet(_testData);
-            _mockContext = new Mock<CheckInnMySqlContext>();
+            _mockContext = new Mock<ICheckInnContext>();
             _mockContext.Setup(c => c.AccomodationTypes).Returns(_mockAccomodationTypesSet.Object);
             _service = new AccomodationTypesService(_mockContext.Object);
         }
@@ -159,7 +161,7 @@ namespace Check_Inn.Tests.Services
         {
             // Arrange
             var typeToUpdate = _testData.First();
-            var mockEntry = new Mock<System.Data.Entity.Infrastructure.DbEntityEntry<AccomodationType>>();
+            var mockEntry = new Mock<IDbEntityEntry<AccomodationType>>();
             _mockContext.Setup(c => c.Entry(typeToUpdate)).Returns(mockEntry.Object);
             _mockContext.Setup(c => c.SaveChanges()).Returns(1);
 
@@ -177,7 +179,7 @@ namespace Check_Inn.Tests.Services
         {
             // Arrange
             var typeToDelete = _testData.First();
-            var mockEntry = new Mock<System.Data.Entity.Infrastructure.DbEntityEntry<AccomodationType>>();
+            var mockEntry = new Mock<IDbEntityEntry<AccomodationType>>();
             _mockContext.Setup(c => c.Entry(typeToDelete)).Returns(mockEntry.Object);
             _mockContext.Setup(c => c.SaveChanges()).Returns(1);
 

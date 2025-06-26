@@ -22,20 +22,20 @@ namespace Check_Inn.DAL
         {
             return new CheckInnMySqlContext();
         }
-        public DbSet<AccomodationType> AccomodationTypes { get; set; }
-        public DbSet<AccomodationPackage> AccomodationPackages { get; set; }
-        public DbSet<Accomodation> Accomodations { get; set; }
-        public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<AccomodationType> AccomodationTypes { get; set; }
+        public virtual DbSet<AccomodationPackage> AccomodationPackages { get; set; }
+        public virtual DbSet<Accomodation> Accomodations { get; set; }
+        public virtual DbSet<Booking> Bookings { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
 
         public new int SaveChanges()
         {
             return base.SaveChanges();
         }
 
-        public new DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class
+        public new IDbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class
         {
-            return base.Entry(entity);
+            return new DbEntityEntryWrapper<TEntity>(base.Entry(entity));
         }
     }
 }

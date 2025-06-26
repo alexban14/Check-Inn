@@ -13,7 +13,7 @@ namespace Check_Inn.DAL
         DbSet<Payment> Payments { get; }
         
         int SaveChanges();
-        DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
+        IDbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
         void Dispose();
     }
 }

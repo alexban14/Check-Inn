@@ -98,7 +98,7 @@ namespace Check_Inn.Services
 
         public Booking GetBookingWithPaymentsByID(int ID)
         {
-            return context.Bookings
+            return _context.Bookings
                 .Include(b => b.Accomodation)
                 .Include(b => b.Accomodation.AccomodationPackage)
                 .FirstOrDefault(b => b.ID == ID);

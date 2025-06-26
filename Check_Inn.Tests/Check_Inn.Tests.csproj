@@ -1,12 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net4.8</TargetFramework>
+		<TargetFramework>net48</TargetFramework>
 		<LangVersion>10</LangVersion>
-		<RootNamespace>Check_Inn.Tests</RootNamespace>
-		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-
+		<RootNamespace>Check_Inn.Tests</RootNamespace>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>

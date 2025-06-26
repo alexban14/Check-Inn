@@ -9,37 +9,53 @@ on:
 
 jobs:
   build:
-    runs-on: [windows-2019]
+    runs-on: windows-2022
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
 
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1
-      with:
-        nuget-version: 5.3.x
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1
+        with:
+          nuget-version: 5.3.x
 
-    - name: Remove .DS_Store files
-      run: |
-        Get-ChildItem -Path . -Recurse -Include .DS_Store | Remove-Item -Force
-      shell: pwsh
+      - name: Restore NuGet packages
+        run: nuget restore src/Check_Inn.sln
 
-    - name: Restore NuGet packages
-      run: nuget restore src/Check_Inn.sln
+      - name: Build the Solution
+        run: |
+          msbuild src/Check_Inn.sln `
+            /p:Configuration=Release `
+            /p:DeployOnBuild=true `
+            /p:PublishProfile=FolderProfile 
 
-    - name: Build the Solution
-      run: |
-        msbuild src/Check_Inn.sln `
-          /p:Configuration=Release `
-          /p:DeployOnBuild=true `
-          /p:PublishProfile=FolderProfile 
+      - name: Build Test Project
+        run: |
+          msbuild Check_Inn.Tests/Check_Inn.Tests.csproj /p:Configuration=Release
 
-    - name: 'Deploy to Azure Web App Service'
-      uses: azure/webapps-deploy@v3
-      with:
-        app-name: check-inn
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: 'src\bin\check_inn.publish'
+      - name: Debug - list files
+        run: |
+          dir Check_Inn.Tests\bin\Release\net48
+
+      - name: Run NUnit Tests
+        run: |
+          & "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\TestPlatform\vstest.console.exe" `
+            "Check_Inn.Tests\bin\Release\net48\Check_Inn.Tests.dll" `
+            /Logger:trx `
+            /ResultsDirectory:"TestResults"
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: NUnit Test Results
+          path: TestResults/*.trx
+
+      - name: Deploy to Azure Web App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: check-inn
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: 'src\bin\check_inn.publish'

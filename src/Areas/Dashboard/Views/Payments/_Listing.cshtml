@@ -1,0 +1,99 @@
+﻿@model Check_Inn.Areas.Dashboard.ViewModels.PaymentsListingModel
+
+@if (Model != null && Model.Payments.Count() > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Booking ID</th>
+                <th scope="col">Guest</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Payment ID</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var payment in Model.Payments)
+            {
+                <tr>
+                    <td>@payment.BookingID</td>
+                    <td>
+                        @payment.Booking.GuestName<br>
+                        <small class="text-muted">@payment.Booking.Email</small>
+                    </td>
+                    <td>$@payment.Amount.ToString("N2")</td>
+                    <td>@payment.PaymentDate.ToString("g")</td>
+                    <td>
+                        @if (payment.PaymentStatus == "Completed")
+                        {
+                            <span class="badge bg-success">@payment.PaymentStatus</span>
+                        }
+                        else if (payment.PaymentStatus == "Pending")
+                        {
+                            <span class="badge bg-warning">@payment.PaymentStatus</span>
+                        }
+                        else if (payment.PaymentStatus == "Failed")
+                        {
+                            <span class="badge bg-danger">@payment.PaymentStatus</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@payment.PaymentStatus</span>
+                        }
+                    </td>
+                    <td>
+                        <small>@payment.StripePaymentIntentId</small>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Details", "Payments", new { id = payment.ID })" class="btn btn-info btn-sm">
+                            <i class="fa-solid fa-eye"></i> Details
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    if (Model.Pager.EndPage > 1)
+    {
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @if (Model.Pager.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Payments")"><i class="fa-solid fa-angles-left me-2"></i>First Page</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Payments", new { page = Model.Pager.CurrentPage - 1, searchTerm = Model.SearchTerm, paymentStatus = Model.PaymentStatus })"><i class="fa-solid fa-angle-left me-2"></i>Previous</a>
+                    </li>
+                }
+
+                @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                {
+                    <li class="page-item @(page == Model.Pager.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", "Payments", new { page = page, searchTerm = Model.SearchTerm, paymentStatus = Model.PaymentStatus })">@page</a>
+                    </li>
+                }
+
+                @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Payments", new { page = Model.Pager.CurrentPage + 1, searchTerm = Model.SearchTerm, paymentStatus = Model.PaymentStatus })">Next Page<i class="fa-solid fa-angle-right ms-2"></i></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", "Payments", new { page = Model.Pager.TotalPages, searchTerm = Model.SearchTerm, paymentStatus = Model.PaymentStatus })">Last Page<i class="fa-solid fa-angles-right ms-2"></i></a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        No payments found!
+    </div>
+}

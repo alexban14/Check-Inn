@@ -254,6 +254,7 @@
     <Compile Include="Areas\Dashboard\Controllers\AccomodationsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\AccomodationTypesController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\BookingsController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\PaymentsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\AdminPageNotFoundController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\RolesController.cs" />
@@ -263,6 +264,7 @@
     <Compile Include="Areas\Dashboard\ViewModels\AccomodationsModel.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\AccomodationTypesModel.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\BookingModels.cs" />
+    <Compile Include="Areas\Dashboard\ViewModels\PaymentViewModels.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\RolesViewModels.cs" />
     <Compile Include="Areas\Dashboard\ViewModels\UserViewModels.cs" />
     <Compile Include="Areas\Dashboard\Middleware\Dashboard.cs" />
@@ -438,6 +440,9 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Areas\Dashboard\Views\AdminPageNotFound\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Payments\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Payments\_Listing.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Payments\Details.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <None Include="Scripts\jquery-3.7.1-vsdoc.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />

@@ -76,7 +76,9 @@ namespace Check_Inn.Services
                 },
                 Mode = "payment",
                 SuccessUrl = $"{_callbackUrl}/Payment/PaymentSuccess?bookingId={booking.ID}",
+                //SuccessUrl = $"https://localhost:44399/Payment/PaymentSuccess?bookingId={booking.ID}",
                 CancelUrl = $"{_callbackUrl}/Accomodations/BookAccomodation?accomodationPackageID={package.ID}&accomodationID={booking.AccomodationID}",
+                //CancelUrl = $"https://localhost:44399/Accomodations/BookAccomodation?accomodationPackageID={package.ID}&accomodationID={booking.AccomodationID}",
                 Metadata = new Dictionary<string, string>
                 {
                     { "BookingId", booking.ID.ToString() },

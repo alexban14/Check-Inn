@@ -18,45 +18,46 @@ namespace Check_Inn.Infrastructure
 
             // Register DbContext for DI
             builder.RegisterType<CheckInnMySqlContext>()
+                   .As<ICheckInnContext>()
                    .AsSelf()
-                   .SingleInstance();
+                   .InstancePerRequest();
 
             // Register services and repositories
             builder.RegisterType<AccomodationPackagesService>()
-                    .AsSelf()
-                    .SingleInstance();
+                   .AsSelf()
+                   .InstancePerRequest();
 
             builder.RegisterType<AccomodationsService>()
                     .AsSelf()
-                    .SingleInstance();
+                    .InstancePerRequest();
 
             builder.RegisterType<AccomodationTypesService>()
                     .AsSelf()
-                    .SingleInstance();
+                    .InstancePerRequest();
 
             builder.RegisterType<BookingsService>()
                     .AsSelf()
-                    .SingleInstance();
+                    .InstancePerRequest();
 
             builder.RegisterType<CheckInnRoleManager>()
                     .AsSelf()
-                    .SingleInstance();
+                    .InstancePerRequest();
 
             builder.RegisterType<CheckInnSignInManager>()
                     .AsSelf()
-                    .SingleInstance();
+                    .InstancePerRequest();
             
             builder.RegisterType<EmailService>()
                     .AsSelf()
-                    .SingleInstance();
+                    .InstancePerRequest();
 
             builder.RegisterType<PaymentService>()
                     .AsSelf()
-                    .SingleInstance();
+                    .InstancePerRequest();
 
             builder.RegisterType<StripeService>()
                     .AsSelf()
-                    .SingleInstance();
+                    .InstancePerRequest();
 
             return builder.Build();
         }

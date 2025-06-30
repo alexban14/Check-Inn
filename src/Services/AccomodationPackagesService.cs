@@ -9,26 +9,26 @@ namespace Check_Inn.Services
 {
     public class AccomodationPackagesService
     {
-        private CheckInnMySqlContext context;
+        private ICheckInnContext _context;
 
-        public AccomodationPackagesService(CheckInnMySqlContext context)
+        public AccomodationPackagesService(ICheckInnContext context)
         {
-            this.context = context;
+            _context = context;
         }
         
         public IEnumerable<AccomodationPackage> GetAllAcomodationPackages()
         {
-            return context.AccomodationPackages.ToList();
+            return _context.AccomodationPackages.ToList();
         }
 
         public IEnumerable<AccomodationPackage> GetAllAccomodationPackagesByAccomodationType(int accomodationTypeID)
         {
-            return context.AccomodationPackages.Where(x => x.AccomodationTypeID == accomodationTypeID).ToList();
+            return _context.AccomodationPackages.Where(x => x.AccomodationTypeID == accomodationTypeID).ToList();
         }
 
         public IEnumerable<AccomodationPackage> SearchAccomodationPackage(string searchTerm, int? AccomodationTypeID, int? page, int? recordSize)
         {
-            IEnumerable<AccomodationPackage> accomodationPackages = context.AccomodationPackages.AsQueryable();
+            IEnumerable<AccomodationPackage> accomodationPackages = _context.AccomodationPackages.AsQueryable();
 
             if(!string.IsNullOrEmpty(searchTerm))
             {
@@ -51,7 +51,7 @@ namespace Check_Inn.Services
 
         public int SearchAccomodationPackageCount(string searchTerm, int? AccomodationTypeID)
         {
-            IEnumerable<AccomodationPackage> accomodationPackages = context.AccomodationPackages.AsQueryable();
+            IEnumerable<AccomodationPackage> accomodationPackages = _context.AccomodationPackages.AsQueryable();
 
             if(!string.IsNullOrEmpty(searchTerm))
             {
@@ -68,31 +68,28 @@ namespace Check_Inn.Services
 
         public AccomodationPackage GetAccomodationPackageByID(int ID)
         {
-            using (CheckInnMySqlContext context = new CheckInnMySqlContext())
-            { 
-                return context.AccomodationPackages.Find(ID);
-            }
+            return _context.AccomodationPackages.Find(ID);
         }
 
         public bool SaveAccomodationPackage(AccomodationPackage accomodationPackage)
         {
-            context.AccomodationPackages.Add(accomodationPackage);
+            _context.AccomodationPackages.Add(accomodationPackage);
 
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
         public bool UpdateAccomodationPackage(AccomodationPackage accomodationPackage)
         {
-            context.Entry(accomodationPackage).State = System.Data.Entity.EntityState.Modified;
+            _context.Entry(accomodationPackage).State = System.Data.Entity.EntityState.Modified;
 
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
         public bool DeleteAccomodationPackage(AccomodationPackage accomodationPackage)
         {
-            context.Entry(accomodationPackage).State = System.Data.Entity.EntityState.Deleted;
+            _context.Entry(accomodationPackage).State = System.Data.Entity.EntityState.Deleted;
 
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
     }
 }

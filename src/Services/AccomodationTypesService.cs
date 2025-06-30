@@ -9,20 +9,20 @@ namespace Check_Inn.Services
 {
     public class AccomodationTypesService
     {
-        private CheckInnMySqlContext context;
+        private readonly ICheckInnContext _context;
 
-        public AccomodationTypesService(CheckInnMySqlContext context)
+        public AccomodationTypesService(ICheckInnContext context)
         {
-            this.context = context;
+            _context = context;
         }
         public IEnumerable<AccomodationType> GetAllAccomodationTypes()
         {
-            return context.AccomodationTypes.ToList();
+            return _context.AccomodationTypes.ToList();
         }
 
         public IEnumerable<AccomodationType> SearchAccomodationType(string searchTerm)
         {
-            IEnumerable<AccomodationType> accomodationTypes = context.AccomodationTypes.AsQueryable();
+            IEnumerable<AccomodationType> accomodationTypes = _context.AccomodationTypes.AsQueryable();
             
             if (!string.IsNullOrEmpty(searchTerm))
             {
@@ -34,27 +34,27 @@ namespace Check_Inn.Services
 
         public AccomodationType GetAccomodationTypeByID(int ID)
         {
-            return context.AccomodationTypes.Find(ID);
+            return _context.AccomodationTypes.Find(ID);
         }
 
         public bool SaveAccomodationType(AccomodationType accomodationType)
         {
-            context.AccomodationTypes.Add(accomodationType);
+            _context.AccomodationTypes.Add(accomodationType);
 
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
 
         public bool UpdateAccomodationType(AccomodationType accomodationType)
         {
-            context.Entry(accomodationType).State = System.Data.Entity.EntityState.Modified;
+            _context.Entry(accomodationType).State = System.Data.Entity.EntityState.Modified;
 
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
         public bool DeleteAccomodationType(AccomodationType accomodationType)
         {
-            context.Entry(accomodationType).State = System.Data.Entity.EntityState.Deleted;
+            _context.Entry(accomodationType).State = System.Data.Entity.EntityState.Deleted;
 
-            return context.SaveChanges() > 0;
+            return _context.SaveChanges() > 0;
         }
     }
 }

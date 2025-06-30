@@ -131,7 +131,7 @@ namespace Check_Inn.Services
         {
             return _context.Payments
                 .Where(p => p.PaymentStatus == "Completed")
-                .Sum(p => p.Amount);
+                .Sum(p => (decimal?)p.Amount) ?? 0;
         }
 
         public decimal GetRevenueForDate(DateTime date)
@@ -141,7 +141,7 @@ namespace Check_Inn.Services
                            p.PaymentDate.Year == date.Year &&
                            p.PaymentDate.Month == date.Month &&
                            p.PaymentDate.Day == date.Day)
-                .Sum(p => p.Amount);
+                .Sum(p => (decimal?)p.Amount) ?? 0;
         }
 
         public decimal GetRevenueForMonth(int month, int year)
@@ -150,7 +150,7 @@ namespace Check_Inn.Services
                 .Where(p => p.PaymentStatus == "Completed" &&
                            p.PaymentDate.Month == month &&
                            p.PaymentDate.Year == year)
-                .Sum(p => p.Amount);
+                .Sum(p => (decimal?)p.Amount) ?? 0;
         }
 
         public Dictionary<string, int> GetPaymentStatusStatistics()
